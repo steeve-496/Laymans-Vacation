@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./header.css"
-function header() {
+function Header() {
   return (
     <div className="nav">
         <div className='logo'>
@@ -18,5 +18,5 @@ function header() {
     </div>
   )
 }
-import "./header.css"
-export default header
+
+export default Header

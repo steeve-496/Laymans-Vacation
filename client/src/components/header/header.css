@@ -1,14 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
 
 .nav{
-    position: sticky;
+    position: fixed;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.15); /* transparent white */
+    backdrop-filter: blur(12px);           /* glass effect */
+    -webkit-backdrop-filter: blur(12px);
     height: 10vh;
+    width: 100%;
     display: flex;
-    gap: 20%;
-    background-color: rgb(255, 255, 255);
-    /* justify-content: center; */
+    color: transparent;
+    gap: 39%;
+    max-width: 90%;
     align-items: center;
-    padding: 1em 10%;
+    padding: 1em 4.5%;
     color: black;
     border-radius:10px;
     font-family: "Fjalla One", sans-serif;

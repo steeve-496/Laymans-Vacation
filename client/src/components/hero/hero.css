@@ -1,1 +1,95 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Yatra+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+
+body{
+    margin:0;
+}
+
+.hero_section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero_content {
+    font-family: "Fjalla One", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    gap:10px;
+    margin-bottom: 8%;
+}
+
+.hero_title {
+  font-family: "Cinzel Decorative", serif;
+  font-size:6em;
+  margin: 0 !important;
+  font-weight: 400;
+  max-width: 90%;
+}
+
+.bg_image img{
+    height: auto;
+    width: 45%;
+}
+.bg_image{
+    position: absolute;
+    display: flex;
+    top: 52%;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+}
+
+.hero_subtitle{
+    margin: 0 !important;
+    font-size: 1.4em;
+}
+
+.hero_btn{
+    font-family: "Fjalla One", sans-serif;  
+    all:unset;
+    font-size:1.3em;
+    display: flex;
+    justify-content: center;
+    border: 1px solid rgba(50, 50, 50, 0.663);
+    background-color: hsla(0, 0%, 100%, 0.245);
+    padding:10px 0px 10px 0px;
+    border-radius: 50px;
+    margin-top: 10px;
+    transition: 300ms ease-in-out;
+    max-width: 80%;
+    width: 20%;
+}
+
+
+.hero_btn:hover{
+    background-color: hsl(0, 0%, 100%);
+    color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+}
+
+
+.hero_btn .icon {
+  transition: all 0.3s;
+}
+
+.hero_btn .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+}
+
+.hero_btn:hover .icon svg {
+  transform: translateX(0.5em);
+}
+
+.hero_btn:active .icon {
+  transform: scale(0.95);
+}
