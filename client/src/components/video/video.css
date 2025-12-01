@@ -5,39 +5,19 @@ body {
 .video-page-container {
   width: 100%;
   height: 100vh;
+  overflow: hidden;
   background-color: black;
   position: relative;
-  overflow: hidden;
-  z-index: 10;
-}
-
-.hero-video-section {
-  border-radius: 18px;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  /* On top initially */
-  transform-origin: center center;
-}
-
-.hero-video-section video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  margin-top: 50vh;
+  /* Start scrolling up halfway through hero section */
 }
 
 .videos {
   display: flex;
   gap: 16px;
   background-color: black;
-  overflow: hidden;
+  overflow: visible;
+  /* Allow card to scale out */
   padding: 18px;
   height: 100%;
   width: 100%;
@@ -45,47 +25,64 @@ body {
   top: 0;
   left: 0;
   z-index: 1;
-  /* Behind initially */
   border-radius: 18px;
-  /* Initial state for GSAP to animate from if needed,
-     but we'll handle most in JS.
-     We can center them here. */
   justify-content: center;
 }
 
 .column {
   flex: 1;
-  border-radius: 14px;
-  /* Columns will be manipulated by GSAP */
-  transform-origin: center center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Middle column static override */
+.column:nth-child(2) {
+  overflow: visible;
+  /* Allow card to scale out */
+  z-index: 10;
+  /* Ensure it's above others */
 }
 
 .cards {
   display: flex;
   flex-direction: column;
-  animation: scrollDown 15s linear infinite;
-  /* Animation runs always, visibility handled by opacity/z-index/scale */
+  gap: 16px;
+  width: 100%;
+  /* Default animation */
+  animation: scrollUp 20s linear infinite;
 }
 
-/* middle column scrolls upward */
 .column.reverse .cards {
-  animation: scrollUp 15s linear infinite;
+  animation: scrollDown 20s linear infinite;
+}
+
+.column:nth-child(2) .cards {
+  animation: none !important;
+  /* Center the list so the 2nd card is roughly in the middle */
+  transform: translateY(-12%);
 }
 
 .card {
-  margin: 10px;
-  max-width: 100%;
-}
-
-.card video {
   width: 100%;
+  height: 33vh;
+  /* Approximate height to fit ~3 on screen */
+  border-radius: 18px;
   overflow: hidden;
-  border-radius: 12px;
-  object-fit: cover;
-  height: 100%;
+  flex-shrink: 0;
+  position: relative;
 }
 
-/* infinite scroll animations */
+.card video,
+.card .video-placeholder,
+.card .video-placeholder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Animations */
 @keyframes scrollDown {
   0% {
     transform: translateY(-50%);

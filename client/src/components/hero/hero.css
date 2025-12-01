@@ -8,7 +8,9 @@ body {
 
 
 .hero_section {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 0;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -26,16 +28,16 @@ body {
   justify-content: center;
   z-index: 0;
   pointer-events: none;
-  top:105%;
+  top: 65%;
 }
 
 .bg_image img {
 
   width: clamp(400px, 45vw, 750px);
   height: auto;
-  opacity: 1;        
-  transform: scale(1); 
-  will-change: transform, opacity; 
+  opacity: 1;
+  transform: scale(1);
+  will-change: transform, opacity;
 }
 
 
@@ -113,14 +115,16 @@ body {
   .hero_content {
     margin-bottom: 5%;
   }
+
   .hero_btn {
     width: 62%;
     justify-content: center;
   }
 
-  .bg_image{
+  .bg_image {
     top: 70%;
   }
+
   .bg_image img {
     width: 95%;
   }

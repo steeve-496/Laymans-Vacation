@@ -12,57 +12,38 @@ function Hero() {
   useGSAP(() => {
     const ctx = gsap.context(() => {
       // fade + slide content
-      gsap.fromTo(
-        ".hero_content",
-        { opacity: 1, y: 0, zIndex: 1 },
-        {
-          opacity: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "70% top",
-            markers: 1,
-            scrub: true,
-          },
+      // Image overlaps title animation
+      // Instead of fading content, we make the image cover it
+      gsap.to(".bg_image", {
+        zIndex: 10, // Move image in front of content
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top", // As soon as scroll starts
+          end: "10% top",
+          toggleActions: "play none none reverse",
         }
-      );
+      });
 
-      // parallax float of background image
+      // parallax scale of background image
       gsap.fromTo(
-        ".bg_image",
-        { y: 0, zIndex: 0 },
+        ".bg_image img",
         {
-          zIndex: 9999,
-          ease: "power1.out",
+          scale: 1,
+          y: 0
+        },
+        {
+          y: -200,
+          scale: 2, // Scale up
+          ease: "none", // Linear scale with scroll
           scrollTrigger: {
             trigger: ".hero_section",
             start: "top top",
             end: "bottom top",
-            pin: ".hero_content",
             scrub: true,
           },
         }
       );
 
-      // hero to video cinematic transition
-      gsap.fromTo(
-        ".bg_image",
-        { scale: 1, y: 0, opacity: 1 },
-        {
-          scale: 2.5,
-          opacity: 0,
-          y: 0,
-
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".videos", // Video component wrapper
-            start: "top bottom",
-            end: "bottom center",
-            scrub: true,
-          },
-        }
-      );
     });
 
     return () => ctx.revert();
@@ -71,7 +52,11 @@ function Hero() {
   return (
     <section className="hero_section" ref={heroRef}>
       <div className="bg_image">
-        <img src="/background(1).png" alt="bg_image" />
+        <img
+          src="https://res.cloudinary.com/divwmzd8g/image/upload/v1764576553/background4k_ruaeim.webp"
+          alt="bg_image"
+          fetchpriority="high"
+        />
       </div>
 
       <div className="hero_content">
