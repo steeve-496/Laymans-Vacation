@@ -9,7 +9,7 @@
   align-items: center;
   overflow: hidden;
   justify-content: space-between;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 1em 4.5%;
@@ -33,17 +33,12 @@
   transition: opacity 0.3s;
 }
 
-.nav_list a, .nav_list li {
+.nav_list a,
+.nav_list li {
   all: unset;
   cursor: pointer;
   font-size: 18px;
 }
-
-
-
-
-
-
 
 /* Hamburger */
 .hamburger {
@@ -57,33 +52,37 @@
   transition: 300ms ease-in-out;
 }
 
-
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
+  /* Move to right */
   width: 72%;
   max-width: 340px;
   height: 100vh;
   background: white;
   padding: 2rem;
-  transform: translateX(-100%);
+  transform: translateX(100%);
+  /* Start off-screen right */
   display: flex;
   flex-direction: column;
   gap: 3rem;
   z-index: 2000;
+  align-items: flex-end;
+  /* Align logo and links to the right */
+  text-align: right;
 }
 
 .sidebar_logo img {
   width: 200px;
 }
 
-
 .sidebar_links {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
+
 .sidebar_links li {
   all: unset;
   font-size: 28px;
@@ -91,21 +90,21 @@
   transition: 0.25s;
 }
 
-.sidebar_links a{
-    all:unset;
-    font-family: "Fjalla One", sans-serif;
+.sidebar_links a {
+  all: unset;
+  font-family: "Fjalla One", sans-serif;
 }
 
 .sidebar_links li:hover {
-  transform: translateX(8px);
+  transform: translateX(-8px);
+  /* Move left on hover since aligned right */
   opacity: 0.7;
 }
-
 
 .sidebar_overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(3px);
   opacity: 0;
   pointer-events: none;
@@ -113,12 +112,11 @@
   transition: opacity 0.3s;
 }
 
-
 @media (max-width: 768px) {
   .nav_list {
     display: none;
   }
-    
+
   .logo img {
     height: 40px;
     width: auto;

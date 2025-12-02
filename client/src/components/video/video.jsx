@@ -121,7 +121,14 @@ export default function Video() {
           xPercent: 0, // Converge to center
           duration: 1.1,
           ease: "power2.out",
-        }, "<+0.2");
+        }, "<+0.2")
+        // Exit animation (Shrink and Fade out at the end of scroll)
+        .to(gridRef.current, {
+          scale: 0.5,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.in",
+        }, ">+0.5"); // Start after convergence is done
 
     },
     { scope: containerRef }

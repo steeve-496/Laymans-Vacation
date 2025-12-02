@@ -11,6 +11,17 @@ function Header() {
   const [openMenu, setOpenMenu] = useState(false);
   const sidebarTL = useRef(null);
 
+  // Initial entry animation
+  useGSAP(() => {
+    gsap.from(".nav", {
+      y: -100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      delay: 0.2
+    });
+  }, []);
+
   // Shrink navbar on scroll (desktop only)
   useGSAP(() => {
     ScrollTrigger.matchMedia({
@@ -18,11 +29,24 @@ function Header() {
         gsap.to(".nav", {
           height: "60px",
           padding: "0 4.5%",
+          backgroundColor: "transparent", // Fade out background
+          backdropFilter: "blur(0px)", // Remove blur
           ease: "power2.out",
           scrollTrigger: {
             trigger: "body",
-            start: "top top",
-            end: "200 top",
+            start: "100 top",
+            end: "300 top",
+            scrub: true,
+          },
+        });
+
+        gsap.to(".logo", {
+          opacity: 0,
+          pointerEvents: "none",
+          scrollTrigger: {
+            trigger: "body",
+            start: "100 top",
+            end: "300 top",
             scrub: true,
           },
         });
@@ -32,8 +56,8 @@ function Header() {
           pointerEvents: "none",
           scrollTrigger: {
             trigger: "body",
-            start: "top top",
-            end: "200 top",
+            start: "100 top",
+            end: "300 top",
             scrub: true,
           },
         });
@@ -43,8 +67,8 @@ function Header() {
           pointerEvents: "all",
           scrollTrigger: {
             trigger: "body",
-            start: "top top",
-            end: "200 top",
+            start: "100 top",
+            end: "300 top",
             scrub: true,
           },
         });

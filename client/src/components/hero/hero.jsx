@@ -3,14 +3,43 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./hero.css";
+import BlurText from "../BlurText.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { optimizeCloudinaryUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
+
+// ... imports
+
 function Hero() {
   const heroRef = useRef(null);
+  const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1764576553/background4k_ruaeim.webp";
 
   useGSAP(() => {
+    // ... GSAP code remains same
     const ctx = gsap.context(() => {
+      // Initial Entry Animation
+      const entryTl = gsap.timeline();
+      entryTl.from(".bg_image", {
+        y: 100,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power3.out",
+        delay: 0.5
+      })
+        .from(".hero_subtitle", {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=1.0")
+        .from(".hero_btn", {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.8");
+
       // fade + slide content
       // Image overlaps title animation
       // Instead of fading content, we make the image cover it
@@ -49,18 +78,32 @@ function Hero() {
     return () => ctx.revert();
   }, []);
 
+  const handleAnimationComplete = () => {
+    console.log('Animation completed!');
+  };
+
   return (
     <section className="hero_section" ref={heroRef}>
       <div className="bg_image">
         <img
-          src="https://res.cloudinary.com/divwmzd8g/image/upload/v1764576553/background4k_ruaeim.webp"
+          src={optimizeCloudinaryUrl(bgImageUrl, 1920)}
+          srcSet={getResponsiveSrcSet(bgImageUrl)}
+          sizes="100vw"
           alt="bg_image"
-          fetchpriority="high"
+          fetchPriority="high"
         />
       </div>
 
       <div className="hero_content">
-        <h1 className="hero_title">The Layman’s Vacation</h1>
+        <h1 className="hero_title">
+          <BlurText
+            text="The Layman’s Vacation"
+            delay={150}
+            animateBy="words"
+            direction="top"
+            onAnimationComplete={handleAnimationComplete}
+            className="text-2xl mb-8"
+          /></h1>
         <p className="hero_subtitle">
           Every Journey is a Story. Start Your Next Chapter.
         </p>
