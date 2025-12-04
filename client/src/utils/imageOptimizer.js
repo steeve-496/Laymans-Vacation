@@ -1,11 +1,9 @@
 export const optimizeCloudinaryUrl = (url, width = null) => {
     if (!url || !url.includes("cloudinary.com")) return url;
 
-    // Split the URL at 'upload/'
     const parts = url.split("upload/");
     if (parts.length < 2) return url;
 
-    // Build transformation string
     let transformations = "f_auto,q_auto";
     if (width) {
         transformations += `,w_${width}`;

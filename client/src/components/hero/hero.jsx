@@ -1,24 +1,30 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./hero.css";
 import BlurText from "../BlurText.jsx";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 import { optimizeCloudinaryUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
 
-// ... imports
 
 function Hero() {
   const heroRef = useRef(null);
   const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1764576553/background4k_ruaeim.webp";
 
+  const handleExploreClick = () => {
+    gsap.to(window, {
+      scrollTo: { y: "#destinations", offsetY: 0 },
+      duration: 3,
+      ease: "power2.inOut"
+    });
+  };
+
   useGSAP(() => {
-    // ... GSAP code remains same
     const ctx = gsap.context(() => {
-      // Initial Entry Animation
       const entryTl = gsap.timeline();
       entryTl.from(".bg_image", {
         y: 100,
@@ -27,33 +33,35 @@ function Hero() {
         ease: "power3.out",
         delay: 0.5
       })
-        .from(".hero_subtitle", {
+        .fromTo(".hero_subtitle", {
           y: 30,
-          opacity: 0,
+          opacity: 0
+        }, {
+          y: 0,
+          opacity: 1,
           duration: 1,
           ease: "power3.out"
         }, "-=1.0")
-        .from(".hero_btn", {
+        .fromTo(".hero_btn", {
           y: 30,
-          opacity: 0,
+          opacity: 0
+        }, {
+          y: 0,
+          opacity: 1,
           duration: 1,
           ease: "power3.out"
         }, "-=0.8");
 
-      // fade + slide content
-      // Image overlaps title animation
-      // Instead of fading content, we make the image cover it
       gsap.to(".bg_image", {
-        zIndex: 10, // Move image in front of content
+        zIndex: 10,
         scrollTrigger: {
           trigger: heroRef.current,
-          start: "top top", // As soon as scroll starts
+          start: "top top",
           end: "10% top",
           toggleActions: "play none none reverse",
         }
       });
 
-      // parallax scale of background image
       gsap.fromTo(
         ".bg_image img",
         {
@@ -62,8 +70,8 @@ function Hero() {
         },
         {
           y: -200,
-          scale: 2, // Scale up
-          ease: "none", // Linear scale with scroll
+          scale: 2,
+          ease: "none",
           scrollTrigger: {
             trigger: ".hero_section",
             start: "top top",
@@ -108,7 +116,7 @@ function Hero() {
           Every Journey is a Story. Start Your Next Chapter.
         </p>
 
-        <button className="hero_btn">
+        <button className="hero_btn" onClick={handleExploreClick}>
           Explore
           <div className="icon">
             <svg height="24" width="24" viewBox="0 0 24 24">

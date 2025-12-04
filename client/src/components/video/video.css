@@ -9,7 +9,6 @@ body {
   background-color: black;
   position: relative;
   margin-top: 50vh;
-  /* Start scrolling up halfway through hero section */
 }
 
 .videos {
@@ -17,7 +16,6 @@ body {
   gap: 16px;
   background-color: black;
   overflow: visible;
-  /* Allow card to scale out */
   padding: 18px;
   height: 100%;
   width: 100%;
@@ -36,12 +34,9 @@ body {
   overflow: hidden;
 }
 
-/* Middle column static override */
 .column:nth-child(2) {
   overflow: visible;
-  /* Allow card to scale out */
   z-index: 10;
-  /* Ensure it's above others */
 }
 
 .cards {
@@ -49,7 +44,6 @@ body {
   flex-direction: column;
   gap: 16px;
   width: 100%;
-  /* Default animation */
   animation: scrollUp 20s linear infinite;
 }
 
@@ -59,14 +53,99 @@ body {
 
 .column:nth-child(2) .cards {
   animation: none !important;
-  /* Center the list so the 2nd card is roughly in the middle */
   transform: translateY(-12%);
 }
 
 .card {
   width: 100%;
   height: 33vh;
-  /* Approximate height to fit ~3 on screen */
+  border-radius: 18px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.card video,
+.card .video-placeholder,
+.card .video-placeholder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Animations */
+@keyframes scrollDown {
+  0% {
+    transform: translateY(-50%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+.video-page-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+  position: relative;
+  margin-top: 50vh;
+}
+
+.videos {
+  display: flex;
+  gap: 16px;
+  background-color: black;
+  overflow: visible;
+  padding: 18px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 18px;
+  justify-content: center;
+}
+
+.column {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.column:nth-child(2) {
+  overflow: visible;
+  z-index: 10;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  animation: scrollUp 20s linear infinite;
+}
+
+.column.reverse .cards {
+  animation: scrollDown 20s linear infinite;
+}
+
+.column:nth-child(2) .cards {
+  animation: none !important;
+  transform: translateY(-12%);
+}
+
+.card {
+  width: 100%;
+  height: 33vh;
   border-radius: 18px;
   overflow: hidden;
   flex-shrink: 0;
@@ -100,5 +179,27 @@ body {
 
   100% {
     transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+
+  .column:first-child,
+  .column:last-child {
+    display: none;
+  }
+
+  .column:nth-child(2) {
+    width: 100%;
+    flex: none;
+  }
+
+  .videos {
+    padding: 10px;
+  }
+
+  .card {
+    height: 40vh;
+    /* Slightly taller on mobile */
   }
 }

@@ -15,6 +15,7 @@
 }
 
 .destinations-title {
+    font-family: "Cinzel Decorative", serif;
     font-size: clamp(2rem, 4vw, 4rem);
     color: rgb(0, 0, 0);
     text-align: center;
@@ -30,58 +31,28 @@
     width: 100%;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    /* Hide scrollbar but allow JS scrolling */
+    overflow-y: hidden;
     position: relative;
     padding-bottom: 50px;
+    cursor: grab;
+    /* Indicate draggable */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
+}
+
+.cards-wrapper:active {
+    cursor: grabbing;
 }
 
 .cards-container {
     display: flex;
     gap: 40px;
+    width: max-content;
     padding-left: 5vw;
-    width: fit-content;
-    cursor: grab;
-    touch-action: pan-y;
-}
-
-.cards-container:active {
-    cursor: grabbing;
-}
-
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.nav-btn:hover {
-    background: white;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.nav-btn:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.prev-btn {
-    left: 20px;
-}
-
-.next-btn {
-    right: 20px;
+    /* Initial padding */
+    /* No animation here */
 }
 
 .destination-card {
@@ -92,10 +63,8 @@
     gap: 15px;
     cursor: pointer;
     transition: transform 0.3s ease;
-}
-
-.destination-card:hover {
-    transform: scale(1.05);
+    user-select: none;
+    /* Prevent text selection while dragging */
 }
 
 .card-image-container {
@@ -104,6 +73,8 @@
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    /* Prevent image dragging interfering */
 }
 
 .card-image {
@@ -122,7 +93,7 @@
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
 }
 
 @media (max-width: 768px) {

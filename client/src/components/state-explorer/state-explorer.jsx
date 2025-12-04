@@ -69,7 +69,7 @@ const countryData = {
     ]
 };
 
-const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryChange }, ref) => {
+const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryChange, onExplore }, ref) => {
     const [selectedStateIndex, setSelectedStateIndex] = useState(0);
     const dialRef = useRef(null);
     const containerRef = useRef(null);
@@ -110,12 +110,19 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         const countryList = countryListRef.current;
         const itemHeight = 50; // Height of each country item
         const snapValue = itemHeight;
-        const DOT_SPACING = 25;
+        const DOT_SPACING = 35; // Increased spacing
+        const START_ANGLE = 155;
 
         // Smooth transition for content update
         gsap.fromTo(".state-display .display-content",
             { opacity: 0, scale: 0.95 },
             { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
+        );
+
+        // Animate Image (Zoom Out Effect)
+        gsap.fromTo(".state-image",
+            { scale: 1.2 },
+            { scale: 1, duration: 0.8, ease: "power2.out" }
         );
 
         // Animate dots entering
@@ -138,12 +145,45 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
             });
         }
 
+        // Rotate Dial to Center Selected State
+        // Target angle is 180 degrees (left side of circle)
+        // Current angle of selected dot is START_ANGLE + (index * DOT_SPACING)
+        // We need to rotate the DIAL by (180 - currentDotAngle)
+        const targetRotation = 180 - (START_ANGLE + (selectedStateIndex * DOT_SPACING));
+
+        gsap.to(dial, {
+            rotation: targetRotation,
+            duration: 0.5,
+            ease: "power2.out",
+            onUpdate: function () {
+                // Update draggable if it exists to sync with animation
+                const draggable = Draggable.get(dial);
+                if (draggable) draggable.update();
+            }
+        });
+
+
         // Dial Draggable (Rotation)
         Draggable.create(dial, {
             type: "rotation",
             inertia: true,
             snap: function (endValue) {
                 return Math.round(endValue / DOT_SPACING) * DOT_SPACING;
+            },
+            onDragEnd: function () {
+                // Calculate which index is closest to 180 degrees
+                const currentRotation = this.rotation;
+                // 180 = START_ANGLE + (index * DOT_SPACING) + currentRotation
+                // index = (180 - currentRotation - START_ANGLE) / DOT_SPACING
+                let index = Math.round((180 - currentRotation - START_ANGLE) / DOT_SPACING);
+
+                // Clamp index to valid range
+                if (index < 0) index = 0;
+                if (index >= states.length) index = states.length - 1;
+
+                if (index !== selectedStateIndex) {
+                    setSelectedStateIndex(index);
+                }
             }
         });
 
@@ -171,7 +211,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
             }
         });
 
-    }, { scope: containerRef, dependencies: [selectedCountry] });
+    }, { scope: containerRef, dependencies: [selectedCountry, selectedStateIndex] }); // Added selectedStateIndex dependency
 
     return (
         <section className="state-explorer-section" ref={containerRef}>
@@ -192,6 +232,12 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                         <div className="state-info">
                             <h3>{currentState.name}</h3>
                             <p>{currentState.description}</p>
+                            <button
+                                className="explore-btn"
+                                onClick={() => onExplore && onExplore(currentState.name)}
+                            >
+                                Click to Explore
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -202,7 +248,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                     <div className="dial-wrapper">
                         <div className="dial" ref={dialRef}>
                             {states.map((state, index) => {
-                                const angle = 155 + (index * 25);
+                                const angle = 155 + (index * 35); // Updated spacing
                                 return (
                                     <div
                                         key={index}

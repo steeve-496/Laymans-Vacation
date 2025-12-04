@@ -1,12 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./destinations.css";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Draggable } from "gsap/Draggable";
-
-gsap.registerPlugin(ScrollTrigger, Draggable);
-
 import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 const destinations = [
@@ -24,105 +17,119 @@ const destinations = [
 ];
 
 export default function Destinations({ onCountrySelect }) {
-    const sectionRef = useRef(null);
-    const containerRef = useRef(null);
+    const scrollRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const animationRef = useRef(null);
 
-    useGSAP(() => {
-        const container = containerRef.current;
-        const wrapper = document.querySelector(".cards-wrapper");
-        const cards = gsap.utils.toArray(".destination-card");
+    // Duplicate destinations for seamless infinite scroll
+    // 3 sets to be safe for larger screens and smooth looping
+    const allDestinations = [...destinations, ...destinations, ...destinations];
 
-        const entryTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer) return;
+
+        const scrollSpeed = 1;
+
+        const animate = () => {
+            if (!isDragging) {
+                if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 3) {
+                    // Reset to 0 when we've scrolled past the first set
+                    // Actually, to be seamless, we should reset to a position that matches visually.
+                    // If we have 3 sets, scrolling past 1/3 means we are at the start of the 2nd set.
+                    // We can reset to 0 (start of 1st set) if they are identical.
+                    // However, scrollWidth / 3 might not be exact due to padding/gap.
+                    // A better approach for infinite scroll with native scrollLeft is tricky without exact pixel math.
+                    // Let's try resetting when we reach the end of the second set to the end of the first set?
+                    // Simplest: When scrollLeft >= (scrollWidth / 3) * 2, reset to scrollWidth / 3.
+                    // This keeps us in the middle set.
+                    scrollContainer.scrollLeft = 0;
+                } else {
+                    scrollContainer.scrollLeft += scrollSpeed;
+                }
             }
-        });
-
-        entryTl.from(cards, {
-            y: 50,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power2.out"
-        });
-
-        const getDraggableWidth = () => {
-            return container.scrollWidth - wrapper.clientWidth;
+            animationRef.current = requestAnimationFrame(animate);
         };
 
-        Draggable.create(container, {
-            type: "x",
-            bounds: {
-                minX: -getDraggableWidth(),
-                maxX: 0
-            },
-            inertia: true,
-            edgeResistance: 0.65,
-            cursor: "grab",
-            activeCursor: "grabbing",
-        });
+        // Better infinite loop logic:
+        // We need to know the width of one set of items.
+        // Let's assume the container is wide enough.
+        // If we simply reset to 0 when we hit the end, it might jump.
+        // Standard trick: Scroll to the end of the first set, then reset to 0?
+        // No, we scroll. When we reach the point where the first item of the 2nd set is at the exact position of the first item of the 1st set...
+        // That happens when scrollLeft == width of one set.
 
-    }, { scope: sectionRef });
+        // Let's refine the loop function inside the effect
+        const loop = () => {
+            if (!isDragging && scrollContainer) {
+                scrollContainer.scrollLeft += scrollSpeed;
 
-    const handlePrev = () => {
-        const container = containerRef.current;
-        const wrapper = document.querySelector(".cards-wrapper");
-        const cardWidth = 340; // 300px width + 40px gap
-        const currentX = gsap.getProperty(container, "x");
-        const newX = Math.min(currentX + cardWidth, 0);
-
-        gsap.to(container, {
-            x: newX,
-            duration: 0.5,
-            ease: "power2.out",
-            onUpdate: function () {
-                Draggable.get(container).update();
+                // Check if we've scrolled past the first set
+                // We can approximate the width of one set. 
+                // Alternatively, check if we are near the end.
+                // If we have 3 sets, total width W. One set is W/3.
+                // When scrollLeft >= W/3, we can subtract W/3 to snap back to 0.
+                // This assumes uniform width.
+                const oneSetWidth = scrollContainer.scrollWidth / 3;
+                if (scrollContainer.scrollLeft >= oneSetWidth) {
+                    scrollContainer.scrollLeft -= oneSetWidth;
+                }
             }
-        });
+            animationRef.current = requestAnimationFrame(loop);
+        }
+
+        animationRef.current = requestAnimationFrame(loop);
+
+        return () => cancelAnimationFrame(animationRef.current);
+    }, [isDragging]);
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollLeft(scrollRef.current.scrollLeft);
+        cancelAnimationFrame(animationRef.current);
     };
 
-    const handleNext = () => {
-        const container = containerRef.current;
-        const wrapper = document.querySelector(".cards-wrapper");
-        const cardWidth = 340;
-        const currentX = gsap.getProperty(container, "x");
-        const minX = -(container.scrollWidth - wrapper.clientWidth);
-        const newX = Math.max(currentX - cardWidth, minX);
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+    };
 
-        gsap.to(container, {
-            x: newX,
-            duration: 0.5,
-            ease: "power2.out",
-            onUpdate: function () {
-                Draggable.get(container).update();
-            }
-        });
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - scrollRef.current.offsetLeft;
+        const walk = (x - startX) * 1; // Scroll-fast
+        scrollRef.current.scrollLeft = scrollLeft - walk;
     };
 
     return (
-        <section className="destinations-section" ref={sectionRef}>
+        <section className="destinations-section" id="destinations">
             <h2 className="destinations-title">Find Your Destiny</h2>
 
-            <div className="cards-wrapper">
-                <button className="nav-btn prev-btn" onClick={handlePrev}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                </button>
-                <button className="nav-btn next-btn" onClick={handleNext}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
-                </button>
-
-                <div className="cards-container" ref={containerRef}>
-                    {destinations.map((dest, index) => (
+            <div
+                className="cards-wrapper"
+                ref={scrollRef}
+                onMouseDown={handleMouseDown}
+                onMouseLeave={handleMouseLeave}
+                onMouseUp={handleMouseUp}
+                onMouseMove={handleMouseMove}
+            >
+                <div className="cards-container">
+                    {allDestinations.map((dest, index) => (
                         <div
                             className="destination-card"
                             key={index}
-                            onClick={() => onCountrySelect && onCountrySelect(dest.name)}
+                            onClick={() => {
+                                if (!isDragging) {
+                                    onCountrySelect && onCountrySelect(dest.name)
+                                }
+                            }}
                         >
                             <div className="card-image-container">
                                 <img

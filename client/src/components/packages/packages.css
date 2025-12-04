@@ -1,0 +1,139 @@
+.packages-section {
+    width: 100%;
+    min-height: 80vh;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    padding: 100px 20px;
+    font-family: "Fjalla One", sans-serif;
+    position: relative;
+}
+
+.packages-container {
+    width: 100%;
+    max-width: 1400px;
+    position: relative;
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 50px;
+    width: 100%;
+}
+
+.package-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    position: relative;
+    cursor: pointer;
+}
+
+.package-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.package-image-container {
+    width: 100%;
+    height: 65%;
+    overflow: hidden;
+    position: relative;
+}
+
+.package-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.package-card:hover .package-image {
+    transform: scale(1.1);
+}
+
+/* Gradient Overlay on Image */
+.package-image-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    z-index: 1;
+}
+
+.package-info {
+    padding: 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: white;
+    position: relative;
+    z-index: 2;
+}
+
+.package-title {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.package-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.package-price {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #000;
+    font-weight: bold;
+}
+
+.book-btn {
+    padding: 10px 25px;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-family: "Fjalla One", sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.package-card:hover .book-btn {
+    background: #333;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .packages-section {
+        padding: 60px 20px;
+    }
+
+    .package-card {
+        height: 450px;
+    }
+
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+}
