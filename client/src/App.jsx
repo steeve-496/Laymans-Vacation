@@ -15,8 +15,23 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [selectedCountry, setSelectedCountry] = useState("Azerbaijan");
   const [selectedPackageLocation, setSelectedPackageLocation] = useState(null);
+  const [viewMode, setViewMode] = useState("explorer"); // 'explorer' | 'packages'
+
+  // Control Body Overflow based on View Mode
+  React.useEffect(() => {
+    if (viewMode === "packages") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [viewMode]);
+
   const stateExplorerRef = useRef(null);
   const packagesRef = useRef(null);
+  const containerRef = useRef(null);
 
   const handleCountrySelect = (countryName) => {
     setSelectedCountry(countryName);
@@ -24,29 +39,87 @@ function App() {
     stateExplorerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Initialize Packages Position
+  useGSAP(() => {
+    gsap.set(packagesRef.current, { x: "100%" });
+  }, { scope: containerRef });
+
   const handleExplore = (locationName) => {
     setSelectedPackageLocation(locationName);
-    // Wait for render then scroll
-    setTimeout(() => {
-      packagesRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setViewMode("packages");
+
+    // Animate Transition
+    const tl = gsap.timeline();
+
+    // 1. Disable interaction on Explorer
+    tl.set(stateExplorerRef.current, {
+      pointerEvents: "none"
+    });
+
+    // 2. Slide in Packages
+    tl.to(packagesRef.current, {
+      x: "0%",
+      duration: 0.8,
+      ease: "power3.out"
+    });
+  };
+
+  const handleBackToExplorer = () => {
+    // Animate first, then update state if needed (though viewMode change might be redundant if we just hide it)
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setViewMode("explorer");
+        setSelectedPackageLocation(null); // Optional: clear selection
+      }
+    });
+
+    // 1. Slide out Packages
+    tl.to(packagesRef.current, {
+      x: "100%",
+      duration: 0.6,
+      ease: "power3.in"
+    });
+
+    // 2. Enable interaction on Explorer
+    tl.set(stateExplorerRef.current, {
+      pointerEvents: "auto"
+    });
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container" ref={containerRef}>
       <Header />
       <Hero />
       <VideoSection />
       <Destinations onCountrySelect={handleCountrySelect} />
-      <StateExplorer
-        ref={stateExplorerRef}
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        onExplore={handleExplore}
-      />
-      {selectedPackageLocation && (
-        <Packages ref={packagesRef} location={selectedPackageLocation} />
-      )}
+
+      <div style={{ position: "relative", overflow: "hidden" }}>
+        <StateExplorer
+          ref={stateExplorerRef}
+          selectedCountry={selectedCountry}
+          onCountryChange={setSelectedCountry}
+          onExplore={handleExplore}
+        />
+
+        {/* Packages is always rendered but hidden/off-screen initially */}
+        <div
+          ref={packagesRef}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 50,
+            background: "#000"
+          }}
+        >
+          <Packages
+            location={selectedPackageLocation || selectedCountry} // Fallback to avoid empty render
+            onBack={handleBackToExplorer}
+          />
+        </div>
+      </div>
     </div>
   );
 }

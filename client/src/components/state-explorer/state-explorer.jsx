@@ -145,6 +145,12 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
             });
         }
 
+        // Helper to keep labels horizontal
+        const updateLabelRotation = () => {
+            const currentRotation = gsap.getProperty(dial, "rotation");
+            gsap.set(".dot-label", { rotation: -currentRotation });
+        };
+
         // Rotate Dial to Center Selected State
         // Target angle is 180 degrees (left side of circle)
         // Current angle of selected dot is START_ANGLE + (index * DOT_SPACING)
@@ -159,6 +165,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 // Update draggable if it exists to sync with animation
                 const draggable = Draggable.get(dial);
                 if (draggable) draggable.update();
+                updateLabelRotation();
             }
         });
 
@@ -167,6 +174,8 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         Draggable.create(dial, {
             type: "rotation",
             inertia: true,
+            onDrag: updateLabelRotation,
+            onThrowUpdate: updateLabelRotation,
             snap: function (endValue) {
                 return Math.round(endValue / DOT_SPACING) * DOT_SPACING;
             },
@@ -186,6 +195,9 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 }
             }
         });
+
+        // Initialize label rotation
+        updateLabelRotation();
 
         // Country List Draggable (Vertical)
         Draggable.create(countryList, {

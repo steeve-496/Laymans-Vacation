@@ -100,6 +100,303 @@ body {
   transform: translateX(0.45em);
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+.hero_section {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.bg_image {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+  top: 65%;
+}
+
+.bg_image img {
+
+  width: clamp(400px, 45vw, 750px);
+  height: auto;
+  opacity: 1;
+  transform: scale(1);
+  will-change: transform, opacity;
+}
+
+
+.hero_content {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 5%;
+  font-family: "Fjalla One", sans-serif;
+}
+
+.hero_title {
+
+  font-family: "Cinzel Decorative", serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  margin: 0;
+  font-weight: 400;
+  max-width: 95%;
+}
+
+.hero_subtitle {
+  margin: 0;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  max-width: 90%;
+}
+
+
+.hero_btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  font-family: "Fjalla One", sans-serif;
+
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(50, 50, 50, 0.5);
+  backdrop-filter: blur(4px);
+  transition: 0.25s ease;
+}
+
+.hero_btn:hover {
+  background: white;
+  border-color: black;
+  color: black;
+}
+
+.hero_btn .icon svg {
+  width: 1.35em;
+  transition: transform 0.3s;
+}
+
+.hero_btn:hover .icon svg {
+  transform: translateX(0.45em);
+}
+
+.hero_section {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.bg_image {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+  top: 65%;
+}
+
+.bg_image img {
+
+  width: clamp(400px, 45vw, 750px);
+  height: auto;
+  opacity: 1;
+  transform: scale(1);
+  will-change: transform, opacity;
+}
+
+
+.hero_content {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 5%;
+  font-family: "Fjalla One", sans-serif;
+}
+
+.hero_title {
+
+  font-family: "Cinzel Decorative", serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  margin: 0;
+  font-weight: 400;
+  max-width: 95%;
+}
+
+.hero_subtitle {
+  margin: 0;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  max-width: 90%;
+}
+
+
+.hero_btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  font-family: "Fjalla One", sans-serif;
+
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(50, 50, 50, 0.5);
+  backdrop-filter: blur(4px);
+  transition: 0.25s ease;
+}
+
+.hero_btn:hover {
+  background: white;
+  border-color: black;
+  color: black;
+}
+
+.hero_btn .icon svg {
+  width: 1.35em;
+  transition: transform 0.3s;
+}
+
+.hero_btn:hover .icon svg {
+  transform: translateX(0.45em);
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+.hero_section {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.bg_image {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+  top: 65%;
+}
+
+.bg_image img {
+
+  width: clamp(400px, 45vw, 750px);
+  height: auto;
+  opacity: 1;
+  transform: scale(1);
+  will-change: transform, opacity;
+}
+
+
+.hero_content {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 5%;
+  font-family: "Fjalla One", sans-serif;
+}
+
+.hero_title {
+
+  font-family: "Cinzel Decorative", serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  margin: 0;
+  font-weight: 400;
+  max-width: 95%;
+}
+
+.hero_subtitle {
+  margin: 0;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  max-width: 90%;
+}
+
+
+.hero_btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  font-family: "Fjalla One", sans-serif;
+
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(50, 50, 50, 0.5);
+  backdrop-filter: blur(4px);
+  transition: 0.25s ease;
+}
+
+.hero_btn:hover {
+  background: white;
+  border-color: black;
+  color: black;
+}
+
+.hero_btn .icon svg {
+  width: 1.35em;
+  transition: transform 0.3s;
+}
+
+.hero_btn:hover .icon svg {
+  transform: translateX(0.45em);
+}
+
 .hero_btn:active {
   transform: scale(0.97);
 }
@@ -107,25 +404,48 @@ body {
 
 @media (max-width: 768px) {
   .hero_content {
-    margin-bottom: 12%;
+    margin-bottom: 20%;
+  }
+
+  .bg_image {
+    top: 60%;
+    width: 100%;
+    overflow: hidden;
+    /* Keep overflow hidden to prevent scroll */
+  }
+
+  .bg_image img {
+    width: 100%;
+    /* max-width: 400px;  Reverted to allow full width scaling */
+    height: auto;
+    transform: scale(1.2);
+    /* Slight scale up to ensure coverage if needed */
   }
 }
 
 @media (max-width: 480px) {
   .hero_content {
-    margin-bottom: 5%;
+    margin-bottom: 10%;
+  }
+
+  .hero_title {
+    font-size: 3rem;
+    /* Smaller title on very small screens */
   }
 
   .hero_btn {
-    width: 62%;
-    justify-content: center;
+    width: auto;
+    padding: 10px 24px;
+    font-size: 1rem;
   }
 
   .bg_image {
-    top: 70%;
+    top: 55%;
   }
 
   .bg_image img {
-    width: 95%;
+    width: 100%;
+    /* Full width */
+    /* max-width: 350px; Reverted */
   }
 }
