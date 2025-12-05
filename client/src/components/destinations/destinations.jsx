@@ -1,6 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./destinations.css";
 import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const destinations = [
     { name: "Azerbaijan", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655272/Azerbaijan_zx809y.png" },
@@ -18,6 +23,7 @@ const destinations = [
 
 export default function Destinations({ onCountrySelect }) {
     const scrollRef = useRef(null);
+    const sectionRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
@@ -26,6 +32,36 @@ export default function Destinations({ onCountrySelect }) {
     // Duplicate destinations for seamless infinite scroll
     // 3 sets to be safe for larger screens and smooth looping
     const allDestinations = [...destinations, ...destinations, ...destinations];
+
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 40%",
+                end: "top 20%",
+                scrub: 1,
+                duration: 1,
+            }
+        });
+
+        tl.from(".destinations-title", {
+            y: 100,
+            scale: 0.5,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        })
+            .from(".destination-card", {
+                y: 200,
+                scale: 0.8,
+                rotation: 10,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "back.out(1.7)"
+            }, "-=0.8");
+
+    }, { scope: sectionRef });
 
     useEffect(() => {
         const scrollContainer = scrollRef.current;
@@ -84,7 +120,7 @@ export default function Destinations({ onCountrySelect }) {
     };
 
     return (
-        <section className="destinations-section" id="destinations">
+        <section className="destinations-section" id="destinations" ref={sectionRef}>
             <h2 className="destinations-title">Find Your Destiny</h2>
 
             <div
