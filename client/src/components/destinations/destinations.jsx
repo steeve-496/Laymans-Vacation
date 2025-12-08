@@ -52,14 +52,13 @@ export default function Destinations({ onCountrySelect }) {
             ease: "power3.out"
         })
             .from(".destination-card", {
-                y: 200,
-                scale: 0.8,
-                rotation: 10,
+                y: 50,
+                scale: 0.9,
                 opacity: 0,
-                duration: 1,
-                stagger: 0.15,
-                ease: "back.out(1.7)"
-            }, "-=0.8");
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out"
+            }, "-=0.5");
 
     }, { scope: sectionRef });
 

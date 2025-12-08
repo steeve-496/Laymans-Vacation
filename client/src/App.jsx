@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
@@ -9,6 +9,7 @@ import Packages from "./components/packages/packages";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Preloader from "./components/preloader/preloader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,27 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState("Azerbaijan");
   const [selectedPackageLocation, setSelectedPackageLocation] = useState(null);
   const [viewMode, setViewMode] = useState("explorer"); // 'explorer' | 'packages'
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      // Small delay to ensure minimum view time or just to let things settle
+      setTimeout(() => setIsLoading(false), 2000);
+    };
+
+    // Check if already loaded
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+      // Fallback just in case
+      const timeout = setTimeout(handleLoad, 5000);
+      return () => {
+        window.removeEventListener("load", handleLoad);
+        clearTimeout(timeout);
+      }
+    }
+  }, []);
 
   // Control Body Overflow based on View Mode
   React.useEffect(() => {
@@ -88,6 +110,7 @@ function App() {
 
   return (
     <div className="app-container" ref={containerRef}>
+      <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
       <VideoSection />

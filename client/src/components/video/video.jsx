@@ -11,11 +11,13 @@ const optimizeUrl = (url) => {
   return url.replace("/upload/", "/upload/f_auto,q_auto/");
 };
 
-const LazyVideo = ({ src, ...props }) => {
+const LazyVideo = ({ src, eager = false, ...props }) => {
   const videoRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(eager);
 
   useEffect(() => {
+    if (eager) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -37,7 +39,7 @@ const LazyVideo = ({ src, ...props }) => {
         observer.unobserve(videoRef.current);
       }
     };
-  }, []);
+  }, [eager]);
 
   return (
     <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%' }}>
@@ -67,7 +69,7 @@ export default function Video() {
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571863/kazaksthan_jaj7ej.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571838/veitnam_pq4qqf.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571876/malaysia_bf3wum.mp4",
-    "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571882/kerala_ncc2jr.mp4",
+    "https://res.cloudinary.com/divwmzd8g/video/upload/v1765169303/kerala_ncc2jr.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571867/singapore_v98wpc.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571888/srilanka_nmvfom.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571914/thailand_avuka1.mp4",
@@ -155,7 +157,7 @@ export default function Video() {
                     ref={isMainCard ? mainCardRef : null}
                     style={isMainCard ? { zIndex: 10 } : {}}
                   >
-                    <LazyVideo src={src} muted loop autoPlay playsInline />
+                    <LazyVideo src={src} eager={isMainCard} muted loop autoPlay playsInline />
                   </div>
                 );
               })}
