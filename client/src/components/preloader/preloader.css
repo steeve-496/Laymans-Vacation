@@ -8,12 +8,12 @@
     justify-content: center;
     align-items: center;
     background-color: #000000;
-    /* Black background for Difference Mode */
+    /* Black background */
     z-index: 9999;
 
     /* Container Fade: Fades out slowly AFTER the logo animation completes */
     opacity: 1;
-    transition: opacity 0.8s ease-out 2.0s;
+    transition: opacity 0.8s ease-out 2.1s;
     transform-origin: center;
     overflow: hidden;
 }
@@ -26,12 +26,12 @@
     width: 250vw;
     height: 250vw;
     background: #ffffff;
-    /* White Water for Difference Mode */
+    /* White Water */
     border-radius: 40%;
     transform: translateX(-50%) rotate(0deg);
 
-    /* Animate: Spin and Rise FASTER */
-    animation: waveRise 2.0s linear forwards;
+    /* Animate: Spin and Rise FASTER (2.5s) */
+    animation: waveRise 2.5s linear forwards;
     z-index: 0;
 }
 
@@ -43,9 +43,10 @@
 
 /* Exit state: Logo Zoom Animation (Triggered after fill) */
 .preloader-container.loaded .logo-placeholder {
-    animation: zoomAndFade 1.0s cubic-bezier(0.7, 0, 0.2, 1) forwards;
-    animation-delay: 1.8s;
-    /* Start slightly before fill ends */
+    /* Super Fast Zoom (0.2s) */
+    animation: zoomAndFade 0.2s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+    animation-delay: 2.1s;
+    /* Start BEFORE full fill ends to eliminate gap */
 }
 
 /* Logo Placeholder - Sits on top */
@@ -57,12 +58,10 @@
     justify-content: center;
     align-items: center;
 
-    width: 250px;
+    width: 180px;
     height: auto;
 
     /* INVERTED GLASS EFFECT */
-    /* White Logo on Black BG = Visible */
-    /* White Logo on White Water = Inverts to Black */
     mix-blend-mode: difference;
 }
 

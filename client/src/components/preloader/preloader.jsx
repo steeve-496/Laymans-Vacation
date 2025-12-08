@@ -8,13 +8,28 @@ const Preloader = ({ isLoading }) => {
 
     useEffect(() => {
         if (!isLoading) {
-            // Wait for animation to finish before unmounting (Wave 2.0s + Zoom)
+            // Wait for animation to finish before unmounting (Wave 2.5s, Zoom at 2.1s)
             const timer = setTimeout(() => {
                 setShouldRender(false);
-            }, 2500);
+            }, 2400);
             return () => clearTimeout(timer);
         }
     }, [isLoading]);
+
+    // SCROLL LOCK: Hide scrollbar while preloader is active to prevent logo shift
+    useEffect(() => {
+        if (shouldRender) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden'; // Lock root element too
+        } else {
+            document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+            document.documentElement.style.overflow = 'unset';
+        };
+    }, [shouldRender]);
 
     if (!shouldRender) return null;
 
