@@ -29,27 +29,21 @@
     /* White Water */
     border-radius: 40%;
     transform: translateX(-50%) rotate(0deg);
-
     /* Animate: Spin and Rise FASTER (2.5s) */
     animation: waveRise 2.5s linear forwards;
     z-index: 0;
 }
 
-/* Exit state: Container Fade Only */
 .preloader-container.loaded {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Exit state: Logo Zoom Animation (Triggered after fill) */
 .preloader-container.loaded .logo-placeholder {
-    /* Super Fast Zoom (0.2s) */
     animation: zoomAndFade 0.2s cubic-bezier(0.7, 0, 0.2, 1) forwards;
     animation-delay: 2.1s;
-    /* Start BEFORE full fill ends to eliminate gap */
 }
 
-/* Logo Placeholder - Sits on top */
 .logo-placeholder {
     position: relative;
     z-index: 10;
@@ -70,9 +64,7 @@
     width: 100%;
     height: auto;
     display: block;
-
     opacity: 0.9;
-    /* Max Brightness for cleanest difference inversion */
     filter: grayscale(100%) brightness(2.0);
 }
 
