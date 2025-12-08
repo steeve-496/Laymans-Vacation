@@ -18,9 +18,10 @@
 .preloader-container.loaded {
     opacity: 0;
     transform: scale(20);
-
-    /* Metallic Shine Effect */
-    .logo-placeholder::before {
+}
+ 
+/* Metallic Shine Effect */
+.logo-placeholder::before {
         content: "";
         position: absolute;
         top: -150%;
