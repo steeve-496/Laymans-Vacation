@@ -8,10 +8,10 @@ const Preloader = ({ isLoading }) => {
 
     useEffect(() => {
         if (!isLoading) {
-            // Wait for animation to finish before unmounting (0.8s matches CSS)
+            // Wait for animation to finish before unmounting (Wave 2.0s + Zoom)
             const timer = setTimeout(() => {
                 setShouldRender(false);
-            }, 800);
+            }, 2500);
             return () => clearTimeout(timer);
         }
     }, [isLoading]);
@@ -20,9 +20,9 @@ const Preloader = ({ isLoading }) => {
 
     return (
         <div className={`preloader-container ${!isLoading ? 'loaded' : ''}`}>
+            <div className="water-fill"></div>
             <div className="logo-placeholder">
-                {/* Image will go here later */}
-                {/* LOGO */}
+                <img src="logo-m.png" alt="logo" />
             </div>
         </div>
     );

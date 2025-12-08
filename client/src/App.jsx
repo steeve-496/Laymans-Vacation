@@ -110,7 +110,6 @@ function App() {
 
   return (
     <div className="app-container" ref={containerRef}>
-      <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
       <VideoSection />
@@ -143,6 +142,7 @@ function App() {
           />
         </div>
       </div>
+      <Preloader isLoading={isLoading} />
     </div>
   );
 }
