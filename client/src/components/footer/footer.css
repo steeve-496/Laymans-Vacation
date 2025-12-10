@@ -1,0 +1,247 @@
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Inter:wght@300;400;500;600&display=swap");
+
+@font-face {
+    font-family: "varien";
+    src: url("/Varien.otf");
+}
+
+.footer-section {
+    position: relative;
+    background-color: #f5f5f5;
+    /* Light Theme Background */
+    color: #333;
+    /* Dark Text */
+    padding: 80px 5% 40px;
+    font-family: 'Inter', sans-serif;
+    margin-top: -50px;
+    z-index: 50;
+}
+
+/* Curved Top Effect */
+.footer-curve {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #f5f5f5;
+    /* Match section background */
+    border-top-left-radius: 50% 100%;
+    border-top-right-radius: 50% 100%;
+    z-index: 5;
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Column Styling */
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Brand Column */
+.footer-brand h2 {
+    font-family: "Cinzel Decorative", serif;
+    font-size: 2rem;
+    margin: 0;
+    color: #1a5b78;
+    /* Primary Brand Color */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-description {
+    color: #555;
+    /* Darker gray for readability on light bg */
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    /* Light gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    color: #333;
+    /* Dark icon */
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.social-icon:hover {
+    background: #1a5b78;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* Headers */
+.footer-col h3 {
+    font-family: "Fjalla One", sans-serif;
+    font-size: 1.3rem;
+    margin: 0;
+    color: #1a1a1a;
+    /* Dark Heading */
+    letter-spacing: 1px;
+}
+
+/* Links */
+.footer-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-link {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 300;
+}
+
+.footer-link:hover {
+    color: #1a5b78;
+    padding-left: 5px;
+}
+
+/* Contact */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #555;
+    font-weight: 300;
+}
+
+.contact-item i {
+    color: #1a5b78;
+    margin-top: 4px;
+}
+
+/* Newsletter */
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-input {
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.footer-input:focus {
+    border-color: #1a5b78;
+}
+
+.footer-btn {
+    all: unset;
+    cursor: pointer;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: "Fjalla One", sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(50, 50, 50, 0.5);
+    backdrop-filter: blur(4px);
+    transition: 0.25s ease;
+    color: #333;
+}
+
+.footer-btn:hover {
+    background: white;
+    border-color: black;
+    color: black;
+}
+
+
+/* Bottom Bar */
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-bottom-link {
+    color: #777;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-link:hover {
+    color: #000000;
+}
+
+@media (max-width: 968px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-curve {
+        height: 50px;
+        top: -50px;
+    }
+
+    .footer-section {
+        margin-top: 50px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}

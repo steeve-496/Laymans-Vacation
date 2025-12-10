@@ -99,6 +99,8 @@ function Hero() {
           sizes="100vw"
           alt="bg_image"
           fetchPriority="high"
+          width="1920"
+          height="1080"
         />
       </div>
 

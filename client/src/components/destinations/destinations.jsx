@@ -147,6 +147,8 @@ export default function Destinations({ onCountrySelect }) {
                                     alt={dest.name}
                                     className="card-image"
                                     loading="lazy"
+                                    width="350"
+                                    height="450"
                                 />
                             </div>
                             <div className="card-info">

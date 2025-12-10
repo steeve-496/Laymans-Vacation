@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const optimizeUrl = (url) => {
   if (!url.includes("cloudinary.com")) return url;
-  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+  return url.replace("/upload/", "/upload/f_auto,q_auto,w_720/");
 };
 
 const LazyVideo = ({ src, eager = false, ...props }) => {

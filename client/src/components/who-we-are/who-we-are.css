@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Fjalla+One&family=Inter:wght@300;400;500&display=swap");
+
+@font-face {
+    font-family: "varien";
+    src: url("/Varien.otf");
+}
+
+.who-we-are-section {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    /* Remove 100vh to avoid gap */
+    padding: 100px 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    /* Light background */
+    color: #333;
+    /* Dark text */
+    overflow: hidden;
+    z-index: 10;
+}
+
+.who-we-are-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* Title Styling */
+.who-we-are-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.title-line {
+    overflow: hidden;
+    /* Mask for reveal animation */
+    display: block;
+}
+
+.who-we-are-title {
+    font-family: "varien", serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    color: #333;
+    /* Dark text */
+    margin: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    transform: translateY(100%);
+    /* Initial state for animation */
+    display: block;
+}
+
+/* Content Styling */
+.who-we-are-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px;
+}
+
+.who-we-are-content {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.6;
+    color: #444;
+    /* Dark grey text */
+    font-weight: 300;
+}
+
+.who-we-are-content p {
+    margin-bottom: 2rem;
+    opacity: 0;
+    /* Initial state for animation */
+    transform: translateY(20px);
+}
+
+.highlight-text {
+    color: #000;
+    font-weight: 500;
+}
+
+.who-we-are-btn {
+    padding: 15px 40px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: "Fjalla One", sans-serif;
+    font-size: 1.2rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.who-we-are-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-top-btn {
+    width: 40px;
+    height: 40px;
+    background: #333;
+    /* Dark button for light theme */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+}
+
+@media (max-width: 968px) {
+    .who-we-are-section {
+        padding: 60px 20px;
+    }
+
+    .who-we-are-content {
+        font-size: 1.1rem;
+    }
+}

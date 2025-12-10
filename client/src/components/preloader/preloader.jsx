@@ -37,7 +37,7 @@ const Preloader = ({ isLoading }) => {
         <div className={`preloader-container ${!isLoading ? 'loaded' : ''}`}>
             <div className="water-fill"></div>
             <div className="logo-placeholder">
-                <img src="logo-m.png" alt="logo" />
+                <img src="logo-m.png" alt="logo" width="180" height="180" />
             </div>
         </div>
     );

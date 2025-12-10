@@ -4,6 +4,8 @@ import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
 import VideoSection from "./components/video/video";
 import Destinations from "./components/destinations/destinations";
+import WhyUs from "./components/why-us/why-us";
+import WhoWeAre from "./components/who-we-are/who-we-are";
 import StateExplorer from "./components/state-explorer/state-explorer";
 import Packages from "./components/packages/packages";
 import { useGSAP } from "@gsap/react";
@@ -12,6 +14,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from "./components/preloader/preloader";
 
 gsap.registerPlugin(ScrollTrigger);
+
+import Footer from "./components/footer/footer";
+import ContactUs from "./components/contact-us/contact-us";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState("Azerbaijan");
@@ -112,36 +117,39 @@ function App() {
     <div className="app-container" ref={containerRef}>
       <Header />
       <Hero />
+
       <VideoSection />
       <Destinations onCountrySelect={handleCountrySelect} />
 
-      <div style={{ position: "relative", overflow: "hidden" }}>
-        <StateExplorer
-          ref={stateExplorerRef}
-          selectedCountry={selectedCountry}
-          onCountryChange={setSelectedCountry}
-          onExplore={handleExplore}
-        />
+      <StateExplorer
+        ref={stateExplorerRef}
+        selectedCountry={selectedCountry}
+        onCountryChange={setSelectedCountry}
+        onExplore={handleExplore}
+      />
 
-        {/* Packages is always rendered but hidden/off-screen initially */}
-        <div
-          ref={packagesRef}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 50,
-            background: "#000"
-          }}
-        >
-          <Packages
-            location={selectedPackageLocation || selectedCountry} // Fallback to avoid empty render
-            onBack={handleBackToExplorer}
-          />
-        </div>
+      {/* Packages is always rendered but hidden/off-screen initially */}
+      <div
+        ref={packagesRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 50,
+          background: "#000"
+        }}
+      >
+        <Packages
+          location={selectedPackageLocation || selectedCountry} // Fallback to avoid empty render
+          onBack={handleBackToExplorer}
+        />
       </div>
+      <WhyUs />
+      <WhoWeAre />
+      <ContactUs />
+      <Footer />
       <Preloader isLoading={isLoading} />
     </div>
   );
