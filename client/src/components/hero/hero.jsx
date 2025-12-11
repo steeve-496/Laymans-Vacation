@@ -26,22 +26,16 @@ function Hero() {
   useGSAP(() => {
     const ctx = gsap.context(() => {
       const entryTl = gsap.timeline();
-      entryTl.from(".bg_image", {
-        y: 100,
-        opacity: 0,
-        duration: 1.5,
+      entryTl.fromTo(".hero_subtitle", {
+        y: 30,
+        opacity: 0
+      }, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
         ease: "power3.out",
-        delay: 0.5
+        delay: 0.5 // Moved delay here to keep timing
       })
-        .fromTo(".hero_subtitle", {
-          y: 30,
-          opacity: 0
-        }, {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out"
-        }, "-=1.0")
         .fromTo(".hero_btn", {
           y: 30,
           opacity: 0
