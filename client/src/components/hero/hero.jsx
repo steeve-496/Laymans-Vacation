@@ -52,36 +52,75 @@ function Hero() {
           ease: "power3.out"
         }, "-=0.8");
 
-      gsap.to(".bg_image", {
-        zIndex: 10,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "10% top",
-          toggleActions: "play none none reverse",
-        }
-      });
+      const mm = gsap.matchMedia();
 
-      gsap.fromTo(
-        ".bg_image img",
-        {
-          scale: 1,
-          y: 0
-        },
-        {
-          y: -200,
-          scale: 2,
-          ease: "none",
+      mm.add("(min-width: 769px)", () => {
+        // Desktop Animation
+        gsap.to(".bg_image", {
+          zIndex: 999,
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
-            end: "bottom top",
-            scrub: true,
-            pin: true,
-            pinSpacing: false, // Allow next section to overlap if desired, or remove if spacing is needed. 
+            end: "10% top",
+            toggleActions: "play none none reverse",
+          }
+        });
+
+        gsap.fromTo(
+          ".bg_image img",
+          {
+            scale: 1,
+            y: 0
           },
-        }
-      );
+          {
+            y: -200,
+            scale: 2,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+              pin: true,
+              pinSpacing: false,
+            },
+          }
+        );
+      });
+
+      mm.add("(max-width: 768px)", () => {
+        // Mobile Animation - Increased Y movement and scale to overlap text
+        gsap.to(".bg_image", {
+          zIndex: 999,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "10% top",
+            toggleActions: "play none none reverse",
+          }
+        });
+
+        gsap.fromTo(
+          ".bg_image img",
+          {
+            scale: 1.2, // Match CSS initial scale
+            y: 0
+          },
+          {
+            y: -160, // Increased to ensure overlap
+            scale: 2, // Increased scale for dramatic effect
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+              pin: true,
+              pinSpacing: false,
+            },
+          }
+        );
+      });
 
     });
 

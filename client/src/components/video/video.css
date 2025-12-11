@@ -99,7 +99,7 @@ body {
 
 @media (max-width: 768px) {
   .video-page-container {
-    margin-top: 0;
+    margin-top: 40vh;
     height: auto;
     min-height: 100vh;
     padding-top: 20px;
