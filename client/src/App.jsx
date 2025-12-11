@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const handleLoad = () => {
       // Small delay to ensure minimum view time or just to let things settle
-      setTimeout(() => setIsLoading(false), 2000);
+      setTimeout(() => setIsLoading(false), 500);
     };
 
     // Check if already loaded

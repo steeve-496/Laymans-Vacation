@@ -10,7 +10,7 @@
     width: 100%;
     min-height: auto;
     /* Remove 100vh to avoid gap */
-    padding: 100px 5%;
+    padding: clamp(60px, 10vh, 120px) 5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,10 +24,10 @@
 
 .who-we-are-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: clamp(800px, 90vw, 1400px);
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: clamp(40px, 8vh, 80px);
 }
 
 /* Title Styling */

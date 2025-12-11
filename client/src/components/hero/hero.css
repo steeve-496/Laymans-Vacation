@@ -7,8 +7,7 @@ body {
 }
 
 .hero_section {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 0;
   height: 100vh;
   width: 100%;
@@ -20,13 +19,17 @@ body {
 
 .bg_image {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  /* Let content dictate height, or fix it if needed */
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  /* Align image to bottom inside wrapper */
   justify-content: center;
   z-index: 0;
   pointer-events: none;
-  top: 65%;
 }
 
 .bg_image img {
@@ -108,7 +111,7 @@ body {
   }
 
   .bg_image {
-    top: 60%;
+    /* top: 60%; Removed */
     width: 100%;
     overflow: hidden;
     /* Keep overflow hidden to prevent scroll */
@@ -140,7 +143,7 @@ body {
   }
 
   .bg_image {
-    top: 55%;
+    /* top: 55%; Removed to keep bottom anchor */
   }
 
   .bg_image img {

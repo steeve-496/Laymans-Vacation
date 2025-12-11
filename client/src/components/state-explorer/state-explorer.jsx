@@ -80,6 +80,16 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
     const states = countryData[selectedCountry];
     const currentState = states[selectedStateIndex];
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Handle Resize for Mobile Detection
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize(); // Check on mount
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // 1. Entry Animation - Runs ONCE on mount
     useGSAP(() => {
         const tl = gsap.timeline({
@@ -110,8 +120,9 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         const countryList = countryListRef.current;
         const itemHeight = 50; // Height of each country item
         const snapValue = itemHeight;
-        const DOT_SPACING = 35; // Increased spacing
+        const DOT_SPACING = isMobile ? 50 : 35; // Wider spacing on mobile for readability
         const START_ANGLE = 155;
+        const ALIGN_ANGLE = isMobile ? 270 : 180; // Top (270) for mobile, Left (180) for desktop
 
         // Smooth transition for content update
         gsap.fromTo(".state-display .display-content",
@@ -152,10 +163,10 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         };
 
         // Rotate Dial to Center Selected State
-        // Target angle is 180 degrees (left side of circle)
+        // Target angle is ALIGN_ANGLE
         // Current angle of selected dot is START_ANGLE + (index * DOT_SPACING)
-        // We need to rotate the DIAL by (180 - currentDotAngle)
-        const targetRotation = 180 - (START_ANGLE + (selectedStateIndex * DOT_SPACING));
+        // We need to rotate the DIAL by (ALIGN_ANGLE - currentDotAngle)
+        const targetRotation = ALIGN_ANGLE - (START_ANGLE + (selectedStateIndex * DOT_SPACING));
 
         gsap.to(dial, {
             rotation: targetRotation,
@@ -171,7 +182,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
 
 
         // Dial Draggable (Rotation)
-        Draggable.create(dial, {
+        const dialDraggable = Draggable.create(dial, {
             type: "rotation",
             inertia: true,
             onDrag: updateLabelRotation,
@@ -180,11 +191,11 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 return Math.round(endValue / DOT_SPACING) * DOT_SPACING;
             },
             onDragEnd: function () {
-                // Calculate which index is closest to 180 degrees
+                // Calculate which index is closest to ALIGN_ANGLE
                 const currentRotation = this.rotation;
-                // 180 = START_ANGLE + (index * DOT_SPACING) + currentRotation
-                // index = (180 - currentRotation - START_ANGLE) / DOT_SPACING
-                let index = Math.round((180 - currentRotation - START_ANGLE) / DOT_SPACING);
+                // ALIGN_ANGLE = START_ANGLE + (index * DOT_SPACING) + currentRotation
+                // index = (ALIGN_ANGLE - currentRotation - START_ANGLE) / DOT_SPACING
+                let index = Math.round((ALIGN_ANGLE - currentRotation - START_ANGLE) / DOT_SPACING);
 
                 // Clamp index to valid range
                 if (index < 0) index = 0;
@@ -194,13 +205,13 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                     setSelectedStateIndex(index);
                 }
             }
-        });
+        })[0];
 
         // Initialize label rotation
         updateLabelRotation();
 
         // Country List Draggable (Vertical)
-        Draggable.create(countryList, {
+        const listDraggable = Draggable.create(countryList, {
             type: "y",
             bounds: {
                 minY: -((Object.keys(countryData).length - 1) * itemHeight),
@@ -221,9 +232,15 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                     setSelectedStateIndex(0);
                 }
             }
-        });
+        })[0];
 
-    }, { scope: containerRef, dependencies: [selectedCountry, selectedStateIndex] }); // Added selectedStateIndex dependency
+        // Clean up draggables on unmount/re-render
+        return () => {
+            if (dialDraggable) dialDraggable.kill();
+            if (listDraggable) listDraggable.kill();
+        };
+
+    }, { scope: containerRef, dependencies: [selectedCountry, selectedStateIndex, isMobile] }); // Added isMobile dependency
 
     return (
         <section className="state-explorer-section" ref={containerRef}>
@@ -266,7 +283,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                                         key={index}
                                         className={`dial-dot ${index === selectedStateIndex ? "active" : ""}`}
                                         style={{
-                                            transform: `rotate(${angle}deg) translate(40vh) rotate(-${angle}deg)`
+                                            transform: `rotate(${angle}deg) translate(var(--dial-radius)) rotate(-${angle}deg)`
                                         }}
                                         onClick={() => setSelectedStateIndex(index)}
                                     >

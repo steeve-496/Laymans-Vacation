@@ -9,9 +9,10 @@ const Preloader = ({ isLoading }) => {
     useEffect(() => {
         if (!isLoading) {
             // Wait for animation to finish before unmounting (Wave 2.5s, Zoom at 2.1s)
+            // Reduced to 1.2s for better LCP
             const timer = setTimeout(() => {
                 setShouldRender(false);
-            }, 2400);
+            }, 1200);
             return () => clearTimeout(timer);
         }
     }, [isLoading]);

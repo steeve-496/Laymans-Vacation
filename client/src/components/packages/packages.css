@@ -27,7 +27,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 9999 !important;
+    z-index: var(--z-max) !important;
     pointer-events: auto !important;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -161,7 +161,8 @@
 
 .card-title {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    /* Fluid font size */
     margin: 0;
     line-height: 1;
 }
@@ -230,7 +231,7 @@
 /* Itinerary Modal Styles */
 .itinerary-modal {
     position: fixed;
-    z-index: 1000;
+    z-index: var(--z-modal);
     border-radius: 4px;
     background: #fff;
     color: #000;
@@ -276,7 +277,7 @@
 }
 
 .close-modal-btn {
-    z-index: 1001;
+    z-index: calc(var(--z-modal) + 1);
     background: none;
     border: none;
     cursor: pointer;
@@ -426,7 +427,7 @@
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 1002;
+    z-index: var(--z-overlay);
     display: flex;
     align-items: center;
     justify-content: center;

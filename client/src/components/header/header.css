@@ -11,11 +11,14 @@
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 1em 4.5%;
+  padding: 30px 4.5% 15px 4.5%;
+  /* Added top padding */
   border-radius: 10px;
-  z-index: 5;
-  transition: 0.3s ease;
+  z-index: var(--z-sticky);
+  /* transition: 0.3s ease;  Removed to prevent conflict with GSAP transform */
+  transition: background 0.3s, padding 0.3s, height 0.3s, backdrop-filter 0.3s;
   font-family: "Fjalla One", sans-serif;
 }
 
@@ -40,76 +43,136 @@
   font-size: 18px;
 }
 
-/* Hamburger */
-.hamburger {
-  font-size: 32px;
+/* Hamburger Wrapper */
+.hamburger-wrapper {
+  display: none;
+  /* Hidden on desktop */
   cursor: pointer;
-  color: black;
-  margin-right: 40px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  transition: 300ms ease-in-out;
+  z-index: calc(var(--z-max) + 10);
+  /* Above menu */
+  margin-right: 20px;
 }
 
-.sidebar {
+.hamburger-icon {
+  width: 30px;
+  height: 14px;
+  /* Reduced height for 2 lines */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-black);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: center;
+}
+
+/* Animate Hamburger to X (2 Lines) */
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+  /* Move down half height */
+  background-color: var(--color-white);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  transform: translateY(-6px) rotate(-45deg);
+  /* Move up half height */
+  background-color: var(--color-white);
+}
+
+/* Kinetic Menu Fullscreen Overlay */
+.kinetic-menu {
   position: fixed;
   top: 0;
-  right: 0;
-  /* Move to right */
-  width: 72%;
-  max-width: 340px;
+  left: 0;
+  width: 100vw;
   height: 100vh;
-  background: white;
-  padding: 2rem;
-  transform: translateX(100%);
-  /* Start off-screen right */
+  background-color: #111;
+  /* Premium Dark */
+  z-index: var(--z-max);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  /* Clip path handled by GSAP */
+}
+
+.kinetic-menu-content {
+  width: 100%;
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  z-index: 2000;
-  align-items: flex-end;
-  /* Align logo and links to the right */
-  text-align: right;
+  justify-content: center;
+  height: 100%;
 }
 
-.sidebar_logo img {
-  width: 200px;
-}
-
-.sidebar_links {
+.kinetic-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 20px;
 }
 
-.sidebar_links li {
-  all: unset;
-  font-size: 28px;
+.kinetic-link {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   cursor: pointer;
-  transition: 0.25s;
+  overflow: hidden;
+  /* For skew/reveal effects */
 }
 
-.sidebar_links a {
-  all: unset;
-  font-family: "Fjalla One", sans-serif;
+.link-number {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 300;
 }
 
-.sidebar_links li:hover {
-  transform: translateX(-8px);
-  /* Move left on hover since aligned right */
-  opacity: 0.7;
+.kinetic-link a {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  text-transform: uppercase;
+  color: var(--color-white);
+  text-decoration: none;
+  text-decoration: none;
+  transition: color 0.3s ease, margin-left 0.3s ease;
 }
 
-.sidebar_overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(3px);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1900;
-  transition: opacity 0.3s;
+.kinetic-link:hover a {
+  color: #aaa;
+  margin-left: 10px;
+}
+
+/* Footer in Menu */
+.kinetic-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+}
+
+.socials {
+  display: flex;
+  gap: 15px;
+}
+
+.socials span {
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -120,5 +183,9 @@
   .logo img {
     height: 40px;
     width: auto;
+  }
+
+  .hamburger-wrapper {
+    display: block;
   }
 }

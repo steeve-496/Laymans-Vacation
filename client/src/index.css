@@ -1,7 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
+:root {
+    /* --- Colors --- */
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-off-white: hsl(0, 0%, 93%);
+    /* Used in State Explorer BG */
+    --color-text-primary: #000000;
+    --color-text-secondary: rgba(0, 0, 0, 0.7);
+    --color-text-inverted: #ffffff;
+    --color-overlay: rgba(0, 0, 0, 0.55);
+
+    /* --- Fonts --- */
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Fjalla One', sans-serif;
+    --font-accent: 'Cinzel Decorative', serif;
+
+    /* --- Spacing & Layout --- */
+    --section-padding: 20px;
+    --border-radius-card: 40px;
+
+    /* --- Z-Index Scale --- */
+    --z-negative: -1;
+    --z-normal: 1;
+    --z-sticky: 100;
+    --z-drawer: 200;
+    --z-modal: 300;
+    --z-overlay: 400;
+    --z-max: 9999;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /* Global box-sizing reset */
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    /* Prevent horizontal scroll globally */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Global Utility Classes */
+.container {
+    width: 100%;
+    overflow: hidden;
 }

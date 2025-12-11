@@ -24,7 +24,8 @@
 /* Glass Card Container */
 .contact-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 90vw;
+    /* Fluid max-width */
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);

@@ -73,10 +73,12 @@ function Hero() {
           scale: 2,
           ease: "none",
           scrollTrigger: {
-            trigger: ".hero_section",
+            trigger: heroRef.current,
             start: "top top",
             end: "bottom top",
             scrub: true,
+            pin: true,
+            pinSpacing: false, // Allow next section to overlap if desired, or remove if spacing is needed. 
           },
         }
       );
@@ -85,6 +87,7 @@ function Hero() {
 
     return () => ctx.revert();
   }, []);
+
 
   const handleAnimationComplete = () => {
     console.log('Animation completed!');
