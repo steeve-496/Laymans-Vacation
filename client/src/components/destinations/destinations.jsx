@@ -22,11 +22,9 @@ const internationalDestinations = [
 
 // Populating domestic with placeholders for effect as there's only one in source
 const domesticDestinations = [
-    { name: "Kerala", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-    { name: "Kerala Backwaters", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-    { name: "Munnar", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-    { name: "Wayanad", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-    { name: "Varkala", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
+    { name: "Munnar", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
+    { name: "Wayanad", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
+    { name: "Varkala", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
     { name: "Alleppey", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
 ];
 

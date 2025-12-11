@@ -148,7 +148,7 @@ function Header() {
     <>
       <header className="nav">
         <div className="logo">
-          <img src="TheLayman'sVacation.png" alt="logo" />
+          <img src="https://res.cloudinary.com/divwmzd8g/image/upload/v1765447705/TheLayman_sVacation_exnxoq.png" alt="logo" />
         </div>
 
         <ul className="nav_list">

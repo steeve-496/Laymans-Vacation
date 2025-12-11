@@ -54,7 +54,7 @@ export default function WhyUs() {
         <section className="why-us-section" ref={containerRef} id="why-us">
             <div className="why-us-grid">
                 <div className="why-us-visual">
-                    <img src="/why-choose-us.png" alt="Travel Destination" className="why-us-visual-img" />
+                    <img src="https://res.cloudinary.com/divwmzd8g/image/upload/v1765447707/why-choose-us_sdjq4s.png" alt="Travel Destination" className="why-us-visual-img" />
                     <div className="visual-overlays"></div>
                 </div>
 
