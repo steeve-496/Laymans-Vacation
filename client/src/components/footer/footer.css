@@ -188,8 +188,14 @@
     line-height: 1.7;
     display: block;
     margin-bottom: 10px;
-    text-decoration: none;
     transition: all 0.2s;
+    text-decoration: none;
+}
+
+.footer-links-list {
+    list-style-type: none;
+    text-align: left;
+    justify-content: baseline;
 }
 
 .footer-link:hover {

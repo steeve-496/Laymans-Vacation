@@ -54,11 +54,6 @@
 
     width: 180px;
     height: auto;
-
-    /* Initial State: Difference mode for visibility on black */
-    mix-blend-mode: difference;
-    /* Animate to normal mode as white fills */
-    animation: blendModeReset 0.8s linear forwards;
 }
 
 /* The Base Logo */
@@ -66,12 +61,12 @@
     width: 100%;
     height: auto;
     display: block;
-    opacity: 0.9;
+    opacity: 1;
 
-    /* Start Bright/Grayscale */
-    filter: grayscale(100%) brightness(2.0);
+    /* Start Metallic */
+    filter: grayscale(100%) contrast(200%) brightness(1.5);
     /* Animate to original color */
-    animation: colorReveal 1.2s linear forwards;
+    animation: metallicReveal 2.5s ease-out forwards;
 }
 
 /* The Wave Animation: Rise + Spin */
@@ -99,26 +94,14 @@
     }
 }
 
-@keyframes colorReveal {
+@keyframes metallicReveal {
 
     0%,
-    60% {
-        filter: grayscale(100%) brightness(2.0);
+    30% {
+        filter: grayscale(100%) contrast(200%) brightness(100%);
     }
 
     100% {
-        filter: grayscale(0%) brightness(1.3);
-    }
-}
-
-@keyframes blendModeReset {
-
-    0%,
-    60% {
-        mix-blend-mode: difference;
-    }
-
-    100% {
-        mix-blend-mode: normal;
+        filter: grayscale(0%) contrast(100%) brightness(100%);
     }
 }
