@@ -13,7 +13,7 @@ import { optimizeCloudinaryUrl, getResponsiveSrcSet } from "../../utils/imageOpt
 
 function Hero() {
   const heroRef = useRef(null);
-  const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1764576553/background4k_ruaeim.webp";
+  const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1765451325/background4k_ruaeim.webp";
 
   const handleExploreClick = () => {
     gsap.to(window, {

@@ -20,7 +20,6 @@ const internationalDestinations = [
     { name: "Vietnam", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655268/Vietnam_qgebdl.png" },
 ];
 
-// Populating domestic with placeholders for effect as there's only one in source
 const domesticDestinations = [
     { name: "Munnar", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
     { name: "Wayanad", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },

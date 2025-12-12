@@ -71,9 +71,9 @@
 
 .stream-label {
     font-family: "Cinzel Decorative", serif;
-    font-size: clamp(3rem, 6vw, 7rem);
+    font-size: clamp(2.5rem, 5vw, 5rem);
     /* Larger */
-    color: rgba(0, 0, 0, 0.08);
+    color: rgb(0, 0, 0);
     /* Faint fill */
     -webkit-text-stroke: 2px rgba(0, 0, 0, 0.8);
     /* Stronger outline */

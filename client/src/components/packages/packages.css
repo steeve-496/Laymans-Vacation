@@ -677,3 +677,81 @@
         /* Reset rotation if any */
     }
 }
+
+@media (max-width: 480px) {
+    .carousel-track {
+        padding-left: 15px;
+        padding-right: 15px;
+        gap: 15px;
+        height: 70vh;
+        /* Taller on phone to fit content */
+    }
+
+    .carousel-card {
+        min-width: 88vw;
+        /* Almost full width with peek */
+    }
+
+    .card-content-top {
+        top: 15px;
+        left: 15px;
+    }
+
+    .journey-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+        font-size: 2rem;
+    }
+
+    .card-content-bottom {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .details-box {
+        padding: 1.2rem;
+        background: rgba(0, 0, 0, 0.7);
+        /* Darker for better contrast */
+    }
+
+    .details-header {
+        margin-bottom: 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .details-box h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .details-box p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+        -webkit-line-clamp: 4;
+        /* Allow one more line */
+    }
+
+    .view-itinerary-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem;
+        font-size: 0.75rem;
+    }
+
+    /* Compact Nav */
+    .package-nav {
+        bottom: 15px;
+        gap: 5px;
+    }
+
+    .nav-item {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+        border-radius: 15px;
+    }
+}
