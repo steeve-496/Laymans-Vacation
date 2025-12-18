@@ -460,8 +460,23 @@
     line-height: 1.5;
 }
 
+.form-row {
+    display: flex;
+    gap: 40px;
+}
+
+.info-text {
+    display: block;
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 4px;
+    text-align: left;
+}
+
 .form-group {
     margin-bottom: 20px;
+    flex: 1;
+    /* For side by side inputs */
 }
 
 .form-group input {
@@ -473,6 +488,20 @@
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s;
+    background: #fff;
+    /* Ensure white background for date/number */
+    color: #000;
+}
+
+/* Fix Date Input placeholder color/appearance */
+.form-group input[type="date"] {
+    color: #666;
+    /* Match placeholder color initially */
+}
+
+.form-group input[type="date"]:focus,
+.form-group input[type="date"]:valid {
+    color: #000;
 }
 
 .form-group input:focus {
@@ -585,6 +614,7 @@
         margin-bottom: 1rem;
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         /* Limit text lines */
         -webkit-box-orient: vertical;
         overflow: hidden;

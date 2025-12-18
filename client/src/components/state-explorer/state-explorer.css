@@ -1,17 +1,57 @@
+html {
+    overflow-x: hidden;
+}
+
 .state-explorer-section {
     --dial-radius: max(200px, 35vh);
-    /* Min 200px (400px dia) or 35vh */
-    /* Single source of truth for radius */
+    --reveal-y: 50vh;
+    --reveal-x: 50vw;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    max-height: 120vh;
+    box-sizing: border-box;
+    overflow: hidden;
     background-color: var(--color-off-white);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     font-family: var(--font-heading);
-    overflow: hidden;
     position: relative;
+}
+
+.state-explorer-section.state-explorer--reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: var(--z-max);
+    clip-path: circle(0px at var(--reveal-x) var(--reveal-y));
+    -webkit-clip-path: circle(0px at var(--reveal-x) var(--reveal-y));
+    transition: clip-path 1.2s cubic-bezier(0.2, 0, 0, 1), -webkit-clip-path 1.2s cubic-bezier(0.2, 0, 0, 1);
+    will-change: clip-path;
+    pointer-events: none;
+}
+
+.state-explorer-section.state-explorer--reveal.state-explorer--reveal-expanded {
+    clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
+    -webkit-clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
+}
+
+.state-explorer-section.state-explorer--enter .explorer-container {
+    animation: stateExplorerFadeIn 0.65s ease both;
+}
+
+@keyframes stateExplorerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .explorer-container {
@@ -19,7 +59,8 @@
     width: 100%;
     max-width: 90vw;
     /* Fluid max-width */
-    height: 90vh;
+    height: calc(100vh - 40px);
+    max-height: 100vh;
     position: relative;
     background: transparent;
     box-shadow: none;
@@ -28,9 +69,7 @@
 
 .state-display {
     width: 50%;
-    height: 100%;
     padding: clamp(20px, 4vw, 40px);
-    /* Fluid padding */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,9 +79,8 @@
 .display-content {
     width: 100%;
     height: 100%;
-    background: var(--color-white);
+    background: #1a1a1a;
     border-radius: clamp(20px, 3vw, 40px);
-    /* Fluid radius */
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -76,7 +114,7 @@
     margin: 10px 0 0;
 }
 
-.explore-btn {
+.explore--btn {
     margin-top: 20px;
     padding: 12px 30px;
     background: transparent;
@@ -90,7 +128,7 @@
     transition: all 0.3s ease;
 }
 
-.explore-btn:hover {
+.explore--btn:hover {
     background: var(--color-white);
     color: black;
     transform: translateY(-3px);
@@ -110,9 +148,9 @@
 .dial-wrapper {
     position: absolute;
     top: 50%;
-    right: -22vh;
+    right: 0;
     /* Fixed position relative to height */
-    transform: translateY(-50%);
+    transform: translate(22vh, -50%);
     width: calc(var(--dial-radius) * 2);
     /* Guaranteed sync */
     height: calc(var(--dial-radius) * 2);
@@ -347,7 +385,37 @@
         color: var(--color-text-secondary);
     }
 
+
     .country-item.active {
         color: var(--color-black);
     }
+}
+
+/* ================= BACK BUTTON ================= */
+.explorer-back-btn {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: #000;
+    overflow: hidden;
+}
+
+.explorer-back-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    transform: translateX(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-color: transparent;
 }

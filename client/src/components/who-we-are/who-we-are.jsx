@@ -40,7 +40,7 @@ export default function WhoWeAre() {
     }, { scope: containerRef });
 
     return (
-        <section className="who-we-are-section" ref={containerRef}>
+        <section className="who-we-are-section" id="who-we-are" ref={containerRef}>
             <div className="who-we-are-container">
                 <div className="who-we-are-title-container">
                     <div className="title-line">

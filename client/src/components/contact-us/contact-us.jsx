@@ -102,8 +102,25 @@ export default function ContactUs() {
                             <input type="email" className="form-input" placeholder="name@gmail.com" />
                         </div>
                         <div className="form-group">
-                            <label className="form-label">Mobile Number</label>
+                            <label className="form-label">Phone Number</label>
                             <input type="tel" className="form-input" placeholder="+91 9876543210" />
+                        </div>
+
+                        <div className="form-row">
+                            <div className="form-group half">
+                                <label className="form-label">Adults</label>
+                                <input type="number" min="1" className="form-input" placeholder="2" />
+                            </div>
+                            <div className="form-group half">
+                                <label className="form-label">Children</label>
+                                <input type="number" min="0" className="form-input" placeholder="0" />
+                                <span className="helper-text">*Under 5 years free</span>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Date of Journey</label>
+                            <input type="date" className="form-input" />
                         </div>
                         <div className="form-group">
                             <label className="form-label">Message</label>

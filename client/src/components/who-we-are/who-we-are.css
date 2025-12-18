@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Fjalla+One&family=Inter:wght@300;400;500&display=swap");
-
-@font-face {
-    font-family: "varien";
-    src: url("https://res.cloudinary.com/divwmzd8g/raw/upload/v1765447881/Varien_uzkzrl.otf");
-}
+@import url("https://api.fontshare.com/v2/css?f[]=rajdhani@500,600,700&display=swap");
 
 .who-we-are-section {
     position: relative;
@@ -44,15 +40,16 @@
 }
 
 .who-we-are-title {
-    font-family: "varien", serif;
-    font-size: clamp(4rem, 8vw, 7rem);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 8vw, 8rem);
     color: #333;
     /* Dark text */
     margin: 0;
     line-height: 1;
     text-transform: uppercase;
-    letter-spacing: -2px;
+    letter-spacing: 5px;
     transform: translateY(100%);
+    font-weight: 700;
     /* Initial state for animation */
     display: block;
 }

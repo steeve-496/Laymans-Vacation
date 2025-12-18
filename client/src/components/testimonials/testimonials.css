@@ -1,0 +1,195 @@
+.testimonials-section {
+    position: relative;
+    padding: 100px 5vw;
+    background-color: #f8f8f8;
+    /* Very light subtle gray/paper tone */
+    overflow: hidden;
+}
+
+.testimonials-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: var(--color-text-secondary);
+}
+
+.section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-black);
+    margin: 0 0 20px;
+    font-family: var(--font-heading);
+    line-height: 1.1;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* GRID LAYOUT */
+.postcards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* POSTCARD STYLE */
+.postcard-wrapper {
+    perspective: 1000px;
+    transition: transform 0.3s ease;
+}
+
+/* Random rotations for "Scattered" look */
+.postcard-wrapper:nth-child(odd) {
+    transform: rotate(-2deg);
+}
+
+.postcard-wrapper:nth-child(even) {
+    transform: rotate(2deg);
+}
+
+.postcard-wrapper:nth-child(3n) {
+    transform: rotate(1deg) translateY(20px);
+}
+
+/* Hover: Straighten up */
+.postcard-wrapper:hover {
+    transform: rotate(0deg) scale(1.05) translateY(-10px);
+    z-index: 10;
+}
+
+.postcard {
+    background: #fff;
+    padding: 30px;
+    border-radius: 2px;
+    /* Rigid postcard corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    /* Soft lift */
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s ease;
+}
+
+.postcard-wrapper:hover .postcard {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* STAMP MARK */
+.stamp-mark {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 70px;
+    background: #f0f0f0;
+    padding: 5px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    transform: rotate(5deg);
+    border: 1px dashed #ccc;
+    /* Perforated edge look */
+}
+
+.stamp-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+/* CONTENT */
+.quote-icon {
+    font-size: 4rem;
+    color: #e0e0e0;
+    font-family: serif;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 30px;
+    font-family: inherit;
+    /* Inherit global font, maybe Serif if available */
+    position: relative;
+    z-index: 2;
+}
+
+/* USER PROFILE */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: auto;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin: 0;
+}
+
+.user-location {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stars {
+    color: #FFD700;
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .postcards-grid {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .postcard-wrapper:nth-child(n) {
+        transform: none;
+        /* Remove rotation on mobile for cleaner stack */
+        margin-bottom: 20px;
+    }
+}

@@ -8,9 +8,6 @@ gsap.registerPlugin(Draggable);
 
 import { optimizeCloudinaryUrl, optimizeUnsplashUrl } from "../../utils/imageOptimizer";
 
-// ... imports
-
-// Updated Data matching Destinations
 const countryData = {
     "Azerbaijan": [
         { name: "Baku", description: "The City of Winds", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655272/Azerbaijan_zx809y.png" },
@@ -36,6 +33,27 @@ const countryData = {
         { name: "Alleppey", description: "Venice of the East", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
         { name: "Munnar", description: "Tea Gardens", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1000&auto=format&fit=crop" },
         { name: "Wayanad", description: "Green Paradise", image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?q=80&w=1000&auto=format&fit=crop" },
+        { name: "Varkala", description: "Cliffside Beaches", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+    ],
+    "Munnar": [
+        { name: "Tea Trail Escape", description: "Perfect short break with tea gardens, waterfalls and local sightseeing.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
+        { name: "Hills & Wildlife", description: "Includes Eravikulam National Park, Mattupetty Dam and sunset points.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
+        { name: "Premium Munnar Stay", description: "Resort stay + private cab + curated cafe and viewpoint visits.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
+    ],
+    "Wayanad": [
+        { name: "Wayanad Nature Break", description: "Caves, dams and forest viewpoints with relaxed pacing.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
+        { name: "Adventure & Trek", description: "Trek options + waterfalls + spice plantation visit.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
+        { name: "Luxury Wayanad Retreat", description: "Premium stay with guided sightseeing and scenic drives.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
+    ],
+    "Varkala": [
+        { name: "Cliff & Cafe Getaway", description: "Beach time, cliff walk, cafes and sunset viewpoints.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+        { name: "Varkala + Backwaters", description: "Combine cliff beaches with a nearby backwater experience.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+        { name: "Wellness & Relax", description: "Yoga/ayurveda-inspired plan with flexible beach days.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+    ],
+    "Alleppey": [
+        { name: "Houseboat Classic", description: "Overnight houseboat stay with meals and sunset cruise.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
+        { name: "Alleppey Backwater Bliss", description: "Houseboat + village canoe ride + beach relaxation.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
+        { name: "Premium Backwater Experience", description: "Premium boat/cottage options with curated local experiences.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
     ],
     "Kazakhstan": [
         { name: "Almaty", description: "City of Apples", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655271/Kazakhstan_zdwuir.png" },
@@ -74,11 +92,12 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
     const dialRef = useRef(null);
     const containerRef = useRef(null);
     const countryListRef = useRef(null);
+    const [isEntering, setIsEntering] = useState(false);
 
     useImperativeHandle(ref, () => containerRef.current);
 
-    const states = countryData[selectedCountry];
-    const currentState = states[selectedStateIndex];
+    const states = countryData[selectedCountry] || [];
+    const currentState = states[selectedStateIndex] || null;
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -90,29 +109,25 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // 1. Entry Animation - Runs ONCE on mount
-    useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top 40%",
-                toggleActions: "play none none reverse"
-            }
-        });
+    // Smooth fade-in when a country changes
+    useEffect(() => {
+        setIsEntering(true);
+        const t = window.setTimeout(() => setIsEntering(false), 650);
 
-        tl.from(".state-display", {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-        })
-            .from(".dial-wrapper", {
-                x: 100,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            }, "<"); // Use "<" to start this animation at the same time as the previous one
-    }, { scope: containerRef });
+        const el = containerRef.current;
+        if (el) {
+            const rect = el.getBoundingClientRect();
+            const vh = window.innerHeight || document.documentElement.clientHeight;
+            const isFullyVisible = rect.top >= 0 && rect.bottom <= vh;
+            if (!isFullyVisible) {
+                window.requestAnimationFrame(() => {
+                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            }
+        }
+
+        return () => window.clearTimeout(t);
+    }, [selectedCountry]);
 
     // 2. Interaction Logic - Runs when Country changes
     useGSAP(() => {
@@ -124,36 +139,10 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         const START_ANGLE = 155;
         const ALIGN_ANGLE = isMobile ? 270 : 180; // Top (270) for mobile, Left (180) for desktop
 
-        // Smooth transition for content update
-        gsap.fromTo(".state-display .display-content",
-            { opacity: 0, scale: 0.95 },
-            { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
-        );
-
-        // Animate Image (Zoom Out Effect)
-        gsap.fromTo(".state-image",
-            { scale: 1.2 },
-            { scale: 1, duration: 0.8, ease: "power2.out" }
-        );
-
-        // Animate dots entering
-        gsap.fromTo(".dial-dot",
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.3, stagger: 0.05, ease: "back.out(1.7)" }
-        );
-
         // Scroll Country List to Selected Country
         const countryIndex = Object.keys(countryData).indexOf(selectedCountry);
         if (countryIndex !== -1) {
-            gsap.to(countryList, {
-                y: -countryIndex * itemHeight,
-                duration: 0.5,
-                ease: "power2.out",
-                onComplete: () => {
-                    // Update Draggable instance to reflect new position if needed
-                    // Draggable.get(countryList)?.update();
-                }
-            });
+            gsap.set(countryList, { y: -countryIndex * itemHeight });
         }
 
         // Helper to keep labels horizontal
@@ -179,7 +168,6 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 updateLabelRotation();
             }
         });
-
 
         // Dial Draggable (Rotation)
         const dialDraggable = Draggable.create(dial, {
@@ -243,31 +231,38 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
     }, { scope: containerRef, dependencies: [selectedCountry, selectedStateIndex, isMobile] }); // Added isMobile dependency
 
     return (
-        <section className="state-explorer-section" ref={containerRef}>
+        <section
+            className={`state-explorer-section${isEntering ? " state-explorer--enter" : ""}`}
+            ref={containerRef}
+        >
             <div className="explorer-container">
                 {/* Area 1: State Display */}
                 <div className="state-display">
-                    <div className="display-content">
-                        <img
-                            src={
-                                currentState.image.includes("cloudinary")
-                                    ? optimizeCloudinaryUrl(currentState.image, 800)
-                                    : optimizeUnsplashUrl(currentState.image, 800)
-                            }
-                            alt={currentState.name}
-                            className="state-image"
-                            loading="lazy"
-                        />
-                        <div className="state-info">
-                            <h3>{currentState.name}</h3>
-                            <p>{currentState.description}</p>
-                            <button
-                                className="explore-btn"
-                                onClick={() => onExplore && onExplore(currentState.name)}
-                            >
-                                Click to Explore
-                            </button>
-                        </div>
+                    <div className="display-content" key={`${selectedCountry}-${selectedStateIndex}`}>
+                        {currentState && (
+                            <>
+                                <img
+                                    src={
+                                        currentState.image.includes("cloudinary")
+                                            ? optimizeCloudinaryUrl(currentState.image, 800)
+                                            : optimizeUnsplashUrl(currentState.image, 800)
+                                    }
+                                    alt={currentState.name}
+                                    className="state-image"
+                                    loading="lazy"
+                                />
+                                <div className="state-info">
+                                    <h3>{currentState.name}</h3>
+                                    <p>{currentState.description}</p>
+                                    <button
+                                        className="explore--btn"
+                                        onClick={() => onExplore && onExplore(selectedCountry)}
+                                    >
+                                        Click to Explore
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 

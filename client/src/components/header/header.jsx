@@ -36,6 +36,7 @@ function Header() {
         gsap.to(".nav", {
           height: "60px",
           padding: "0 4.5%",
+          zIndex: "0",
           backgroundColor: "transparent", // Fade out background
           backdropFilter: "blur(0px)", // Remove blur
           ease: "power2.out",
@@ -118,7 +119,8 @@ function Header() {
     const tl = gsap.timeline();
     if (openMenu) {
       sidebarTL.current.play();
-      document.body.style.overflow = "hidden";
+      document.body.style.overflowY = "hidden";
+      document.body.style.overflowX = "hidden";
 
       // Bring Nav above Menu and make it transparent, Hide Logo
       tl.to(".nav", {
@@ -130,7 +132,8 @@ function Header() {
         .to(".logo", { opacity: 0, duration: 0.3 }, "<"); // Hide logo immediately
     } else {
       sidebarTL.current.reverse();
-      document.body.style.overflow = "auto";
+      document.body.style.overflowY = "auto";
+      document.body.style.overflowX = "hidden";
 
       // Revert Nav Styles and Show Logo
       tl.to(".nav", {
@@ -152,24 +155,25 @@ function Header() {
         </div>
 
         <ul className="nav_list">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/destinations">Destinations</Link></li>
-          <li><Link to="/why-us">Why Us</Link></li>
-          <li><Link to="/about">About Us</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-        </ul>
+          <li>Home</li>
+          <li>Upcoming Departures</li>
+          <li>Why Us</li>
+          <li><a href="#who-we-are">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul >
 
         {/* Hamburger Icon with Animation */}
-        <div className="hamburger-wrapper" onClick={() => setOpenMenu(!openMenu)}>
+        < div className="hamburger-wrapper" onClick={() => setOpenMenu(!openMenu)
+        }>
           <div className={`hamburger-icon ${openMenu ? "open" : ""}`}>
             <span></span>
             <span></span>
           </div>
-        </div>
-      </header>
+        </div >
+      </header >
 
       {/* Kinetic Fullscreen Menu */}
-      <div className="kinetic-menu">
+      < div className="kinetic-menu" >
         <div className="kinetic-menu-content">
           <ul className="kinetic-links">
             <li className="kinetic-link" onClick={() => setOpenMenu(false)}>
@@ -202,7 +206,7 @@ function Header() {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }

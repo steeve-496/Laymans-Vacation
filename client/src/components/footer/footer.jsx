@@ -3,6 +3,8 @@ import './footer.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -393,7 +395,7 @@ export default function Footer() {
 
             <div className="footer-bottom">
                 <div className="footer-bottom-links">
-                    <a href="#" className="footer-bottom-link">© 2024 Layman</a>
+                    <a href="#" className="footer-bottom-link">@{new Date().getFullYear()} Layman</a>
                     <a href="#" className="footer-bottom-link">Privacy Policy</a>
                 </div>
                 <div className="footer-bottom-links">

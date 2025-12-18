@@ -20,15 +20,21 @@ const Preloader = ({ isLoading }) => {
     // SCROLL LOCK: Hide scrollbar while preloader is active to prevent logo shift
     useEffect(() => {
         if (shouldRender) {
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden'; // Lock root element too
+            document.body.style.overflowY = 'hidden';
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowY = 'hidden'; // Lock root element too
+            document.documentElement.style.overflowX = 'hidden';
         } else {
-            document.body.style.overflow = 'unset';
-            document.documentElement.style.overflow = 'unset';
+            document.body.style.overflowY = 'auto';
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowY = 'auto';
+            document.documentElement.style.overflowX = 'hidden';
         }
         return () => {
-            document.body.style.overflow = 'unset';
-            document.documentElement.style.overflow = 'unset';
+            document.body.style.overflowY = 'auto';
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowY = 'auto';
+            document.documentElement.style.overflowX = 'hidden';
         };
     }, [shouldRender]);
 

@@ -60,7 +60,7 @@ export default function WhyUs() {
 
                 <div className="why-us-info">
                     <div className="why-us-header">
-                        <h2 className="why-us-title">WHY CHOOSE THE <br />LAYMAN'S VACATION</h2>
+                        <h2 className="why-us-title">WHY CHOOSE <br />THE LAYMAN'S VACATION</h2>
                     </div>
 
                     <div className="why-us-details">

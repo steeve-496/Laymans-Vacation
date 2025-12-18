@@ -30,27 +30,4 @@
     --z-max: 9999;
 }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    /* Global box-sizing reset */
-}
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-primary);
-    background-color: var(--color-white);
-    color: var(--color-text-primary);
-    overflow-x: hidden;
-    scrollbar-gutter: stable;
-    /* Prevent horizontal scroll globally */
-    -webkit-font-smoothing: antialiased;
-}
-
-/* Global Utility Classes */
-.container {
-    width: 100%;
-    overflow: hidden;
-}

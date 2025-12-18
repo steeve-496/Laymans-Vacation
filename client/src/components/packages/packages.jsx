@@ -5,6 +5,16 @@ import "./packages.css";
 import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { PACKAGE_TIER_IMAGES } from "../../data/packageImages";
+
+const getPackageImage = (location, category) => {
+    const key = (location || "").trim();
+    return (
+        PACKAGE_TIER_IMAGES[key]?.[category] ||
+        PACKAGE_TIER_IMAGES.default?.[category] ||
+        PACKAGE_TIER_IMAGES.default.Basic
+    );
+};
 
 const ContactForm = ({ onClose }) => {
     return (
@@ -26,6 +36,18 @@ const ContactForm = ({ onClose }) => {
                     </div>
                     <div className="form-group">
                         <input type="tel" placeholder="Phone Number" required />
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <input type="number" placeholder="Adults" min="1" required />
+                        </div>
+                        <div className="form-group">
+                            <input type="number" placeholder="Children" min="0" />
+                            <span className="info-text">Under 5 years free</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <input type="date" placeholder="Day of Journey" required />
                     </div>
                     <button type="submit" className="submit-btn">View Itinerary</button>
                 </form>
@@ -204,7 +226,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Glimpse",
             title: `Best of ${location}`,
             price: "Rs 25,000",
-            image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1200&auto=format&fit=crop",
+            image: getPackageImage(location, "Basic"),
             duration: "5 Days",
             description: "Experience the highlights and hidden gems in this curated tour.",
             itinerary: [
@@ -221,7 +243,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Escape",
             title: `Romantic ${location}`,
             price: "Rs 80,000",
-            image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop",
+            image: getPackageImage(location, "Getaway"),
             duration: "6 Days",
             description: "Perfect for couples. Sunsets, private dinners, and beautiful views.",
             itinerary: [
@@ -239,7 +261,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Voyage",
             title: `${location} Adventure`,
             price: "Rs 1,00,000",
-            image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1200&auto=format&fit=crop",
+            image: getPackageImage(location, "Adventure"),
             duration: "8 Days",
             description: "For the thrill-seekers. Hiking, rafting, and exploring the wild.",
             itinerary: [
@@ -259,7 +281,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Odyssey",
             title: `Luxury ${location}`,
             price: "Rs 2,50,000",
-            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop",
+            image: getPackageImage(location, "Luxury"),
             duration: "10 Days",
             description: "Indulge in the finest accommodations and exclusive experiences.",
             itinerary: [
