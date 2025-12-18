@@ -3,6 +3,7 @@ import './why-us.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +55,7 @@ export default function WhyUs() {
         <section className="why-us-section" ref={containerRef} id="why-us">
             <div className="why-us-grid">
                 <div className="why-us-visual">
-                    <img src="https://res.cloudinary.com/divwmzd8g/image/upload/v1765447707/why-choose-us_sdjq4s.png" alt="Travel Destination" className="why-us-visual-img" loading="lazy" />
+                    <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/divwmzd8g/image/upload/v1765447707/why-choose-us_sdjq4s.png", 1000)} alt="Travel Destination" className="why-us-visual-img" loading="lazy" />
                     <div className="visual-overlays"></div>
                 </div>
 

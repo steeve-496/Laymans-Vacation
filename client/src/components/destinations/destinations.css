@@ -24,6 +24,11 @@
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+    /* Scrollable Panel Setup */
+    display: flex;
+    flex-direction: column;
+    max-height: 60vh;
 }
 
 .dest-panel.left {
@@ -89,6 +94,31 @@
     flex-direction: column;
     gap: 12px;
     color: white;
+
+    /* Scroll Behavior */
+    overflow-y: auto;
+    padding-right: 8px;
+    /* Space for scrollbar */
+}
+
+/* Custom Scrollbar for Panel List */
+.panel-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.panel-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.panel-list::-webkit-scrollbar-thumb {
+    background: rgba(225, 29, 72, 0.5);
+    /* Brand color semi-transparent */
+    border-radius: 4px;
+}
+
+.panel-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(225, 29, 72, 0.8);
 }
 
 .panel-list li {
@@ -304,5 +334,6 @@
 
 .dest-panel.faded {
     opacity: 0.3;
-    pointer-events: none;
+    pointer-events: auto;
+    /* Allow clicking even when faded */
 }

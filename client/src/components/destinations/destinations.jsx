@@ -3,9 +3,14 @@ import Globe from "react-globe.gl";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import Stars from "./Stars";
 import "./destinations.css";
+import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
+// ... existing code ...
+
 
 const international = [
     {
@@ -236,7 +241,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     /* ================== PLACE SELECT ================== */
     const handleSelect = (place) => {
         setActivePlace(place);
-        setCardVisible(false); // Reset first
+        setCardVisible(true); // Update content and show immediately
 
         // Rotate globe to place
         if (globeRef.current) {
@@ -245,11 +250,6 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                 1500
             );
         }
-
-        // Show card after rotation starts
-        setTimeout(() => {
-            setCardVisible(true);
-        }, 800);
     };
 
     /* ================== NAVIGATE TO EXPLORER ================== */
@@ -308,11 +308,12 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
 
             {/* GLOBE */}
             <div className={`globe-wrap ${cardVisible ? 'dimmed' : ''}`}>
+                <Stars />
                 <Globe
                     ref={globeRef}
                     globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
                     bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-                    backgroundColor="#000000"
+                    backgroundColor="rgba(0,0,0,0)"
                     atmosphereColor="#1cbae5"
                     atmosphereAltitude={0.15}
                     htmlElementsData={activePlace ? [activePlace] : []}
@@ -338,7 +339,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                     <div className="destination-card" ref={cardRef}>
                         <button className="close-card-btn" onClick={handleCloseCard}>×</button>
                         <div className="card-image">
-                            <img src={activePlace.image} alt={activePlace.name} />
+                            <img src={optimizeCloudinaryUrl(activePlace.image, 800)} alt={activePlace.name} />
                         </div>
                         <div className="card-content">
                             <h3>{activePlace.name}</h3>

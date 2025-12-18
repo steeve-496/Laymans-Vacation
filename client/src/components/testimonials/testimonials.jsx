@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { optimizeCloudinaryUrl, optimizeUnsplashUrl } from "../../utils/imageOptimizer";
 import "./testimonials.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -77,13 +78,21 @@ const Testimonials = () => {
                             {/* Front Design: Image + Quote */}
                             <div className="postcard-content">
                                 <div className="stamp-mark">
-                                    <img src={item.stamp} alt="stamp" className="stamp-img" />
+                                    <img
+                                        src={item.stamp.includes("cloudinary") ? optimizeCloudinaryUrl(item.stamp, 200) : optimizeUnsplashUrl(item.stamp, 200)}
+                                        alt="stamp"
+                                        className="stamp-img"
+                                    />
                                 </div>
                                 <div className="quote-icon">“</div>
                                 <p className="review-text">{item.review}</p>
 
                                 <div className="user-profile">
-                                    <img src={item.image} alt={item.name} className="user-avatar" />
+                                    <img
+                                        src={item.image.includes("cloudinary") ? optimizeCloudinaryUrl(item.image, 100) : optimizeUnsplashUrl(item.image, 100)}
+                                        alt={item.name}
+                                        className="user-avatar"
+                                    />
                                     <div className="user-info">
                                         <h4 className="user-name">{item.name}</h4>
                                         <span className="user-location">{item.location}</span>

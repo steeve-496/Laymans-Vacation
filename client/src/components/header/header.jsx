@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./header.css";
+import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 

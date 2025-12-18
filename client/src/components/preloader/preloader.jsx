@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './preloader.css';
+import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 const Preloader = ({ isLoading }) => {
     // We keep the component mounted but add a class to animate it out

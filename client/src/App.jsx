@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
-
+import Preloader from "./components/preloader/preloader";
 import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
 import VideoSection from "./components/video/video";
@@ -24,7 +24,35 @@ function App() {
   const packagesRef = useRef(null);
   const stateExplorerRef = useRef(null);
   const destinationsRef = useRef(null);
+
   const explorerWrapperRef = useRef(null);
+
+  // Manage Preloader State
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Fallback if window load doesn't fire (e.g. single page nav or cached)
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 4500); // Max wait time
+
+    const handleLoad = () => {
+      clearTimeout(timeout);
+      // Small delay to ensure smooth transition
+      setTimeout(() => setIsLoading(false), 500);
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      clearTimeout(timeout);
+    };
+  }, []);
 
   /* ================= DESTINATION PIN CLICK ================= */
   const handleCountrySelect = (country) => {
@@ -128,6 +156,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
       <VideoSection />
