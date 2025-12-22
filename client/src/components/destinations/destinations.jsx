@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, forwardRef } from "react";
-import Globe from "react-globe.gl";
+import React, { useRef, useEffect, useState, forwardRef, Suspense } from "react";
+const Globe = React.lazy(() => import("react-globe.gl"));
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +10,8 @@ import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 // ... existing code ...
+
+
 
 
 const international = [
@@ -39,7 +41,8 @@ const international = [
         image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655250/Dubai_zpadzs.jpg",
         lat: 25.2044,
         lng: 55.2714,
-        description: "A city of superlatives with towering skyscrapers, luxury shopping, and desert adventures."
+        description: "A city of superlatives with towering skyscrapers, luxury shopping, and desert adventures.",
+        badge: "Best Seller"
     },
     {
         name: "Kazakhstan",
@@ -74,7 +77,8 @@ const international = [
         image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Thailand_a2ide4.png",
         lat: 13.7563,
         lng: 100.5018,
-        description: "The Land of Smiles, famous for its temples, street food, and tropical islands."
+        description: "The Land of Smiles, famous for its temples, street food, and tropical islands.",
+        badge: "Best Seller"
     },
     {
         name: "Vietnam",
@@ -142,19 +146,58 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     const cardRef = useRef(null);
     const [activePlace, setActivePlace] = useState(null);
     const [cardVisible, setCardVisible] = useState(false);
+    const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+    const containerRef = useRef(null);
+
+    /* ================== RESIZE OBSERVER ================== */
+    useEffect(() => {
+        const updateDimensions = () => {
+            if (containerRef.current) {
+                setDimensions({
+                    width: containerRef.current.offsetWidth,
+                    height: containerRef.current.offsetHeight
+                });
+            }
+        };
+
+        // Initial measurement
+        updateDimensions();
+
+        const observer = new ResizeObserver(updateDimensions);
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        window.addEventListener('resize', updateDimensions);
+
+        return () => {
+            window.removeEventListener('resize', updateDimensions);
+            observer.disconnect();
+        };
+    }, []);
 
     /* ================== GLOBE SETUP ================== */
-    useEffect(() => {
+    const handleGlobeReady = () => {
         if (!globeRef.current) return;
 
         const controls = globeRef.current.controls();
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.5;
         controls.enableZoom = false;
-        controls.enablePan = false;
+        controls.enablePan = true;
 
         globeRef.current.pointOfView(DEFAULT_VIEW);
-    }, []);
+    };
+
+    /* ================== ROTATION CONTROL ================== */
+    useEffect(() => {
+        if (globeRef.current) {
+            const controls = globeRef.current.controls();
+            if (controls) {
+                controls.autoRotate = !cardVisible;
+            }
+        }
+    }, [cardVisible]);
 
     /* ================== SCROLL + ENTRY ================== */
     useGSAP(() => {
@@ -202,54 +245,140 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
 
     }, { scope: internalSectionRef });
 
-    /* ================== CARD ANIMATION ================== */
+    /* ================== ARROW COMPONENT ================== */
+    const ConnectionArrow = ({ width, height }) => {
+        // Dynamic coordinates to prevent distortion
+        const startX = width * 0.25; // Center of Globe area (Globe is moved to left 25%)
+        const startY = height * 0.5;
+
+        // Card Position Calculation:
+        // Overlay padding-right is 15% (on desktop).
+        // Card has margin-right: 150px (NEW).
+        // Card width is 320px.
+        const cardWidth = 320;
+        const marginRight = 150;
+        const paddingRight = 0.15 * width;
+
+        // Calculate Right Edge of Card Container relative to screen right
+        // ScreenWidth - Padding - Margin - CardWidth
+        // We add overlap (+20) to land on the card
+        const endX = (width - paddingRight - marginRight - cardWidth) + 20;
+        const endY = height * 0.5;
+
+        // Control point for the curve (arc up)
+        const controlX = (startX + endX) / 2;
+        const controlY = startY - (height * 0.2); // Arc height
+
+        // Calculate arrowhead angle
+        const dx = endX - controlX;
+        const dy = endY - controlY;
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        return (
+            <svg className="connection-arrow" width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible' }}>
+                <path
+                    className="arrow-path"
+                    d={`M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`}
+                    fill="none"
+                    stroke="#e11d48"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                />
+                <g transform={`translate(${endX}, ${endY}) rotate(${angle})`}>
+                    <polygon
+                        className="arrow-head"
+                        points="0,0 -12,-6 -12,6"
+                        fill="#e11d48"
+                    />
+                </g>
+            </svg>
+        );
+    };
+
+    /* ================== ANIMATION REFS ================== */
+    const selectionTimeline = useRef(null);
+
+    /* ================== ANIMATION EFFECT ================== */
+    // Trigger "Open" animation when card becomes visible and activePlace is set
     useEffect(() => {
-        if (activePlace && cardVisible && cardRef.current) {
-            // Find the pin element
-            const pinEl = document.querySelector(".map-pin");
-            let startProps = { opacity: 0, scale: 0.1, y: 0, x: 0 };
+        if (cardVisible && activePlace) {
+            // START OPEN SEQUENCE
+            if (selectionTimeline.current) selectionTimeline.current.kill();
+            const tl = gsap.timeline();
+            selectionTimeline.current = tl;
 
-            if (pinEl) {
-                const rect = pinEl.getBoundingClientRect();
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-
-                // Calculate distance from center
-                // Pin is centered at rect.left + rect.width / 2
-                const pinX = rect.left + rect.width / 2;
-                const pinY = rect.top + rect.height / 2;
-
-                startProps.x = pinX - centerX;
-                startProps.y = pinY - centerY;
+            // 1. Rotate Globe (Takes 1.5s)
+            if (globeRef.current) {
+                globeRef.current.pointOfView(
+                    { lat: activePlace.lat, lng: activePlace.lng, altitude: 1.5 },
+                    1500
+                );
             }
 
-            gsap.fromTo(cardRef.current,
-                startProps,
-                {
-                    opacity: 1,
-                    scale: 1,
-                    x: 0,
-                    y: 0,
-                    duration: 0.7,
-                    ease: "expo.out"
-                }
-            );
+            // 2. Animate Layout
+            if (window.innerWidth > 768) {
+                // DESKTOP
+                tl.to([".dest-panel.left", ".dest-panel.right"], {
+                    opacity: 0,
+                    x: (i, target) => target.classList.contains("left") ? -50 : 50,
+                    duration: 0.5,
+                    ease: "power2.in"
+                })
+                    // b. Move Globe to Left (Wait for rotation to be partly done)
+                    .to(containerRef.current, {
+                        x: "-25%",
+                        duration: 1,
+                        ease: "power3.inOut"
+                    }, "-=0.2") // Starts at 0.3s
+
+                    // c. Reveal Card (Starts after globe move adds a bit of delay for rotation to finish)
+                    .fromTo(".destination-card",
+                        { x: "20%", opacity: 0, scale: 0.9 },
+                        { x: "0%", opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
+                        "+=0.2" // Starts around 1.5s (when rotation finishes)
+                    )
+
+                    // d. Draw Arrow (Starts after card is revealing)
+                    .fromTo(".connection-arrow",
+                        { opacity: 0 },
+                        { opacity: 1, duration: 0.1 },
+                        "-=0.6" // Starts slightly into card animation
+                    )
+                    .fromTo(".arrow-path",
+                        { strokeDasharray: 2000, strokeDashoffset: 2000 },
+                        { strokeDashoffset: 0, duration: 1.2, ease: "power2.out" },
+                        "<" // Sync with arrow fade in
+                    )
+                    .fromTo(".arrow-head",
+                        { opacity: 0, scale: 0 },
+                        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" },
+                        "-=0.3" // Near end of stroke
+                    );
+            } else {
+                // MOBILE
+                tl.to([".dest-panel.left", ".dest-panel.right"], {
+                    opacity: 0,
+                    y: 20,
+                    pointerEvents: "none",
+                    duration: 0.4
+                })
+                    .fromTo(".destination-card",
+                        { y: 50, opacity: 0 },
+                        { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.2)" }
+                    );
+            }
         }
-    }, [activePlace, cardVisible]);
+    }, [cardVisible, activePlace]);
+
 
 
     /* ================== PLACE SELECT ================== */
+    /* ================== PLACE SELECT ================== */
     const handleSelect = (place) => {
+        if (activePlace?.name === place.name) return;
         setActivePlace(place);
-        setCardVisible(true); // Update content and show immediately
-
-        // Rotate globe to place
-        if (globeRef.current) {
-            globeRef.current.pointOfView(
-                { lat: place.lat, lng: place.lng, altitude: 1.5 }, // Closer zoom
-                1500
-            );
-        }
+        setCardVisible(true);
+        // Animation is triggered by useEffect above
     };
 
     /* ================== NAVIGATE TO EXPLORER ================== */
@@ -261,9 +390,59 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     };
 
     const handleCloseCard = () => {
-        setCardVisible(false);
-        setActivePlace(null);
-        globeRef.current?.pointOfView(DEFAULT_VIEW, 1000);
+        if (selectionTimeline.current) selectionTimeline.current.kill();
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                setCardVisible(false);
+                setActivePlace(null);
+            }
+        });
+        selectionTimeline.current = tl;
+
+        if (window.innerWidth > 768) {
+            // DESKTOP REVERSE
+            // 1. Hide Card & Arrow
+            tl.to(".destination-card", {
+                x: "10%",
+                opacity: 0,
+                duration: 0.4,
+                ease: "power2.in"
+            })
+                .to(".connection-arrow", {
+                    opacity: 0,
+                    duration: 0.3
+                }, "<")
+                // 2. Move Globe Center
+                .to(containerRef.current, {
+                    x: "0%",
+                    duration: 0.8,
+                    ease: "power3.inOut"
+                }, "-=0.2")
+                // 3. Show Panels
+                .to([".dest-panel.left", ".dest-panel.right"], {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.6,
+                    ease: "power3.out"
+                }, "-=0.4");
+        } else {
+            // MOBILE REVERSE
+            tl.to(".destination-card", {
+                y: 50,
+                opacity: 0,
+                duration: 0.4
+            })
+                .to([".dest-panel.left", ".dest-panel.right"], {
+                    opacity: 1,
+                    y: 0,
+                    pointerEvents: "auto",
+                    duration: 0.4
+                });
+        }
+
+        // Reset Globe View
+        globeRef.current?.pointOfView(DEFAULT_VIEW, 1200);
     };
 
     return (
@@ -282,7 +461,10 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                 <ul className="panel-list">
                     {international.map(d => (
                         <li key={d.name} onClick={() => handleSelect(d)}>
-                            <span className="country-name">{d.name}</span>
+                            <div className="li-content">
+                                <span className="country-name">{d.name}</span>
+                                {d.badge && <span className="best-seller-badge">{d.badge}</span>}
+                            </div>
                             <span className="arrow">→</span>
                         </li>
                     ))}
@@ -307,31 +489,42 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
             </aside>
 
             {/* GLOBE */}
-            <div className={`globe-wrap ${cardVisible ? 'dimmed' : ''}`}>
+            <div className={`globe-wrap ${cardVisible ? 'dimmed' : ''}`} ref={containerRef}>
                 <Stars />
-                <Globe
-                    ref={globeRef}
-                    globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-                    bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-                    backgroundColor="rgba(0,0,0,0)"
-                    atmosphereColor="#1cbae5"
-                    atmosphereAltitude={0.15}
-                    htmlElementsData={activePlace ? [activePlace] : []}
-                    htmlLat="lat"
-                    htmlLng="lng"
-                    htmlElement={(d) => {
-                        const el = document.createElement("div");
-                        el.className = "map-pin";
-                        el.innerHTML = `
+                <Suspense fallback={<div className="globe-loader">Loading Globe...</div>}>
+                    <Globe
+                        ref={globeRef}
+                        onGlobeReady={handleGlobeReady}
+                        enableZoom={false}
+                        width={dimensions.width}
+                        height={dimensions.height}
+                        globeImageUrl="/assets/earth-blue-marble.jpg"
+                        bumpImageUrl="/assets/earth-topology.png"
+                        backgroundColor="rgba(0,0,0,0)"
+                        atmosphereColor="#1cbae5"
+                        atmosphereAltitude={0.15}
+                        htmlElementsData={activePlace ? [activePlace] : []}
+                        htmlLat="lat"
+                        htmlLng="lng"
+                        htmlElement={(d) => {
+                            const el = document.createElement("div");
+                            el.className = "map-pin";
+                            el.innerHTML = `
               <svg width="26" height="26" viewBox="0 0 24 24">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#e11d48"/>
                 <circle cx="12" cy="9" r="2.5" fill="#fff"/>
               </svg>
             `;
-                        return el;
-                    }}
-                />
+                            return el;
+                        }}
+                    />
+                </Suspense>
             </div>
+
+            {/* CONNECTION ARROW (Desktop Only usually) */}
+            {activePlace && cardVisible && window.innerWidth > 768 && (
+                <ConnectionArrow width={dimensions.width} height={dimensions.height} />
+            )}
 
             {/* OVERLAY CARD */}
             {activePlace && cardVisible && (

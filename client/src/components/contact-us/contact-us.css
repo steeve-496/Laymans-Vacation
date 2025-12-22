@@ -7,7 +7,7 @@
 
 .contact-section {
     position: relative;
-    padding: 100px 5% 200px;
+    padding: 50px 5% 100px;
     /* Extra bottom padding to prevent footer overlap */
     display: flex;
     justify-content: center;
@@ -178,13 +178,18 @@
 
 .contact-form-panel .form-row {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     flex-wrap: wrap;
 }
 
 .contact-form-panel .form-group.half {
     flex: 1;
     min-width: 160px;
+}
+
+.contact-form-panel .form-group.third {
+    flex: 1;
+    min-width: 130px;
 }
 
 .helper-text {
@@ -238,5 +243,10 @@
 
     .contact-form-panel {
         padding: clamp(20px, 3vw, 36px);
+    }
+
+    .contact-form-panel .form-row {
+        flex-direction: column;
+        gap: 15px;
     }
 }

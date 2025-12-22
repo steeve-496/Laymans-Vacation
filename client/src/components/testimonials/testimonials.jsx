@@ -65,7 +65,7 @@ const Testimonials = () => {
         // but simple CSS hover is smoother for this.
     }, { scope: containerRef });
     return (
-        <section className="testimonials-section" ref={containerRef}>
+        <section className="testimonials-section" ref={containerRef} id="testimonials">
             <div className="testimonials-header">
                 <span className="section-tag">Happy Travelers</span>
                 <h2 className="section-title">Stories from the Road</h2>

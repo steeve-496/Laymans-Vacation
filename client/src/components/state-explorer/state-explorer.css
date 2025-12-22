@@ -335,8 +335,8 @@ html {
 
     .dial-wrapper {
         top: auto;
-        bottom: -20vw;
-        /* Pull dial up slightly */
+        bottom: -10vw;
+        /* Pull dial up slightly for better access */
         right: 50%;
         transform: translateX(50%);
         width: calc(var(--dial-radius) * 2);
@@ -388,6 +388,14 @@ html {
 
     .country-item.active {
         color: var(--color-black);
+    }
+
+    /* Mobile Back Button */
+    .explorer-back-btn {
+        top: 20px;
+        left: 20px;
+        padding: 8px 20px;
+        background: rgba(255, 255, 255, 0.2);
     }
 }
 

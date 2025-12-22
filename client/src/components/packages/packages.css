@@ -706,6 +706,27 @@
         transform: rotate(0deg);
         /* Reset rotation if any */
     }
+
+    /* Contact Form Mobile Optimization */
+    .contact-form {
+        padding: 24px;
+        width: 92%;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .contact-form h3 {
+        font-size: 1.5rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
 }
 
 @media (max-width: 480px) {

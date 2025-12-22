@@ -134,3 +134,27 @@
         font-size: 1.1rem;
     }
 }
+
+@media (max-width: 768px) {
+    .who-we-are-section {
+        padding: 40px 20px;
+    }
+
+    .who-we-are-container {
+        gap: 30px;
+    }
+
+    .who-we-are-title {
+        font-size: 3rem;
+        /* Much smaller for mobile */
+    }
+
+    .who-we-are-content {
+        font-size: 1rem;
+    }
+
+    .who-we-are-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}

@@ -13,6 +13,8 @@ import { optimizeCloudinaryUrl, getResponsiveSrcSet } from "../../utils/imageOpt
 
 function Hero() {
   const heroRef = useRef(null);
+
+
   const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1765451325/background4k_ruaeim.webp";
 
   const handleExploreClick = () => {
@@ -127,7 +129,7 @@ function Hero() {
   };
 
   return (
-    <section className="hero_section" ref={heroRef}>
+    <section className="hero_section" ref={heroRef} id="hero">
       <div className="bg_image">
         <img
           src={optimizeCloudinaryUrl(bgImageUrl, 1920)}

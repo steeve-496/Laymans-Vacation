@@ -83,8 +83,8 @@ function Header() {
         ScrollTrigger.create({
           trigger: "body",
           start: "100 top", // Start after scrolling 100px
-          onEnter: () => gsap.to(".nav", { y: "-100%", duration: 0.3, ease: "power2.inOut" }), // Hide
-          onLeaveBack: () => gsap.to(".nav", { y: 0, duration: 0.3, ease: "power2.inOut" }), // Show
+          onEnter: () => gsap.to(".nav", { y: "-100%", duration: 0.3, ease: "power2.inOut", zIndex: "0" }), // Hide
+          onLeaveBack: () => gsap.to(".nav", { y: 0, duration: 0.3, ease: "power2.inOut", zIndex: "var(--z-sticky)" }), // Show
         });
       }
     });

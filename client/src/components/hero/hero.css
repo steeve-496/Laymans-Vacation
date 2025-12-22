@@ -111,18 +111,13 @@ body {
   }
 
   .bg_image {
-    /* top: 60%; Removed */
     width: 100%;
-    /* overflow: hidden; Removed to allow image to scale over text */
-    /* Keep overflow hidden to prevent scroll */
   }
 
   .bg_image img {
     width: 100%;
-    /* max-width: 400px;  Reverted to allow full width scaling */
     height: auto;
     transform: scale(1.2);
-    /* Slight scale up to ensure coverage if needed */
   }
 }
 
@@ -133,7 +128,6 @@ body {
 
   .hero_title {
     font-size: 3rem;
-    /* Smaller title on very small screens */
   }
 
   .hero_btn {
@@ -142,11 +136,7 @@ body {
     font-size: 1rem;
   }
 
-
-
   .bg_image img {
     width: 100%;
-    /* Full width */
-    /* max-width: 350px; Reverted */
   }
 }

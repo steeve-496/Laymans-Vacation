@@ -69,7 +69,7 @@ export default function Video() {
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571863/kazaksthan_jaj7ej.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571838/veitnam_pq4qqf.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571876/malaysia_bf3wum.mp4",
-    "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.mp4",
+    "https://res.cloudinary.com/divwmzd8g/video/upload/v1765169303/kerala_ncc2jr.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571867/singapore_v98wpc.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571888/srilanka_nmvfom.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571914/thailand_avuka1.mp4",

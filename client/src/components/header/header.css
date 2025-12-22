@@ -178,6 +178,7 @@
 @media (max-width: 768px) {
   .nav_list {
     display: none;
+    margin-top: 50px;
   }
 
   .logo img {
@@ -187,5 +188,15 @@
 
   .hamburger-wrapper {
     display: block;
+    margin-right: 50px;
+  }
+
+  .kinetic-links {
+    top: 50px;
+    position: absolute;
+    z-index: var(--z-max);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }

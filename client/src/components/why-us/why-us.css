@@ -133,3 +133,28 @@
         padding: 60px 5%;
     }
 }
+
+@media (max-width: 768px) {
+    .why-us-title {
+        font-size: 2.5rem;
+    }
+
+    .why-us-header,
+    .why-us-details {
+        padding: 20px;
+    }
+
+    .why-us-section {
+        padding: 40px 5%;
+        /* Even closer on mobile */
+    }
+
+    .why-us-visual {
+        min-height: 250px;
+        border-radius: 20px;
+    }
+
+    .feature-item-title {
+        font-size: 1.25rem;
+    }
+}
