@@ -85,9 +85,9 @@ export default function Footer() {
                         <div className="footer-col">
                             <h3>Follow Us</h3>
                             <div className="social-links">
-                                <a href="#" className="social-icon" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                                <a href="#" className="social-icon" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                                <a href="#" className="social-icon" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/company/the-laymans-vacation" target="_blank" className="social-icon" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/laymansvacation/" target="_blank" className="social-icon" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/p/The-LayMans-Vacation-100093117952320/" target="_blank" className="social-icon" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
                             </div>
                         </div>
                     </div>
