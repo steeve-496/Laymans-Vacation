@@ -1,0 +1,9 @@
+.error-boundary-container {
+    padding: 20px;
+    color: red;
+    background: #fff;
+}
+
+.error-boundary-details {
+    white-space: pre-wrap;
+}

@@ -1,4 +1,4 @@
-.testimonials-section {
+.testi-section {
     position: relative;
     padding: 100px 5vw;
     background-color: #f5f5f5;
@@ -6,12 +6,12 @@
     overflow: hidden;
 }
 
-.testimonials-header {
+.testi-header {
     text-align: center;
     margin-bottom: 80px;
 }
 
-.section-tag {
+.testi-tag {
     display: inline-block;
     padding: 8px 16px;
     background: transparent;
@@ -24,7 +24,7 @@
     color: var(--color-text-secondary);
 }
 
-.section-title {
+.testi-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     color: var(--color-black);
     margin: 0 0 20px;
@@ -32,7 +32,7 @@
     line-height: 1.1;
 }
 
-.section-subtitle {
+.testi-subtitle {
     font-size: 1.1rem;
     color: var(--color-text-secondary);
     max-width: 600px;
@@ -40,7 +40,7 @@
 }
 
 /* GRID LAYOUT */
-.postcards-grid {
+.testi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
@@ -50,31 +50,31 @@
 }
 
 /* POSTCARD STYLE */
-.postcard-wrapper {
+.testi-postcard-wrapper {
     perspective: 1000px;
     transition: transform 0.3s ease;
 }
 
 /* Random rotations for "Scattered" look */
-.postcard-wrapper:nth-child(odd) {
+.testi-postcard-wrapper:nth-child(odd) {
     transform: rotate(-2deg);
 }
 
-.postcard-wrapper:nth-child(even) {
+.testi-postcard-wrapper:nth-child(even) {
     transform: rotate(2deg);
 }
 
-.postcard-wrapper:nth-child(3n) {
+.testi-postcard-wrapper:nth-child(3n) {
     transform: rotate(1deg) translateY(20px);
 }
 
 /* Hover: Straighten up */
-.postcard-wrapper:hover {
+.testi-postcard-wrapper:hover {
     transform: rotate(0deg) scale(1.05) translateY(-10px);
     z-index: 10;
 }
 
-.postcard {
+.testi-postcard {
     background: #fff;
     padding: 30px;
     border-radius: 2px;
@@ -90,12 +90,12 @@
     transition: box-shadow 0.3s ease;
 }
 
-.postcard-wrapper:hover .postcard {
+.testi-postcard-wrapper:hover .testi-postcard {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
 }
 
 /* STAMP MARK */
-.stamp-mark {
+.testi-stamp-mark {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -109,7 +109,7 @@
     /* Perforated edge look */
 }
 
-.stamp-img {
+.testi-stamp-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -117,7 +117,7 @@
 }
 
 /* CONTENT */
-.quote-icon {
+.testi-quote-icon {
     font-size: 4rem;
     color: #e0e0e0;
     font-family: serif;
@@ -125,7 +125,7 @@
     margin-bottom: 10px;
 }
 
-.review-text {
+.testi-review-text {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #444;
@@ -137,7 +137,7 @@
 }
 
 /* USER PROFILE */
-.user-profile {
+.testi-user-profile {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -146,7 +146,7 @@
     padding-top: 20px;
 }
 
-.user-avatar {
+.testi-user-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -155,26 +155,26 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.user-info {
+.testi-user-info {
     display: flex;
     flex-direction: column;
 }
 
-.user-name {
+.testi-user-name {
     font-size: 1rem;
     font-weight: 700;
     color: var(--color-black);
     margin: 0;
 }
 
-.user-location {
+.testi-user-location {
     font-size: 0.8rem;
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.stars {
+.testi-stars {
     color: #FFD700;
     font-size: 0.9rem;
     margin-top: 2px;
@@ -182,24 +182,24 @@
 
 /* MOBILE */
 @media (max-width: 768px) {
-    .testimonials-section {
+    .testi-section {
         padding: 60px 5vw;
     }
 
-    .postcards-grid {
+    .testi-grid {
         grid-template-columns: 1fr;
         padding: 0;
         gap: 20px;
     }
 
-    .postcard-wrapper:nth-child(n) {
+    .testi-postcard-wrapper:nth-child(n) {
         transform: none;
         /* Remove rotation on mobile for cleaner stack */
         margin-bottom: 0;
         /* Grid gap handles spacing */
     }
 
-    .section-title {
+    .testi-title {
         font-size: 2.5rem;
     }
 }

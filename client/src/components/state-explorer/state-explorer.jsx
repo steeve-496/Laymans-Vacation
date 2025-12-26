@@ -6,62 +6,62 @@ import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
 
-import { optimizeCloudinaryUrl, optimizeUnsplashUrl } from "../../utils/imageOptimizer";
+import { getOptimizedUrl } from "../../utils/imageOptimizer";
 
 const countryData = {
     "Azerbaijan": [
-        { name: "Baku", description: "The City of Winds", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655272/Azerbaijan_zx809y.png" },
+        { name: "Baku", description: "The City of Winds", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Azerbaijan.webp" },
         { name: "Gabala", description: "Nature's Paradise", image: "https://images.unsplash.com/photo-1674585724516-7f41b5900e5a?q=80&w=1000&auto=format&fit=crop" },
         { name: "Sheki", description: "Ancient Silk Road", image: "https://images.unsplash.com/photo-1669286629955-4424e8633753?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Bali": [
-        { name: "Ubud", description: "Cultural Heart", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655250/Bali_nycaoz.jpg" },
+        { name: "Ubud", description: "Cultural Heart", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bali.webp" },
         { name: "Kuta", description: "Sunset & Surf", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000&auto=format&fit=crop" },
         { name: "Nusa Penida", description: "Island Escape", image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Bhutan": [
-        { name: "Thimphu", description: "Capital City", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655259/Bhutan_bvh2xs.png" },
+        { name: "Thimphu", description: "Capital City", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bhutan.webp" },
         { name: "Paro", description: "Tiger's Nest", image: "https://images.unsplash.com/photo-1578565678174-2c6b4f738069?q=80&w=1000&auto=format&fit=crop" },
         { name: "Punakha", description: "Winter Capital", image: "https://images.unsplash.com/photo-1620126442435-095562744955?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Dubai": [
-        { name: "Burj Khalifa", description: "Touch the Sky", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655250/Dubai_zpadzs.jpg" },
+        { name: "Burj Khalifa", description: "Touch the Sky", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp" },
         { name: "Palm Jumeirah", description: "Island Wonder", image: "https://images.unsplash.com/photo-1512453979798-5ea904ac66de?q=80&w=1000&auto=format&fit=crop" },
         { name: "Desert Safari", description: "Golden Dunes", image: "https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Kerala": [
-        { name: "Alleppey", description: "Venice of the East", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
+        { name: "Alleppey", description: "Venice of the East", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp" },
         { name: "Munnar", description: "Tea Gardens", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1000&auto=format&fit=crop" },
         { name: "Wayanad", description: "Green Paradise", image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?q=80&w=1000&auto=format&fit=crop" },
-        { name: "Varkala", description: "Cliffside Beaches", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+        { name: "Varkala", description: "Cliffside Beaches", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp" },
     ],
     "Munnar": [
-        { name: "Tea Trail Escape", description: "Perfect short break with tea gardens, waterfalls and local sightseeing.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
-        { name: "Hills & Wildlife", description: "Includes Eravikulam National Park, Mattupetty Dam and sunset points.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
-        { name: "Premium Munnar Stay", description: "Resort stay + private cab + curated cafe and viewpoint visits.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png" },
+        { name: "Tea Trail Escape", description: "Perfect short break with tea gardens, waterfalls and local sightseeing.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp" },
+        { name: "Hills & Wildlife", description: "Includes Eravikulam National Park, Mattupetty Dam and sunset points.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp" },
+        { name: "Premium Munnar Stay", description: "Resort stay + private cab + curated cafe and viewpoint visits.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp" },
     ],
     "Wayanad": [
-        { name: "Wayanad Nature Break", description: "Caves, dams and forest viewpoints with relaxed pacing.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
-        { name: "Adventure & Trek", description: "Trek options + waterfalls + spice plantation visit.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
-        { name: "Luxury Wayanad Retreat", description: "Premium stay with guided sightseeing and scenic drives.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png" },
+        { name: "Wayanad Nature Break", description: "Caves, dams and forest viewpoints with relaxed pacing.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp" },
+        { name: "Adventure & Trek", description: "Trek options + waterfalls + spice plantation visit.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp" },
+        { name: "Luxury Wayanad Retreat", description: "Premium stay with guided sightseeing and scenic drives.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp" },
     ],
     "Varkala": [
-        { name: "Cliff & Cafe Getaway", description: "Beach time, cliff walk, cafes and sunset viewpoints.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
-        { name: "Varkala + Backwaters", description: "Combine cliff beaches with a nearby backwater experience.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
-        { name: "Wellness & Relax", description: "Yoga/ayurveda-inspired plan with flexible beach days.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png" },
+        { name: "Cliff & Cafe Getaway", description: "Beach time, cliff walk, cafes and sunset viewpoints.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp" },
+        { name: "Varkala + Backwaters", description: "Combine cliff beaches with a nearby backwater experience.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp" },
+        { name: "Wellness & Relax", description: "Yoga/ayurveda-inspired plan with flexible beach days.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp" },
     ],
     "Alleppey": [
-        { name: "Houseboat Classic", description: "Overnight houseboat stay with meals and sunset cruise.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-        { name: "Alleppey Backwater Bliss", description: "Houseboat + village canoe ride + beach relaxation.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
-        { name: "Premium Backwater Experience", description: "Premium boat/cottage options with curated local experiences.", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png" },
+        { name: "Houseboat Classic", description: "Overnight houseboat stay with meals and sunset cruise.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp" },
+        { name: "Alleppey Backwater Bliss", description: "Houseboat + village canoe ride + beach relaxation.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp" },
+        { name: "Premium Backwater Experience", description: "Premium boat/cottage options with curated local experiences.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp" },
     ],
     "Kazakhstan": [
-        { name: "Almaty", description: "City of Apples", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655271/Kazakhstan_zdwuir.png" },
+        { name: "Almaty", description: "City of Apples", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Kazakhstan.webp" },
         { name: "Astana", description: "Modern Marvel", image: "https://images.unsplash.com/photo-1558588942-930faae5a389?q=80&w=1000&auto=format&fit=crop" },
         { name: "Charyn Canyon", description: "Valley of Castles", image: "https://images.unsplash.com/photo-1566315267438-76677f374750?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Malaysia": [
-        { name: "Kuala Lumpur", description: "Twin Towers", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655260/Malaysia_f61tdf.png" },
+        { name: "Kuala Lumpur", description: "Twin Towers", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Malaysia.webp" },
         { name: "Langkawi", description: "Jewel of Kedah", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1000&auto=format&fit=crop" },
         { name: "Penang", description: "Pearl of Orient", image: "https://images.unsplash.com/photo-1590052955742-894d69352e29?q=80&w=1000&auto=format&fit=crop" },
     ],
@@ -71,7 +71,7 @@ const countryData = {
         { name: "Gardens by Bay", description: "Supertrees", image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=1000&auto=format&fit=crop" },
     ],
     "Sri Lanka": [
-        { name: "Colombo", description: "Ocean City", image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655257/Sri_Lanka_uux3sy.png" },
+        { name: "Colombo", description: "Ocean City", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Sri%20Lanka.webp" },
         { name: "Kandy", description: "Hill Capital", image: "https://images.unsplash.com/photo-1588242466440-272d1633d7b1?q=80&w=1000&auto=format&fit=crop" },
         { name: "Ella", description: "Mountain Views", image: "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?q=80&w=1000&auto=format&fit=crop" },
     ],
@@ -148,7 +148,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         // Helper to keep labels horizontal
         const updateLabelRotation = () => {
             const currentRotation = gsap.getProperty(dial, "rotation");
-            gsap.set(".dot-label", { rotation: -currentRotation });
+            gsap.set(".st-exp-dot-label", { rotation: -currentRotation });
         };
 
         // Rotate Dial to Center Selected State
@@ -232,30 +232,26 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
 
     return (
         <section
-            className={`state-explorer-section${isEntering ? " state-explorer--enter" : ""}`}
+            className={`st-exp-section${isEntering ? " st-exp-enter" : ""}`}
             ref={containerRef}
         >
-            <div className="explorer-container">
+            <div className="st-exp-container">
                 {/* Area 1: State Display */}
-                <div className="state-display">
-                    <div className="display-content" key={`${selectedCountry}-${selectedStateIndex}`}>
+                <div className="st-exp-display">
+                    <div className="st-exp-display-content" key={`${selectedCountry}-${selectedStateIndex}`}>
                         {currentState && (
                             <>
                                 <img
-                                    src={
-                                        currentState.image.includes("cloudinary")
-                                            ? optimizeCloudinaryUrl(currentState.image, 800)
-                                            : optimizeUnsplashUrl(currentState.image, 800)
-                                    }
+                                    src={getOptimizedUrl(currentState.image, 800)}
                                     alt={currentState.name}
-                                    className="state-image"
+                                    className="st-exp-image"
                                     loading="lazy"
                                 />
-                                <div className="state-info">
+                                <div className="st-exp-info">
                                     <h3>{currentState.name}</h3>
                                     <p>{currentState.description}</p>
                                     <button
-                                        className="explore--btn"
+                                        className="st-exp-btn"
                                         onClick={() => onExplore && onExplore(selectedCountry)}
                                     >
                                         Click to Explore
@@ -267,35 +263,35 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 </div>
 
                 {/* Area 2 & 3: Dial and Country Selector */}
-                <div className="controls-container">
+                <div className="st-exp-controls-container">
                     {/* Rotating Dial Wrapper */}
-                    <div className="dial-wrapper">
-                        <div className="dial" ref={dialRef}>
+                    <div className="st-exp-dial-wrapper">
+                        <div className="st-exp-dial" ref={dialRef}>
                             {states.map((state, index) => {
                                 const angle = 155 + (index * 35); // Updated spacing
                                 return (
                                     <div
                                         key={index}
-                                        className={`dial-dot ${index === selectedStateIndex ? "active" : ""}`}
+                                        className={`st-exp-dial-dot ${index === selectedStateIndex ? "st-exp-active" : ""}`}
                                         style={{
                                             transform: `rotate(${angle}deg) translate(var(--dial-radius)) rotate(-${angle}deg)`
                                         }}
                                         onClick={() => setSelectedStateIndex(index)}
                                     >
-                                        <span className="dot-label">{state.name}</span>
+                                        <span className="st-exp-dot-label">{state.name}</span>
                                     </div>
                                 );
                             })}
                         </div>
 
                         {/* Country Selector (Area 3) - Inside the Dial */}
-                        <div className="country-selector">
-                            <div className="selector-mask">
-                                <div className="selector-content" ref={countryListRef}>
+                        <div className="st-exp-country-selector">
+                            <div className="st-exp-selector-mask">
+                                <div className="st-exp-selector-content" ref={countryListRef}>
                                     {Object.keys(countryData).map((country) => (
                                         <div
                                             key={country}
-                                            className={`country-item ${selectedCountry === country ? "active" : ""}`}
+                                            className={`st-exp-country-item ${selectedCountry === country ? "st-exp-active" : ""}`}
                                             onClick={() => {
                                                 onCountryChange && onCountryChange(country);
                                                 setSelectedStateIndex(0);

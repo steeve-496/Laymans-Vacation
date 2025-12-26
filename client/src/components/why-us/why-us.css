@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
 @import url("https://api.fontshare.com/v2/css?f[]=bebas-neue@400&display=swap");
 
-.why-us-section {
+.wu-section {
     padding: clamp(40px, 8vh, 100px) 5%;
     background-color: #fff;
     position: relative;
@@ -13,7 +13,7 @@
     min-height: 100vh;
 }
 
-.why-us-grid {
+.wu-grid {
     width: 100%;
     max-width: 90vw;
     /* Fluid max-width */
@@ -24,7 +24,7 @@
 }
 
 
-.why-us-visual {
+.wu-visual {
     border-radius: clamp(20px, 4vw, 40px);
     position: relative;
     min-height: clamp(300px, 50vh, 700px);
@@ -34,7 +34,7 @@
     height: 100%;
 }
 
-.why-us-visual-img {
+.wu-visual-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -43,7 +43,7 @@
     left: 0;
 }
 
-.visual-overlays {
+.wu-visual-overlays {
     position: absolute;
     top: 0;
     left: 0;
@@ -53,12 +53,12 @@
 }
 
 /* Right Column - Info */
-.why-us-info {
+.wu-info {
     display: flex;
     flex-direction: column;
 }
 
-.why-us-header {
+.wu-header {
     border-radius: 30px;
     padding: 40px;
     display: flex;
@@ -67,7 +67,7 @@
     text-align: center;
 }
 
-.why-us-title {
+.wu-title {
     font-family: 'Bebas Neue', sans-serif;
     font-weight: 700;
     font-size: clamp(4rem, 5vw, 6rem);
@@ -77,7 +77,7 @@
     line-height: 1.2;
 }
 
-.why-us-details {
+.wu-details {
     border-radius: 30px;
     padding: 50px;
     flex-grow: 1;
@@ -87,31 +87,31 @@
     justify-content: center;
 }
 
-.why-us-features-list {
+.wu-features-list {
     display: flex;
     flex-direction: column;
     gap: 30px;
     width: 100%;
 }
 
-.feature-item {
+.wu-feature-item {
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
 }
 
-.feature-item:last-child {
+.wu-feature-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
-.feature-item-title {
+.wu-feature-item-title {
     font-size: 1.5rem;
     color: #1a5b78;
     margin-bottom: 5px;
     font-family: "Fjalla One", sans-serif;
 }
 
-.feature-item-desc {
+.wu-feature-item-desc {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     color: #666;
@@ -120,41 +120,41 @@
 }
 
 @media (max-width: 968px) {
-    .why-us-grid {
+    .wu-grid {
         grid-template-columns: 1fr;
     }
 
-    .why-us-visual {
+    .wu-visual {
         min-height: 300px;
         order: -1;
     }
 
-    .why-us-section {
+    .wu-section {
         padding: 60px 5%;
     }
 }
 
 @media (max-width: 768px) {
-    .why-us-title {
+    .wu-title {
         font-size: 2.5rem;
     }
 
-    .why-us-header,
-    .why-us-details {
+    .wu-header,
+    .wu-details {
         padding: 20px;
     }
 
-    .why-us-section {
+    .wu-section {
         padding: 40px 5%;
         /* Even closer on mobile */
     }
 
-    .why-us-visual {
+    .wu-visual {
         min-height: 250px;
         border-radius: 20px;
     }
 
-    .feature-item-title {
+    .wu-feature-item-title {
         font-size: 1.25rem;
     }
 }

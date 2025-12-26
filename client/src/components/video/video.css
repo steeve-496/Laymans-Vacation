@@ -13,7 +13,7 @@ body {
   margin-top: 50vh;
 }
 
-.videos {
+.video-grid {
   display: flex;
   gap: 12px;
   background-color: black;
@@ -29,19 +29,19 @@ body {
   justify-content: center;
 }
 
-.column {
+.video-column {
   flex: 1;
   height: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.column:nth-child(2) {
+.video-column:nth-child(2) {
   overflow: visible;
   z-index: 10;
 }
 
-.cards {
+.video-cards {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -49,16 +49,16 @@ body {
   animation: scrollUp 20s linear infinite;
 }
 
-.column.reverse .cards {
+.video-column.video-reverse .video-cards {
   animation: scrollDown 20s linear infinite;
 }
 
-.column:nth-child(2) .cards {
+.video-column:nth-child(2) .video-cards {
   animation: none !important;
   transform: translateY(-12%);
 }
 
-.card {
+.video-card {
   width: 100%;
   height: 33vh;
   border-radius: 18px;
@@ -67,9 +67,9 @@ body {
   position: relative;
 }
 
-.card video,
-.card .video-placeholder,
-.card .video-placeholder video {
+.video-card video,
+.video-card .video-placeholder,
+.video-card .video-placeholder video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -106,35 +106,35 @@ body {
     padding-bottom: 20px;
   }
 
-  .column:first-child,
-  .column:last-child {
+  .video-column:first-child,
+  .video-column:last-child {
     display: none;
   }
 
-  .column:nth-child(2) {
+  .video-column:nth-child(2) {
     width: 100%;
     flex: none;
     overflow: visible;
   }
 
-  .videos {
+  .video-grid {
     padding: 10px;
     position: relative;
     height: auto;
     overflow: visible;
   }
 
-  .cards {
+  .video-cards {
     /* animation: none; Re-enable animation */
     gap: 12px;
   }
 
-  .column:nth-child(2) .cards {
+  .video-column:nth-child(2) .video-cards {
     transform: translateY(-12%);
     /* animation: none !important; Re-enable animation */
   }
 
-  .card {
+  .video-card {
     height: 30vh;
     /* Reduce height slightly for better flow */
   }

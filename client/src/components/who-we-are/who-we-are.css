@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Fjalla+One&family=Inter:wght@300;400;500&display=swap");
 @import url("https://api.fontshare.com/v2/css?f[]=rajdhani@500,600,700&display=swap");
 
-.who-we-are-section {
+.wwa-section {
     position: relative;
     width: 100%;
     min-height: auto;
@@ -18,7 +18,7 @@
     z-index: 10;
 }
 
-.who-we-are-container {
+.wwa-container {
     width: 100%;
     max-width: clamp(800px, 90vw, 1400px);
     display: flex;
@@ -27,19 +27,19 @@
 }
 
 /* Title Styling */
-.who-we-are-title-container {
+.wwa-title-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.title-line {
+.wwa-title-line {
     overflow: hidden;
     /* Mask for reveal animation */
     display: block;
 }
 
-.who-we-are-title {
+.wwa-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(5rem, 8vw, 8rem);
     color: #333;
@@ -55,14 +55,14 @@
 }
 
 /* Content Styling */
-.who-we-are-content-wrapper {
+.wwa-content-wrapper {
     display: flex;
     flex-direction: column;
     gap: 40px;
     max-width: 800px;
 }
 
-.who-we-are-content {
+.wwa-content {
     font-family: 'Inter', sans-serif;
     font-size: clamp(1.2rem, 2vw, 1.5rem);
     line-height: 1.6;
@@ -71,19 +71,19 @@
     font-weight: 300;
 }
 
-.who-we-are-content p {
+.wwa-content p {
     margin-bottom: 2rem;
     opacity: 0;
     /* Initial state for animation */
     transform: translateY(20px);
 }
 
-.highlight-text {
+.wwa-highlight-text {
     color: #000;
     font-weight: 500;
 }
 
-.who-we-are-btn {
+.wwa-btn {
     padding: 15px 40px;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(5px);
@@ -102,13 +102,13 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.who-we-are-btn:hover {
+.wwa-btn:hover {
     background: white;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.scroll-top-btn {
+.wwa-scroll-top-btn {
     width: 40px;
     height: 40px;
     background: #333;
@@ -126,34 +126,34 @@
 }
 
 @media (max-width: 968px) {
-    .who-we-are-section {
+    .wwa-section {
         padding: 60px 20px;
     }
 
-    .who-we-are-content {
+    .wwa-content {
         font-size: 1.1rem;
     }
 }
 
 @media (max-width: 768px) {
-    .who-we-are-section {
+    .wwa-section {
         padding: 40px 20px;
     }
 
-    .who-we-are-container {
+    .wwa-container {
         gap: 30px;
     }
 
-    .who-we-are-title {
+    .wwa-title {
         font-size: 3rem;
         /* Much smaller for mobile */
     }
 
-    .who-we-are-content {
+    .wwa-content {
         font-size: 1rem;
     }
 
-    .who-we-are-btn {
+    .wwa-btn {
         padding: 12px 24px;
         font-size: 1rem;
     }

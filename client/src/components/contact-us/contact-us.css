@@ -5,7 +5,7 @@
     src: url("https://res.cloudinary.com/divwmzd8g/raw/upload/v1765447881/Varien_uzkzrl.otf");
 }
 
-.contact-section {
+.cu-section {
     position: relative;
     padding: 50px 5% 100px;
     /* Extra bottom padding to prevent footer overlap */
@@ -22,7 +22,7 @@
 }
 
 /* Glass Card Container */
-.contact-container {
+.cu-container {
     width: 100%;
     max-width: 1100px;
     background: rgba(255, 255, 255, 0.7);
@@ -39,7 +39,7 @@
 }
 
 /* Decorative Circle */
-.contact-decor {
+.cu-decor {
     position: absolute;
     width: 250px;
     height: 250px;
@@ -53,7 +53,7 @@
 }
 
 /* Left Side - Info */
-.contact-info-panel {
+.cu-info-panel {
     background: #1a5b78;
     /* Primary Brand Color */
     padding: clamp(28px, 4vw, 45px);
@@ -66,7 +66,7 @@
 }
 
 /* Pattern Overlay for Info Panel */
-.contact-info-panel::before {
+.cu-info-panel::before {
     content: '';
     position: absolute;
     top: 0;
@@ -77,12 +77,12 @@
     opacity: 1;
 }
 
-.contact-header {
+.cu-header {
     position: relative;
     z-index: 2;
 }
 
-.contact-title {
+.cu-title {
     font-family: "varien", serif;
     font-size: clamp(1.9rem, 3vw, 2.2rem);
     margin: 0 0 20px 0;
@@ -90,7 +90,7 @@
     line-height: 1.1;
 }
 
-.contact-text {
+.cu-text {
     font-family: 'Inter', sans-serif;
     font-size: clamp(0.95rem, 1.2vw, 1rem);
     font-weight: 300;
@@ -98,7 +98,7 @@
     margin-bottom: 30px;
 }
 
-.contact-details {
+.cu-details {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -106,13 +106,13 @@
     z-index: 2;
 }
 
-.detail-item {
+.cu-detail-item {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.detail-icon {
+.cu-detail-icon {
     width: 36px;
     height: 36px;
     background: rgba(255, 255, 255, 0.1);
@@ -123,25 +123,25 @@
     font-size: 1.1rem;
 }
 
-.detail-text {
+.cu-detail-text {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 400;
 }
 
 /* Right Side - Form */
-.contact-form-panel {
+.cu-form-panel {
     padding: clamp(24px, 3.5vw, 40px);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.contact-form-panel .form-group {
+.cu-form-panel .cu-form-group {
     margin-bottom: 18px;
 }
 
-.contact-form-panel .form-label {
+.cu-form-panel .cu-form-label {
     display: block;
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
@@ -150,8 +150,8 @@
     font-weight: 500;
 }
 
-.contact-form-panel .form-input,
-.contact-form-panel .form-textarea {
+.cu-form-panel .cu-form-input,
+.cu-form-panel .cu-form-textarea {
     width: 100%;
     padding: 12px;
     background: #f9f9f9;
@@ -163,36 +163,36 @@
     transition: all 0.3s ease;
 }
 
-.contact-form-panel .form-input:focus,
-.contact-form-panel .form-textarea:focus {
+.cu-form-panel .cu-form-input:focus,
+.cu-form-panel .cu-form-textarea:focus {
     outline: none;
     background: #fff;
     border-color: #1a5b78;
     box-shadow: 0 0 0 4px rgba(26, 91, 120, 0.1);
 }
 
-.contact-form-panel .form-textarea {
+.cu-form-panel .cu-form-textarea {
     min-height: 120px;
     resize: vertical;
 }
 
-.contact-form-panel .form-row {
+.cu-form-panel .cu-form-row {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
 }
 
-.contact-form-panel .form-group.half {
+.cu-form-panel .cu-form-group.half {
     flex: 1;
     min-width: 160px;
 }
 
-.contact-form-panel .form-group.third {
+.cu-form-panel .cu-form-group.third {
     flex: 1;
     min-width: 130px;
 }
 
-.helper-text {
+.cu-helper-text {
     font-size: 0.75rem;
     color: #888;
     margin-top: 4px;
@@ -200,7 +200,7 @@
     font-style: italic;
 }
 
-.contact-submit-btn {
+.cu-submit-btn {
     all: unset;
     cursor: pointer;
     display: flex;
@@ -224,7 +224,7 @@
     color: #333;
 }
 
-.contact-submit-btn:hover {
+.cu-submit-btn:hover {
     background: white;
     border-color: black;
     color: black;
@@ -233,19 +233,19 @@
 }
 
 @media (max-width: 768px) {
-    .contact-container {
+    .cu-container {
         grid-template-columns: 1fr;
     }
 
-    .contact-info-panel {
+    .cu-info-panel {
         padding: clamp(24px, 3.5vw, 40px);
     }
 
-    .contact-form-panel {
+    .cu-form-panel {
         padding: clamp(20px, 3vw, 36px);
     }
 
-    .contact-form-panel .form-row {
+    .cu-form-panel .cu-form-row {
         flex-direction: column;
         gap: 15px;
     }

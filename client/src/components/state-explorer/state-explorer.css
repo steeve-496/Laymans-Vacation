@@ -2,7 +2,7 @@ html {
     overflow-x: hidden;
 }
 
-.state-explorer-section {
+.st-exp-section {
     --dial-radius: max(200px, 35vh);
     --reveal-y: 50vh;
     --reveal-x: 50vw;
@@ -19,7 +19,7 @@ html {
     position: relative;
 }
 
-.state-explorer-section.state-explorer--reveal {
+.st-exp-section.st-exp-reveal {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,12 +33,12 @@ html {
     pointer-events: none;
 }
 
-.state-explorer-section.state-explorer--reveal.state-explorer--reveal-expanded {
+.st-exp-section.st-exp-reveal.st-exp-reveal-expanded {
     clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
     -webkit-clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
 }
 
-.state-explorer-section.state-explorer--enter .explorer-container {
+.st-exp-section.st-exp-enter .st-exp-container {
     animation: stateExplorerFadeIn 0.65s ease both;
 }
 
@@ -54,7 +54,7 @@ html {
     }
 }
 
-.explorer-container {
+.st-exp-container {
     display: flex;
     width: 100%;
     max-width: 90vw;
@@ -67,7 +67,7 @@ html {
     padding: 0;
 }
 
-.state-display {
+.st-exp-display {
     width: 50%;
     padding: clamp(20px, 4vw, 40px);
     display: flex;
@@ -76,7 +76,7 @@ html {
     z-index: 2;
 }
 
-.display-content {
+.st-exp-display-content {
     width: 100%;
     height: 100%;
     background: #1a1a1a;
@@ -86,13 +86,13 @@ html {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.state-image {
+.st-exp-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.state-info {
+.st-exp-info {
     position: absolute;
     bottom: clamp(20px, 4vw, 40px);
     left: clamp(20px, 4vw, 40px);
@@ -101,20 +101,20 @@ html {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.state-info h3 {
+.st-exp-info h3 {
     font-size: clamp(2rem, 5vw, 4rem);
     /* Fluid font size */
     margin: 0;
     text-transform: uppercase;
 }
 
-.state-info p {
+.st-exp-info p {
     font-size: clamp(1rem, 1.5vw, 1.5rem);
     /* Fluid font size */
     margin: 10px 0 0;
 }
 
-.explore--btn {
+.st-exp-btn {
     margin-top: 20px;
     padding: 12px 30px;
     background: transparent;
@@ -128,14 +128,14 @@ html {
     transition: all 0.3s ease;
 }
 
-.explore--btn:hover {
+.st-exp-btn:hover {
     background: var(--color-white);
     color: black;
     transform: translateY(-3px);
 }
 
 /* Area 2 & 3: Controls */
-.controls-container {
+.st-exp-controls-container {
     position: absolute;
     top: 0;
     right: 0;
@@ -145,7 +145,7 @@ html {
 }
 
 /* Rotating Dial Wrapper */
-.dial-wrapper {
+.st-exp-dial-wrapper {
     position: absolute;
     top: 50%;
     right: 0;
@@ -160,7 +160,7 @@ html {
     justify-content: center;
 }
 
-.dial {
+.st-exp-dial {
     width: 100%;
     height: 100%;
     border: 1px solid #333;
@@ -168,7 +168,7 @@ html {
     position: relative;
 }
 
-.dial-dot {
+.st-exp-dial-dot {
     position: absolute;
     width: clamp(20px, 3vh, 30px);
     height: clamp(20px, 3vh, 30px);
@@ -182,14 +182,14 @@ html {
     left: 50%;
 }
 
-.dial-dot.active {
+.st-exp-dial-dot.st-exp-active {
     transform: scale(1.5);
     background-color: var(--color-black);
     border: 3px solid var(--color-white);
     box-shadow: 0 0 0 1px var(--color-black);
 }
 
-.dot-label {
+.st-exp-dot-label {
     position: absolute;
     left: -115px;
     /* Moved left to create gap (outside circle) */
@@ -204,14 +204,14 @@ html {
     width: 100px;
 }
 
-.dial-dot:hover .dot-label,
-.dial-dot.active .dot-label {
+.st-exp-dial-dot:hover .st-exp-dot-label,
+.st-exp-dial-dot.st-exp-active .st-exp-dot-label {
     opacity: 1;
     font-weight: bold;
 }
 
 /* Area 3: Country Selector (White Semi-Circle) */
-.country-selector {
+.st-exp-country-selector {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -229,14 +229,14 @@ html {
     overflow: hidden;
 }
 
-.selector-mask {
+.st-exp-selector-mask {
     width: 100%;
     height: 80%;
     overflow: hidden;
     position: relative;
 }
 
-.selector-content {
+.st-exp-selector-content {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -246,11 +246,11 @@ html {
     cursor: grab;
 }
 
-.selector-content:active {
+.st-exp-selector-content:active {
     cursor: grabbing;
 }
 
-.country-item {
+.st-exp-country-item {
     height: 50px;
     display: flex;
     align-items: center;
@@ -262,14 +262,14 @@ html {
     cursor: pointer;
 }
 
-.country-item.active {
+.st-exp-country-item.st-exp-active {
     font-size: 2.5rem;
     color: var(--color-black);
 }
 
 /* Mobile Layout */
 @media (max-width: 768px) {
-    .state-explorer-section {
+    .st-exp-section {
         --dial-radius: 40vw;
         /* Override radius for mobile width */
         height: 100vh;
@@ -284,14 +284,14 @@ html {
         flex-direction: column;
     }
 
-    .explorer-container {
+    .st-exp-container {
         flex-direction: column;
         height: 100%;
         width: 100%;
         position: relative;
     }
 
-    .state-display {
+    .st-exp-display {
         width: 100%;
         height: 55%;
         /* Top half */
@@ -301,22 +301,22 @@ html {
         background: transparent;
     }
 
-    .display-content {
+    .st-exp-display-content {
         border-radius: 20px;
         height: 100%;
         background: var(--color-black);
         /* Darker background for card */
     }
 
-    .state-info h3 {
+    .st-exp-info h3 {
         font-size: 2.5rem;
     }
 
-    .state-info p {
+    .st-exp-info p {
         font-size: 1rem;
     }
 
-    .controls-container {
+    .st-exp-controls-container {
         width: 100%;
         height: 45%;
         /* Bottom half */
@@ -328,12 +328,12 @@ html {
         /* Re-enable interaction for mobile structure */
     }
 
-    .selector-content {
+    .st-exp-selector-content {
         touch-action: none;
         /* Critical for GSAP Draggable on mobile */
     }
 
-    .dial-wrapper {
+    .st-exp-dial-wrapper {
         top: auto;
         bottom: -10vw;
         /* Pull dial up slightly for better access */
@@ -343,19 +343,19 @@ html {
         height: calc(var(--dial-radius) * 2);
     }
 
-    .selector-content {
+    .st-exp-selector-content {
         padding-top: calc(25vw - 20px);
         padding-bottom: calc(25vw - 20px);
     }
 
-    .dial-dot {
+    .st-exp-dial-dot {
         width: 15px;
         height: 15px;
         margin-top: -7.5px;
         margin-left: -7.5px;
     }
 
-    .dot-label {
+    .st-exp-dot-label {
         left: 50%;
         margin-left: -50px;
         /* Center 100px width */
@@ -369,29 +369,29 @@ html {
         /* Light text for dark background */
     }
 
-    .dial-dot:hover .dot-label,
-    .dial-dot.active .dot-label {
+    .st-exp-dial-dot:hover .st-exp-dot-label,
+    .st-exp-dial-dot.st-exp-active .st-exp-dot-label {
         color: var(--color-black);
     }
 
     /* Hide country selector background on mobile if it interferes */
-    .country-selector {
+    .st-exp-country-selector {
         background: rgba(255, 255, 255, 0.05);
         /* Subtle background */
         box-shadow: none;
     }
 
-    .country-item {
+    .st-exp-country-item {
         color: var(--color-text-secondary);
     }
 
 
-    .country-item.active {
+    .st-exp-country-item.st-exp-active {
         color: var(--color-black);
     }
 
     /* Mobile Back Button */
-    .explorer-back-btn {
+    .st-exp-back-btn {
         top: 20px;
         left: 20px;
         padding: 8px 20px;
@@ -400,7 +400,7 @@ html {
 }
 
 /* ================= BACK BUTTON ================= */
-.explorer-back-btn {
+.st-exp-back-btn {
     position: absolute;
     top: 40px;
     left: 40px;
@@ -420,7 +420,7 @@ html {
     overflow: hidden;
 }
 
-.explorer-back-btn:hover {
+.st-exp-back-btn:hover {
     background: rgba(0, 0, 0, 0.9);
     color: #fff;
     transform: translateX(-5px);

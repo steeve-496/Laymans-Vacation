@@ -50,7 +50,7 @@ const Testimonials = () => {
     const containerRef = useRef(null);
     useGSAP(() => {
         // Staggered Entry
-        gsap.from(".postcard", {
+        gsap.from(".testi-postcard", {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top 70%",
@@ -65,38 +65,38 @@ const Testimonials = () => {
         // but simple CSS hover is smoother for this.
     }, { scope: containerRef });
     return (
-        <section className="testimonials-section" ref={containerRef} id="testimonials">
-            <div className="testimonials-header">
-                <span className="section-tag">Happy Travelers</span>
-                <h2 className="section-title">Stories from the Road</h2>
-                <p className="section-subtitle">Real experiences from our community of wanderers.</p>
+        <section className="testi-section" ref={containerRef} id="testimonials">
+            <div className="testi-header">
+                <span className="testi-tag">Happy Travelers</span>
+                <h2 className="testi-title">Stories from the Road</h2>
+                <p className="testi-subtitle">Real experiences from our community of wanderers.</p>
             </div>
-            <div className="postcards-grid">
+            <div className="testi-grid">
                 {TESTIMONIALS.map((item, index) => (
-                    <div key={item.id} className="postcard-wrapper">
-                        <div className="postcard">
+                    <div key={item.id} className="testi-postcard-wrapper">
+                        <div className="testi-postcard">
                             {/* Front Design: Image + Quote */}
-                            <div className="postcard-content">
-                                <div className="stamp-mark">
+                            <div className="testi-postcard-content">
+                                <div className="testi-stamp-mark">
                                     <img
                                         src={item.stamp.includes("cloudinary") ? optimizeCloudinaryUrl(item.stamp, 200) : optimizeUnsplashUrl(item.stamp, 200)}
                                         alt="stamp"
-                                        className="stamp-img"
+                                        className="testi-stamp-img"
                                     />
                                 </div>
-                                <div className="quote-icon">“</div>
-                                <p className="review-text">{item.review}</p>
+                                <div className="testi-quote-icon">“</div>
+                                <p className="testi-review-text">{item.review}</p>
 
-                                <div className="user-profile">
+                                <div className="testi-user-profile">
                                     <img
                                         src={item.image.includes("cloudinary") ? optimizeCloudinaryUrl(item.image, 100) : optimizeUnsplashUrl(item.image, 100)}
                                         alt={item.name}
-                                        className="user-avatar"
+                                        className="testi-user-avatar"
                                     />
-                                    <div className="user-info">
-                                        <h4 className="user-name">{item.name}</h4>
-                                        <span className="user-location">{item.location}</span>
-                                        <div className="stars">{"★".repeat(item.rating)}</div>
+                                    <div className="testi-user-info">
+                                        <h4 className="testi-user-name">{item.name}</h4>
+                                        <span className="testi-user-location">{item.location}</span>
+                                        <div className="testi-stars">{"★".repeat(item.rating)}</div>
                                     </div>
                                 </div>
                             </div>

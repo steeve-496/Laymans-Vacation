@@ -3,7 +3,7 @@ import './why-us.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
+import { getOptimizedUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,9 +34,9 @@ export default function WhyUs() {
     const containerRef = useRef(null);
 
     useGSAP(() => {
-        const leftCol = containerRef.current.querySelector('.why-us-visual');
-        const rightHeader = containerRef.current.querySelector('.why-us-header');
-        const rightContent = containerRef.current.querySelector('.why-us-details');
+        const leftCol = containerRef.current.querySelector('.wu-visual');
+        const rightHeader = containerRef.current.querySelector('.wu-header');
+        const rightContent = containerRef.current.querySelector('.wu-details');
 
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -52,24 +52,24 @@ export default function WhyUs() {
     }, { scope: containerRef });
 
     return (
-        <section className="why-us-section" ref={containerRef} id="why-us">
-            <div className="why-us-grid">
-                <div className="why-us-visual">
-                    <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/divwmzd8g/image/upload/v1765447707/why-choose-us_sdjq4s.png", 1000)} alt="Travel Destination" className="why-us-visual-img" loading="lazy" />
-                    <div className="visual-overlays"></div>
+        <section className="wu-section" ref={containerRef} id="why-us">
+            <div className="wu-grid">
+                <div className="wu-visual">
+                    <img src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/why-choose-us.webp", 1000)} alt="Travel Destination" className="wu-visual-img" loading="lazy" />
+                    <div className="wu-visual-overlays"></div>
                 </div>
 
-                <div className="why-us-info">
-                    <div className="why-us-header">
-                        <h2 className="why-us-title">WHY CHOOSE <br />THE LAYMAN'S VACATION</h2>
+                <div className="wu-info">
+                    <div className="wu-header">
+                        <h2 className="wu-title">WHY CHOOSE <br />THE LAYMAN'S VACATION</h2>
                     </div>
 
-                    <div className="why-us-details">
-                        <div className="why-us-features-list">
+                    <div className="wu-details">
+                        <div className="wu-features-list">
                             {features.map((feature, index) => (
-                                <div key={index} className="feature-item">
-                                    <h3 className="feature-item-title">{feature.title}</h3>
-                                    <p className="feature-item-desc">{feature.description}</p>
+                                <div key={index} className="wu-feature-item">
+                                    <h3 className="wu-feature-item-title">{feature.title}</h3>
+                                    <p className="wu-feature-item-desc">{feature.description}</p>
                                 </div>
                             ))}
                         </div>

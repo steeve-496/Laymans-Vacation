@@ -11,6 +11,18 @@ const optimizeUrl = (url) => {
   return url.replace("/upload/", "/upload/f_auto,q_auto,w_720/");
 };
 
+const isYouTube = (url) => {
+  return url.includes("youtube.com") || url.includes("youtu.be");
+};
+
+const getYouTubeId = (url) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
+
+
 const LazyVideo = ({ src, eager = false, ...props }) => {
   const videoRef = useRef(null);
   const [isVisible, setIsVisible] = useState(eager);
@@ -41,14 +53,43 @@ const LazyVideo = ({ src, eager = false, ...props }) => {
     };
   }, [eager]);
 
+  const renderContent = () => {
+    if (isYouTube(src)) {
+      const videoId = getYouTubeId(src);
+      return (
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1`}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          style={{
+            pointerEvents: "none",
+            width: "100%",
+            height: "100%",
+            opacity: isVisible ? 1 : 0,
+            transition: "opacity 0.5s ease",
+            transform: "scale(1.5)",
+            transformOrigin: "center center"
+          }}
+        ></iframe>
+      );
+    }
+
+    return (
+      <video
+        src={optimizeUrl(src)}
+        {...props}
+      />
+    );
+  };
+
   return (
     <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%' }}>
-      {isVisible && (
-        <video
-          src={optimizeUrl(src)}
-          {...props}
-        />
-      )}
+      {isVisible && renderContent()}
     </div>
   );
 };
@@ -69,7 +110,7 @@ export default function Video() {
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571863/kazaksthan_jaj7ej.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571838/veitnam_pq4qqf.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571876/malaysia_bf3wum.mp4",
-    "https://res.cloudinary.com/divwmzd8g/video/upload/v1765169303/kerala_ncc2jr.mp4",
+    "https://youtu.be/alBym_D6Ni4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571867/singapore_v98wpc.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571888/srilanka_nmvfom.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571914/thailand_avuka1.mp4",
@@ -138,21 +179,21 @@ export default function Video() {
 
   return (
     <div className="video-page-container" ref={containerRef}>
-      <div className="videos" ref={gridRef}>
+      <div className="video-grid" ref={gridRef}>
         {columns.map((columnVideos, index) => (
           <div
-            className={`column ${index === 1 ? "reverse" : ""}`}
+            className={`video-column ${index === 1 ? "video-reverse" : ""}`}
             key={index}
             ref={colRefs[index]}
           >
-            <div className="cards">
+            <div className="video-cards">
               {columnVideos.map((src, i) => {
                 // User specified index 2 for main card in middle column
                 const isMainCard = index === 1 && i === 2;
 
                 return (
                   <div
-                    className="card"
+                    className="video-card"
                     key={i}
                     ref={isMainCard ? mainCardRef : null}
                     style={isMainCard ? { zIndex: 10 } : {}}
@@ -163,7 +204,7 @@ export default function Video() {
               })}
               {/* Duplicates for infinite scroll */}
               {columnVideos.map((src, i) => (
-                <div className="card" key={`dup-${i}`}>
+                <div className="video-card" key={`dup-${i}`}>
                   <LazyVideo src={src} muted loop autoPlay playsInline />
                 </div>
               ))}

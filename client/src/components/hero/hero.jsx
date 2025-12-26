@@ -1,34 +1,33 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ScrollToPlugin from "gsap/ScrollToPlugin";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./hero.css";
 import BlurText from "../BlurText.jsx";
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
-import { optimizeCloudinaryUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
+import { getOptimizedUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
 
 
 function Hero() {
   const heroRef = useRef(null);
 
 
-  const bgImageUrl = "https://res.cloudinary.com/divwmzd8g/image/upload/v1765451325/background4k_ruaeim.webp";
+  const bgImageUrl = "https://ik.imagekit.io/tsxbvz4jb6/Laymans/background4k.webp";
 
   const handleExploreClick = () => {
-    gsap.to(window, {
-      scrollTo: { y: "#destinations", offsetY: 0 },
-      duration: 3,
-      ease: "power2.inOut"
-    });
+    // Testing native scroll to see if GSAP is the cause of the delay
+    const destinationsSection = document.getElementById("destinations");
+    if (destinationsSection) {
+      destinationsSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
       const entryTl = gsap.timeline();
-      entryTl.fromTo(".hero_subtitle", {
+      entryTl.fromTo(".hero-subtitle", {
         y: 30,
         opacity: 0
       }, {
@@ -38,7 +37,7 @@ function Hero() {
         ease: "power3.out",
         delay: 0.5 // Moved delay here to keep timing
       })
-        .fromTo(".hero_btn", {
+        .fromTo(".hero-btn", {
           y: 30,
           opacity: 0
         }, {
@@ -52,7 +51,7 @@ function Hero() {
 
       mm.add("(min-width: 769px)", () => {
         // Desktop Animation
-        gsap.to(".bg_image", {
+        gsap.to(".hero-bg-image", {
           zIndex: 999,
           scrollTrigger: {
             trigger: heroRef.current,
@@ -63,7 +62,7 @@ function Hero() {
         });
 
         gsap.fromTo(
-          ".bg_image img",
+          ".hero-bg-image img",
           {
             scale: 1,
             y: 0
@@ -86,7 +85,7 @@ function Hero() {
 
       mm.add("(max-width: 768px)", () => {
         // Mobile Animation - Increased Y movement and scale to overlap text
-        gsap.to(".bg_image", {
+        gsap.to(".hero-bg-image", {
           zIndex: 999,
           scrollTrigger: {
             trigger: heroRef.current,
@@ -97,7 +96,7 @@ function Hero() {
         });
 
         gsap.fromTo(
-          ".bg_image img",
+          ".hero-bg-image img",
           {
             scale: 1.2, // Match CSS initial scale
             y: 0
@@ -129,21 +128,21 @@ function Hero() {
   };
 
   return (
-    <section className="hero_section" ref={heroRef} id="hero">
-      <div className="bg_image">
+    <section className="hero-section" ref={heroRef} id="hero">
+      <div className="hero-bg-image">
         <img
-          src={optimizeCloudinaryUrl(bgImageUrl, 1920)}
+          src={getOptimizedUrl(bgImageUrl, 1920)}
           srcSet={getResponsiveSrcSet(bgImageUrl)}
           sizes="100vw"
-          alt="bg_image"
+          alt="hero background"
           fetchPriority="high"
           width="1920"
           height="1080"
         />
       </div>
 
-      <div className="hero_content">
-        <h1 className="hero_title">
+      <div className="hero-content">
+        <h1 className="hero-title">
           <BlurText
             text="The Layman’s Vacation"
             delay={150}
@@ -152,13 +151,13 @@ function Hero() {
             onAnimationComplete={handleAnimationComplete}
             className="text-2xl mb-8"
           /></h1>
-        <p className="hero_subtitle">
+        <p className="hero-subtitle">
           Every Journey is a Story. Start Your Next Chapter.
         </p>
 
-        <button className="hero_btn" onClick={handleExploreClick}>
+        <button className="hero-btn" onClick={handleExploreClick}>
           Explore
-          <div className="icon">
+          <div className="hero-btn-icon">
             <svg height="24" width="24" viewBox="0 0 24 24">
               <path d="M0 0h24v24H0z" fill="none" />
               <path

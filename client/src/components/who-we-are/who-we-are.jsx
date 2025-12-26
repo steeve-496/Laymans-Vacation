@@ -10,8 +10,8 @@ export default function WhoWeAre() {
     const containerRef = useRef(null);
 
     useGSAP(() => {
-        const titles = containerRef.current.querySelectorAll('.who-we-are-title');
-        const content = containerRef.current.querySelectorAll('.who-we-are-content p');
+        const titles = containerRef.current.querySelectorAll('.wwa-title');
+        const content = containerRef.current.querySelectorAll('.wwa-content p');
 
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -40,27 +40,27 @@ export default function WhoWeAre() {
     }, { scope: containerRef });
 
     return (
-        <section className="who-we-are-section" id="who-we-are" ref={containerRef}>
-            <div className="who-we-are-container">
-                <div className="who-we-are-title-container">
-                    <div className="title-line">
-                        <h2 className="who-we-are-title">WHO</h2>
+        <section className="wwa-section" id="who-we-are" ref={containerRef}>
+            <div className="wwa-container">
+                <div className="wwa-title-container">
+                    <div className="wwa-title-line">
+                        <h2 className="wwa-title">WHO</h2>
                     </div>
-                    <div className="title-line">
-                        <h2 className="who-we-are-title">WE ARE</h2>
+                    <div className="wwa-title-line">
+                        <h2 className="wwa-title">WE ARE</h2>
                     </div>
                 </div>
 
-                <div className="who-we-are-content-wrapper">
-                    <div className="who-we-are-content">
+                <div className="wwa-content-wrapper">
+                    <div className="wwa-content">
                         <p>
-                            At <span className="highlight-text">Layman's Vacation</span>, we believe that travel should be more than just visiting a destination; it should be about connecting with the soul of a place. We are a team of passionate explorers dedicated to crafting journeys that go beyond the ordinary.
+                            At <span className="wwa-highlight-text">Layman's Vacation</span>, we believe that travel should be more than just visiting a destination; it should be about connecting with the soul of a place. We are a team of passionate explorers dedicated to crafting journeys that go beyond the ordinary.
                         </p>
                         <p>
                             From the misty hills of Kerala to the vibrant streets of Azerbaijan, we curate experiences that are authentic, immersive, and tailored just for you. Our mission is to make the world accessible to everyone, one unforgettable story at a time.
                         </p>
                     </div>
-                    <button className="who-we-are-btn">
+                    <button className="wwa-btn">
                         LEARN MORE
                     </button>
                 </div>

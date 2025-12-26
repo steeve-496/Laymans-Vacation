@@ -18,9 +18,9 @@ const getPackageImage = (location, category) => {
 
 const ContactForm = ({ onClose }) => {
     return (
-        <div className="contact-form-overlay">
-            <div className="contact-form">
-                <button className="close-form-btn" onClick={onClose}>
+        <div className="pkg-form-overlay">
+            <div className="pkg-contact-form">
+                <button className="pkg-close-form-btn" onClick={onClose}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
@@ -28,28 +28,28 @@ const ContactForm = ({ onClose }) => {
                 <h3>Unlock Your Journey</h3>
                 <p>Enter your details to view the full itinerary and get exclusive offers.</p>
                 <form onSubmit={(e) => { e.preventDefault(); onClose(); }}>
-                    <div className="form-group">
+                    <div className="pkg-form-group">
                         <input type="text" placeholder="Your Name" required />
                     </div>
-                    <div className="form-group">
+                    <div className="pkg-form-group">
                         <input type="email" placeholder="Email Address" required />
                     </div>
-                    <div className="form-group">
+                    <div className="pkg-form-group">
                         <input type="tel" placeholder="Phone Number" required />
                     </div>
-                    <div className="form-row">
-                        <div className="form-group">
+                    <div className="pkg-form-row">
+                        <div className="pkg-form-group">
                             <input type="number" placeholder="Adults" min="1" required />
                         </div>
-                        <div className="form-group">
+                        <div className="pkg-form-group">
                             <input type="number" placeholder="Children" min="0" />
-                            <span className="info-text">Under 5 years free</span>
+                            <span className="pkg-info-text">Under 5 years free</span>
                         </div>
                     </div>
-                    <div className="form-group">
+                    <div className="pkg-form-group">
                         <input type="date" placeholder="Day of Journey" required />
                     </div>
-                    <button type="submit" className="submit-btn">View Itinerary</button>
+                    <button type="submit" className="pkg-submit-btn">View Itinerary</button>
                 </form>
             </div>
         </div>
@@ -121,7 +121,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
 
     // Use Portal to escape parent transforms
     return createPortal(
-        <div className="itinerary-modal" ref={modalRef}>
+        <div className="pkg-itinerary-modal" ref={modalRef}>
             {/* Placeholder that mimics the button */}
             <div
                 ref={placeholderRef}
@@ -150,42 +150,42 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
             </div>
 
             {/* Actual Content */}
-            <div className={`itinerary-modal-content ${isFormVisible ? 'blurred' : ''}`} ref={contentRef}>
-                <div className="itinerary-header">
-                    <div className="itinerary-title">
+            <div className={`pkg-modal-content ${isFormVisible ? 'pkg-blurred' : ''}`} ref={contentRef}>
+                <div className="pkg-modal-header">
+                    <div className="pkg-modal-title">
                         <h2>{pkg.title}</h2>
-                        <div className="itinerary-meta">
+                        <div className="pkg-modal-meta">
                             <span>{pkg.duration}</span>
                             <span>•</span>
                             <span>{pkg.price}</span>
                         </div>
                     </div>
-                    <button className="close-modal-btn" onClick={handleClose}>
+                    <button className="pkg-close-modal-btn" onClick={handleClose}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M18 6L6 18M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
 
-                <div className="itinerary-body">
-                    <div className="itinerary-left">
+                <div className="pkg-modal-body">
+                    <div className="pkg-modal-left">
                         <img
                             src={optimizeCloudinaryUrl(pkg.image, 800)}
                             alt={pkg.title}
-                            className="itinerary-image"
+                            className="pkg-modal-image"
                         />
                     </div>
-                    <div className="itinerary-right">
-                        <div className="day-list">
+                    <div className="pkg-modal-right">
+                        <div className="pkg-day-list">
                             {pkg.itinerary && pkg.itinerary.map((item, index, arr) => (
-                                <div key={item.day} className="day-item">
-                                    <div className="timeline-column">
-                                        <div className="timeline-dot"></div>
-                                        {index !== arr.length - 1 && <div className="timeline-line"></div>}
+                                <div key={item.day} className="pkg-day-item">
+                                    <div className="pkg-timeline-column">
+                                        <div className="pkg-timeline-dot"></div>
+                                        {index !== arr.length - 1 && <div className="pkg-timeline-line"></div>}
                                     </div>
-                                    <div className="day-info">
-                                        <span className="day-number">Day {item.day}</span>
-                                        <div className="day-content">
+                                    <div className="pkg-day-info">
+                                        <span className="pkg-day-number">Day {item.day}</span>
+                                        <div className="pkg-day-content">
                                             <h4>{item.title}</h4>
                                             <p>{item.description}</p>
                                         </div>
@@ -301,7 +301,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
 
     // Horizontal Scroll Animation (Entry)
     useGSAP(() => {
-        const cards = gsap.utils.toArray(".carousel-card");
+        const cards = gsap.utils.toArray(".pkg-carousel-card");
 
         gsap.from(cards, {
             x: 100,
@@ -392,11 +392,11 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
     };
 
     return (
-        <section className="packages-section" ref={ref}>
-            <div className="connecting-line"></div>
+        <section className="pkg-section" ref={ref}>
+            <div className="pkg-connecting-line"></div>
 
             <div
-                className="carousel-container"
+                className="pkg-carousel-container"
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
                 onMouseLeave={handleMouseLeave}
@@ -404,33 +404,33 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
                 onMouseMove={handleMouseMove}
                 onScroll={handleScroll}
             >
-                <div className="carousel-track" ref={scrollContainerRef}>
+                <div className="pkg-carousel-track" ref={scrollContainerRef}>
                     {packages.map((pkg, index) => (
-                        <div key={pkg.id} className="carousel-card">
-                            <div className="card-image-wrapper">
+                        <div key={pkg.id} className="pkg-carousel-card">
+                            <div className="pkg-card-image-wrapper">
                                 <img
                                     src={optimizeCloudinaryUrl(pkg.image, 1200)}
                                     alt={pkg.title}
                                     draggable="false" // Prevent image drag
                                 />
-                                <div className="card-overlay"></div>
+                                <div className="pkg-card-overlay"></div>
                             </div>
 
-                            <div className="card-content-top">
-                                <span className="journey-label">{pkg.category} JOURNEY</span>
-                                <h2 className="card-title">{pkg.title}</h2>
+                            <div className="pkg-card-content-top">
+                                <span className="pkg-journey-label">{pkg.category} JOURNEY</span>
+                                <h2 className="pkg-card-title">{pkg.title}</h2>
                             </div>
 
-                            <div className="card-content-bottom">
-                                <div className="details-box">
-                                    <div className="details-header">
+                            <div className="pkg-card-content-bottom">
+                                <div className="pkg-details-box">
+                                    <div className="pkg-details-header">
                                         <span>{pkg.duration}</span>
                                         <span className="price">{pkg.price}</span>
                                     </div>
                                     <h3>{pkg.title}</h3>
                                     <p>{pkg.description}</p>
                                     <button
-                                        className="view-itinerary-btn"
+                                        className="pkg-view-btn"
                                         style={{ opacity: selectedPackage?.id === pkg.id ? 0 : 1 }}
                                         onClick={(e) => handleViewItinerary(e, pkg)}
                                     >
@@ -447,11 +447,11 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             </div>
 
             {/* Bottom Navigation */}
-            <div className="package-nav">
+            <div className="pkg-nav">
                 {packages.map((pkg, index) => (
                     <button
                         key={pkg.id}
-                        className={`nav-item ${index === activeIndex ? 'active' : ''}`}
+                        className={`pkg-nav-item ${index === activeIndex ? 'pkg-active' : ''}`}
                         onClick={() => scrollToPackage(index)}
                     >
                         {pkg.navTitle}
@@ -460,11 +460,11 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             </div>
 
             {/* Back Button - Redesigned */}
-            <div className="back-button-circle" onClick={onBack}>
+            <div className="pkg-back-btn" onClick={onBack}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
-                <span className="back-text">BACK</span>
+                <span className="pkg-back-text">BACK</span>
             </div>
 
             {/* Itinerary Modal */}

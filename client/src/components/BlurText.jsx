@@ -1,4 +1,6 @@
 import { motion } from 'motion/react';
+import './BlurText.css';
+
 import { useEffect, useRef, useState, useMemo } from 'react';
 
 const buildKeyframes = (from, steps) => {
@@ -85,7 +87,7 @@ const BlurText = ({
 
                     return (
                         <motion.span
-                            className="inline-block will-change-[transform,filter,opacity]"
+                            className="blur-text-char"
                             key={index}
                             initial={fromSnapshot}
                             animate={inView ? animateKeyframes : fromSnapshot}

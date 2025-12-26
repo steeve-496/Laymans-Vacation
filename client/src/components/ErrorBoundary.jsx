@@ -1,4 +1,6 @@
 import React from 'react';
+import './ErrorBoundary.css';
+
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -18,9 +20,9 @@ class ErrorBoundary extends React.Component {
     render() {
         if (this.state.hasError) {
             return (
-                <div style={{ padding: '20px', color: 'red', background: '#fff' }}>
+                <div className="error-boundary-container">
                     <h1>Something went wrong.</h1>
-                    <details style={{ whiteSpace: 'pre-wrap' }}>
+                    <details className="error-boundary-details">
                         {this.state.error && this.state.error.toString()}
                         <br />
                         {this.state.errorInfo && this.state.errorInfo.componentStack}

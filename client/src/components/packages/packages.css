@@ -1,4 +1,4 @@
-.packages-section {
+.pkg-section {
     width: 100%;
     height: 100%;
     background-color: #000;
@@ -8,7 +8,7 @@
     font-family: 'Inter', sans-serif;
 }
 
-.back-button-circle {
+.pkg-back-btn {
     position: absolute;
     top: 50%;
     left: 0;
@@ -35,24 +35,24 @@
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.back-button-circle:hover {
+.pkg-back-btn:hover {
     width: 70px;
     background: rgba(20, 20, 20, 0.6);
     color: #fff;
     box-shadow: 6px 0 30px rgba(0, 0, 0, 0.3);
 }
 
-.back-button-circle svg {
+.pkg-back-btn svg {
     width: 20px;
     height: 20px;
     transition: transform 0.3s ease;
 }
 
-.back-button-circle:hover svg {
+.pkg-back-btn:hover svg {
     transform: translateX(-3px);
 }
 
-.back-text {
+.pkg-back-text {
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     letter-spacing: 3px;
@@ -63,7 +63,7 @@
     text-transform: uppercase;
 }
 
-.connecting-line {
+.pkg-connecting-line {
     position: absolute;
     top: 50%;
     left: 0;
@@ -74,7 +74,7 @@
     transform: translateY(-50%);
 }
 
-.carousel-container {
+.pkg-carousel-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -87,15 +87,15 @@
     cursor: grab;
 }
 
-.carousel-container:active {
+.pkg-carousel-container:active {
     cursor: grabbing;
 }
 
-.carousel-container::-webkit-scrollbar {
+.pkg-carousel-container::-webkit-scrollbar {
     display: none;
 }
 
-.carousel-track {
+.pkg-carousel-track {
     display: flex;
     padding-left: 100px;
     padding-right: 100px;
@@ -105,7 +105,7 @@
     align-items: center;
 }
 
-.carousel-card {
+.pkg-carousel-card {
     position: relative;
     min-width: 75vw;
     /* Slightly smaller width */
@@ -117,20 +117,20 @@
     user-select: none;
 }
 
-.card-image-wrapper {
+.pkg-card-image-wrapper {
     width: 100%;
     height: 100%;
     position: relative;
 }
 
-.card-image-wrapper img {
+.pkg-card-image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     pointer-events: none;
 }
 
-.card-overlay {
+.pkg-card-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -142,7 +142,7 @@
             rgba(0, 0, 0, 0.6) 100%);
 }
 
-.card-content-top {
+.pkg-card-content-top {
     position: absolute;
     top: 60px;
     left: 60px;
@@ -150,7 +150,7 @@
     pointer-events: none;
 }
 
-.journey-label {
+.pkg-journey-label {
     display: block;
     font-size: 0.8rem;
     letter-spacing: 2px;
@@ -159,7 +159,7 @@
     opacity: 0.8;
 }
 
-.card-title {
+.pkg-card-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 5vw, 5rem);
     /* Fluid font size */
@@ -167,7 +167,7 @@
     line-height: 1;
 }
 
-.card-content-bottom {
+.pkg-card-content-bottom {
     position: absolute;
     bottom: 60px;
     right: 60px;
@@ -175,7 +175,7 @@
     max-width: 400px;
 }
 
-.details-box {
+.pkg-details-box {
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
     padding: 2rem;
@@ -183,7 +183,7 @@
     color: #fff;
 }
 
-.details-header {
+.pkg-details-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
@@ -193,20 +193,20 @@
     opacity: 0.8;
 }
 
-.details-box h3 {
+.pkg-details-box h3 {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     margin: 0 0 0.5rem 0;
 }
 
-.details-box p {
+.pkg-details-box p {
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 1.5rem;
     opacity: 0.9;
 }
 
-.view-itinerary-btn {
+.pkg-view-btn {
     background: #fff;
     color: #000;
     border: none;
@@ -223,13 +223,13 @@
     pointer-events: auto;
 }
 
-.view-itinerary-btn:hover {
+.pkg-view-btn:hover {
     background: #f0f0f0;
     gap: 12px;
 }
 
 /* Itinerary Modal Styles */
-.itinerary-modal {
+.pkg-itinerary-modal {
     position: fixed;
     z-index: var(--z-modal);
     border-radius: 4px;
@@ -241,7 +241,7 @@
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.itinerary-modal-content {
+.pkg-modal-content {
     width: 100%;
     height: 100%;
     opacity: 0;
@@ -250,7 +250,7 @@
     flex-direction: column;
 }
 
-.itinerary-header {
+.pkg-modal-header {
     padding: 40px 60px;
     background: #f8f8f8;
     border-bottom: 1px solid #eee;
@@ -259,14 +259,14 @@
     align-items: flex-end;
 }
 
-.itinerary-title h2 {
+.pkg-modal-title h2 {
     font-family: 'Playfair Display', serif;
     font-size: 3rem;
     margin: 0;
     line-height: 1;
 }
 
-.itinerary-meta {
+.pkg-modal-meta {
     display: flex;
     gap: 30px;
     margin-top: 10px;
@@ -276,7 +276,7 @@
     letter-spacing: 1px;
 }
 
-.close-modal-btn {
+.pkg-close-modal-btn {
     z-index: calc(var(--z-modal) + 1);
     background: none;
     border: none;
@@ -289,11 +289,11 @@
     justify-content: center;
 }
 
-.close-modal-btn:hover {
+.pkg-close-modal-btn:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 
-.itinerary-body {
+.pkg-modal-body {
     flex: 1;
     overflow-y: auto;
     padding: 60px;
@@ -302,21 +302,21 @@
     gap: 60px;
 }
 
-.itinerary-image {
+.pkg-modal-image {
     width: 100%;
     height: 60vh;
     object-fit: cover;
     border-radius: 12px;
 }
 
-.day-list {
+.pkg-day-list {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
 /* Timeline Styles */
-.day-item {
+.pkg-day-item {
     display: flex;
     gap: 20px;
     padding-bottom: 0;
@@ -324,7 +324,7 @@
     position: relative;
 }
 
-.timeline-column {
+.pkg-timeline-column {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -335,7 +335,7 @@
     /* Align dot with text */
 }
 
-.timeline-dot {
+.pkg-timeline-dot {
     width: 10px;
     height: 10px;
     background: #000;
@@ -343,7 +343,7 @@
     z-index: 2;
 }
 
-.timeline-line {
+.pkg-timeline-line {
     position: absolute;
     top: 18px;
     /* Start below dot */
@@ -354,7 +354,7 @@
     z-index: 1;
 }
 
-.day-info {
+.pkg-day-info {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -363,20 +363,20 @@
     flex: 1;
 }
 
-.day-number {
+.pkg-day-number {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     color: #666;
     font-weight: 900;
 }
 
-.day-content h4 {
+.pkg-day-content h4 {
     margin: 0 0 8px 0;
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-.day-content p {
+.pkg-day-content p {
     margin: 0;
     color: #555;
     line-height: 1.6;
@@ -384,7 +384,7 @@
 }
 
 /* Bottom Navigation Styles */
-.package-nav {
+.pkg-nav {
     position: absolute;
     bottom: 40px;
     left: 50%;
@@ -394,7 +394,7 @@
     z-index: 100;
 }
 
-.nav-item {
+.pkg-nav-item {
     background: none;
     border: 1px solid transparent;
     color: rgba(255, 255, 255, 0.6);
@@ -407,18 +407,18 @@
     text-transform: capitalize;
 }
 
-.nav-item:hover {
+.pkg-nav-item:hover {
     color: #fff;
 }
 
-.nav-item.active {
+.pkg-nav-item.pkg-active {
     color: #fff;
     border-color: #fff;
     background: rgba(255, 255, 255, 0.1);
 }
 
 /* Contact Form Styles */
-.contact-form-overlay {
+.pkg-form-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -434,7 +434,7 @@
     animation: fadeIn 0.5s ease;
 }
 
-.contact-form {
+.pkg-contact-form {
     background: #fff;
     padding: 40px;
     border-radius: 12px;
@@ -446,26 +446,26 @@
     animation: slideUp 0.5s ease;
 }
 
-.contact-form h3 {
+.pkg-contact-form h3 {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     margin: 0 0 10px 0;
     color: #000;
 }
 
-.contact-form p {
+.pkg-contact-form p {
     color: #666;
     margin-bottom: 30px;
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
-.form-row {
+.pkg-form-row {
     display: flex;
     gap: 40px;
 }
 
-.info-text {
+.pkg-info-text {
     display: block;
     font-size: 0.7rem;
     color: #888;
@@ -473,13 +473,13 @@
     text-align: left;
 }
 
-.form-group {
+.pkg-form-group {
     margin-bottom: 20px;
     flex: 1;
     /* For side by side inputs */
 }
 
-.form-group input {
+.pkg-form-group input {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #eee;
@@ -494,21 +494,21 @@
 }
 
 /* Fix Date Input placeholder color/appearance */
-.form-group input[type="date"] {
+.pkg-form-group input[type="date"] {
     color: #666;
     /* Match placeholder color initially */
 }
 
-.form-group input[type="date"]:focus,
-.form-group input[type="date"]:valid {
+.pkg-form-group input[type="date"]:focus,
+.pkg-form-group input[type="date"]:valid {
     color: #000;
 }
 
-.form-group input:focus {
+.pkg-form-group input:focus {
     border-color: #000;
 }
 
-.submit-btn {
+.pkg-submit-btn {
     width: 100%;
     padding: 14px;
     background: #000;
@@ -523,11 +523,11 @@
     transition: background 0.3s;
 }
 
-.submit-btn:hover {
+.pkg-submit-btn:hover {
     background: #333;
 }
 
-.close-form-btn {
+.pkg-close-form-btn {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -538,11 +538,11 @@
     transition: color 0.3s;
 }
 
-.close-form-btn:hover {
+.pkg-close-form-btn:hover {
     color: #000;
 }
 
-.itinerary-modal-content.blurred {
+.pkg-modal-content.pkg-blurred {
     filter: blur(5px);
     pointer-events: none;
     user-select: none;
@@ -571,7 +571,7 @@
 }
 
 @media (max-width: 768px) {
-    .carousel-track {
+    .pkg-carousel-track {
         padding-left: 20px;
         padding-right: 20px;
         gap: 20px;
@@ -579,69 +579,68 @@
         /* Smaller height on mobile */
     }
 
-    .carousel-card {
+    .pkg-carousel-card {
         min-width: 85vw;
     }
 
-    .card-title {
+    .pkg-card-title {
         font-size: 2.5rem;
     }
 
-    .card-content-top {
+    .pkg-card-content-top {
         top: 20px;
         left: 20px;
     }
 
-    .card-content-bottom {
+    .pkg-card-content-bottom {
         bottom: 20px;
         right: 20px;
         left: 20px;
         max-width: none;
     }
 
-    .details-box {
+    .pkg-details-box {
         padding: 1.5rem;
         backdrop-filter: blur(12px);
         /* Stronger blur for readability */
     }
 
-    .details-box h3 {
+    .pkg-details-box h3 {
         font-size: 1.5rem;
     }
 
-    .details-box p {
+    .pkg-details-box p {
         font-size: 0.85rem;
         margin-bottom: 1rem;
         display: -webkit-box;
         -webkit-line-clamp: 3;
-        line-clamp: 3;
         /* Limit text lines */
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
-    .itinerary-header {
+    .pkg-modal-header {
         padding: 20px;
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
 
-    .itinerary-title h2 {
+    .pkg-modal-title h2 {
         font-size: 2rem;
     }
 
-    .itinerary-body {
+    .pkg-modal-body {
         padding: 20px;
         grid-template-columns: 1fr;
         gap: 30px;
     }
 
-    .itinerary-image {
+    .pkg-modal-image {
         height: 25vh;
     }
 
-    .close-modal-btn {
+    .pkg-close-modal-btn {
         position: absolute;
         top: 15px;
         right: 15px;
@@ -650,7 +649,7 @@
     }
 
     /* Mobile Navigation Optimization */
-    .package-nav {
+    .pkg-nav {
         bottom: 20px;
         gap: 8px;
         width: 100%;
@@ -663,7 +662,7 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    .nav-item {
+    .pkg-nav-item {
         font-size: 0.75rem;
         padding: 6px 10px;
         white-space: nowrap;
@@ -672,13 +671,13 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .nav-item.active {
+    .pkg-nav-item.pkg-active {
         background: #fff;
         color: #000;
     }
 
     /* Mobile Back Button */
-    .back-button-circle {
+    .pkg-back-btn {
         top: 20px;
         left: 20px;
         transform: none;
@@ -691,16 +690,16 @@
         padding: 0;
     }
 
-    .back-button-circle:hover {
+    .pkg-back-btn:hover {
         width: 40px;
         background: rgba(0, 0, 0, 0.7);
     }
 
-    .back-text {
+    .pkg-back-text {
         display: none;
     }
 
-    .back-button-circle svg {
+    .pkg-back-btn svg {
         width: 20px;
         height: 20px;
         transform: rotate(0deg);
@@ -708,29 +707,29 @@
     }
 
     /* Contact Form Mobile Optimization */
-    .contact-form {
+    .pkg-contact-form {
         padding: 24px;
         width: 92%;
         max-height: 85vh;
         overflow-y: auto;
     }
 
-    .contact-form h3 {
+    .pkg-contact-form h3 {
         font-size: 1.5rem;
     }
 
-    .form-row {
+    .pkg-form-row {
         flex-direction: column;
         gap: 12px;
     }
 
-    .form-group {
+    .pkg-form-group {
         margin-bottom: 12px;
     }
 }
 
 @media (max-width: 480px) {
-    .carousel-track {
+    .pkg-carousel-track {
         padding-left: 15px;
         padding-right: 15px;
         gap: 15px;
@@ -738,56 +737,59 @@
         /* Taller on phone to fit content */
     }
 
-    .carousel-card {
+    .pkg-carousel-card {
         min-width: 88vw;
         /* Almost full width with peek */
     }
 
-    .card-content-top {
+    .pkg-card-content-top {
         top: 15px;
         left: 15px;
     }
 
-    .journey-label {
+    .pkg-journey-label {
         font-size: 0.7rem;
         margin-bottom: 0.5rem;
     }
 
-    .card-title {
+    .pkg-card-title {
         font-size: 2rem;
     }
 
-    .card-content-bottom {
+    .pkg-card-content-bottom {
         bottom: 15px;
         left: 15px;
         right: 15px;
     }
 
-    .details-box {
+    .pkg-details-box {
         padding: 1.2rem;
         background: rgba(0, 0, 0, 0.7);
         /* Darker for better contrast */
     }
 
-    .details-header {
+    .pkg-details-header {
         margin-bottom: 0.5rem;
         font-size: 0.7rem;
     }
 
-    .details-box h3 {
+    .pkg-details-box h3 {
         font-size: 1.3rem;
         margin-bottom: 0.2rem;
     }
 
-    .details-box p {
+    .pkg-details-box p {
         font-size: 0.8rem;
         line-height: 1.4;
         margin-bottom: 1rem;
+        display: -webkit-box;
         -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         /* Allow one more line */
     }
 
-    .view-itinerary-btn {
+    .pkg-view-btn {
         width: 100%;
         justify-content: center;
         padding: 0.7rem;
@@ -795,12 +797,12 @@
     }
 
     /* Compact Nav */
-    .package-nav {
+    .pkg-nav {
         bottom: 15px;
         gap: 5px;
     }
 
-    .nav-item {
+    .pkg-nav-item {
         padding: 5px 10px;
         font-size: 0.7rem;
         border-radius: 15px;

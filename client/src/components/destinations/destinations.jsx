@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Stars from "./Stars";
 import "./destinations.css";
-import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
+import { getOptimizedUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 // ... existing code ...
@@ -17,28 +17,28 @@ gsap.registerPlugin(ScrollTrigger);
 const international = [
     {
         name: "Azerbaijan",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655272/Azerbaijan_zx809y.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Azerbaijan.webp",
         lat: 40.1431,
         lng: 47.5769,
         description: "Known as the Land of Fire, blending ancient history with modern futuristic architecture."
     },
     {
         name: "Bali",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655250/Bali_nycaoz.jpg",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bali.webp",
         lat: -8.7892,
         lng: 115.2162,
         description: "A tropical paradise famed for its stunning beaches, spirituality, and vibrant culture."
     },
     {
         name: "Bhutan",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655259/Bhutan_bvh2xs.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bhutan.webp",
         lat: 27.4667,
         lng: 90.4667,
         description: "The Last Shangri-La, offering breathtaking Himalayan landscapes and rich Buddhist heritage."
     },
     {
         name: "Dubai",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655250/Dubai_zpadzs.jpg",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp",
         lat: 25.2044,
         lng: 55.2714,
         description: "A city of superlatives with towering skyscrapers, luxury shopping, and desert adventures.",
@@ -46,14 +46,14 @@ const international = [
     },
     {
         name: "Kazakhstan",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655271/Kazakhstan_zdwuir.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Kazakhstan.webp",
         lat: 43.2467,
         lng: 66.9667,
         description: "The heart of Central Asia, featuring vast steppes, mountains, and modern cities."
     },
     {
         name: "Malaysia",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655260/Malaysia_f61tdf.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Malaysia.webp",
         lat: 3.1390,
         lng: 101.6937,
         description: "A melting pot of cultures with iconic towers, rainforests, and beautiful islands."
@@ -67,7 +67,7 @@ const international = [
     },
     {
         name: "Sri Lanka",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655257/Sri_Lanka_uux3sy.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Sri%20Lanka.webp",
         lat: 6.9315,
         lng: 79.8667,
         description: "The Pearl of the Indian Ocean, rich in history, wildlife, and golden sandy beaches."
@@ -92,28 +92,28 @@ const international = [
 const domestic = [
     {
         name: "Munnar",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/munnar_wdhd05.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp",
         lat: 10.0889,
         lng: 77.0595,
         description: "Rolling tea gardens and misty hills make this a perfect honey-moon destination."
     },
     {
         name: "Wayanad",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446721/wayanad_l8wmyr.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp",
         lat: 11.6854,
         lng: 76.1320,
         description: "A green paradise with waterfalls, caves, and exotic wildlife in Kerala."
     },
     {
         name: "Varkala",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp",
         lat: 8.7379,
         lng: 76.7163,
         description: "Famous for its stunning cliff-side beaches and relaxed coastal vibe."
     },
     {
         name: "Alleppey",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png",
+        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp",
         lat: 9.4981,
         lng: 76.3388,
         description: "The Venice of the East, renowned for its tranquil backwaters and houseboats."
@@ -148,6 +148,104 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     const [cardVisible, setCardVisible] = useState(false);
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
     const containerRef = useRef(null);
+    const [mobileTab, setMobileTab] = useState("international");
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // Get Active List based on Mobile Tab
+    const currentList = mobileTab === "international" ? international : domestic;
+
+    /* ================== PLACE SELECT ================== */
+    const handleSelect = (place) => {
+        if (activePlace?.name === place.name) return;
+        setActivePlace(place);
+        setCardVisible(true);
+        // Animation is triggered by useEffect above
+    };
+
+    /* ================== ANIMATION SEQUENCE ================== */
+    useEffect(() => {
+        if (!activePlace) return;
+
+        // SKIP COMPLEX PANEL ANIMATIONS ON MOBILE
+        if (isMobile) {
+            if (activePlace && cardVisible) {
+                // 1. Rotate Globe
+                if (globeRef.current) {
+                    const { lat, lng } = activePlace;
+                    globeRef.current.pointOfView({ lat, lng, altitude: 2.5 }, 1000);
+                }
+
+                // 2. Animate Card Slide Up
+                gsap.fromTo(".dest-card",
+                    { y: "100%", opacity: 0 },
+                    { y: "0%", opacity: 1, duration: 0.5, ease: "power3.out" }
+                );
+            } else if (!cardVisible) {
+                // Animate Card Slide Down (Close)
+                gsap.to(".dest-card",
+                    { y: "100%", opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => setActivePlace(null) }
+                );
+            }
+            return;
+        }
+
+        const tl = gsap.timeline();
+        selectionTimeline.current = tl;
+
+        if (window.innerWidth > 768) {
+            // DESKTOP: Complex Entry
+            tl.to([".dest-panel.left", ".dest-panel.right"], {
+                opacity: 0,
+                x: (i, target) => target.classList.contains("left") ? -50 : 50,
+                duration: 0.5,
+                ease: "power2.in"
+            })
+                // Move Globe to Left
+                .to(containerRef.current, {
+                    x: "-25%",
+                    duration: 1,
+                    ease: "power3.inOut"
+                }, "-=0.2")
+
+                // Reveal Card
+                .fromTo(".dest-card",
+                    { x: "20%", opacity: 0, scale: 0.9 },
+                    { x: "0%", opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
+                    "+=0.2"
+                )
+
+                // Draw Arrow
+                .fromTo(".connection-arrow",
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.1 },
+                    "-=0.6"
+                )
+                .fromTo(".arrow-path",
+                    { strokeDasharray: 2000, strokeDashoffset: 2000 },
+                    { strokeDashoffset: 0, duration: 1.2, ease: "power2.out" },
+                    "<"
+                )
+                .fromTo(".arrow-head",
+                    { opacity: 0, scale: 0 },
+                    { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" },
+                    "-=0.3"
+                );
+        }
+
+        // Rotate Globe to Location
+        if (globeRef.current) {
+            const { lat, lng } = activePlace;
+            globeRef.current.pointOfView({ lat, lng, altitude: 2.5 }, 1200);
+        }
+
+    }, [activePlace, cardVisible, isMobile]);
 
     /* ================== RESIZE OBSERVER ================== */
     useEffect(() => {
@@ -201,6 +299,21 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
 
     /* ================== SCROLL + ENTRY ================== */
     useGSAP(() => {
+        const resetToInitialState = () => {
+            if (selectionTimeline.current) {
+                selectionTimeline.current.kill();
+            }
+            setCardVisible(false);
+            setActivePlace(null);
+
+            // GSAP Hard Reset - Clear Props to revert to CSS
+            gsap.set([".dest-panel.left", ".dest-panel.right"], { clearProps: "all" });
+            if (containerRef.current) gsap.set(containerRef.current, { clearProps: "all" });
+            if (cardRef.current) gsap.set(cardRef.current, { clearProps: "all" });
+
+            globeRef.current?.pointOfView(DEFAULT_VIEW, 1000);
+        };
+
         // Pinning/Scroll Logic
         ScrollTrigger.create({
             trigger: internalSectionRef.current,
@@ -208,11 +321,8 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
             end: "bottom top",
             pin: true,
             scrub: true,
-            onEnterBack: () => {
-                setCardVisible(false);
-                setActivePlace(null);
-                globeRef.current?.pointOfView(DEFAULT_VIEW, 1000);
-            }
+            onEnterBack: () => resetToInitialState(),
+            onLeave: () => resetToInitialState()
         });
 
         // Entry Animation
@@ -298,88 +408,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     /* ================== ANIMATION REFS ================== */
     const selectionTimeline = useRef(null);
 
-    /* ================== ANIMATION EFFECT ================== */
-    // Trigger "Open" animation when card becomes visible and activePlace is set
-    useEffect(() => {
-        if (cardVisible && activePlace) {
-            // START OPEN SEQUENCE
-            if (selectionTimeline.current) selectionTimeline.current.kill();
-            const tl = gsap.timeline();
-            selectionTimeline.current = tl;
 
-            // 1. Rotate Globe (Takes 1.5s)
-            if (globeRef.current) {
-                globeRef.current.pointOfView(
-                    { lat: activePlace.lat, lng: activePlace.lng, altitude: 1.5 },
-                    1500
-                );
-            }
-
-            // 2. Animate Layout
-            if (window.innerWidth > 768) {
-                // DESKTOP
-                tl.to([".dest-panel.left", ".dest-panel.right"], {
-                    opacity: 0,
-                    x: (i, target) => target.classList.contains("left") ? -50 : 50,
-                    duration: 0.5,
-                    ease: "power2.in"
-                })
-                    // b. Move Globe to Left (Wait for rotation to be partly done)
-                    .to(containerRef.current, {
-                        x: "-25%",
-                        duration: 1,
-                        ease: "power3.inOut"
-                    }, "-=0.2") // Starts at 0.3s
-
-                    // c. Reveal Card (Starts after globe move adds a bit of delay for rotation to finish)
-                    .fromTo(".destination-card",
-                        { x: "20%", opacity: 0, scale: 0.9 },
-                        { x: "0%", opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
-                        "+=0.2" // Starts around 1.5s (when rotation finishes)
-                    )
-
-                    // d. Draw Arrow (Starts after card is revealing)
-                    .fromTo(".connection-arrow",
-                        { opacity: 0 },
-                        { opacity: 1, duration: 0.1 },
-                        "-=0.6" // Starts slightly into card animation
-                    )
-                    .fromTo(".arrow-path",
-                        { strokeDasharray: 2000, strokeDashoffset: 2000 },
-                        { strokeDashoffset: 0, duration: 1.2, ease: "power2.out" },
-                        "<" // Sync with arrow fade in
-                    )
-                    .fromTo(".arrow-head",
-                        { opacity: 0, scale: 0 },
-                        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" },
-                        "-=0.3" // Near end of stroke
-                    );
-            } else {
-                // MOBILE
-                tl.to([".dest-panel.left", ".dest-panel.right"], {
-                    opacity: 0,
-                    y: 20,
-                    pointerEvents: "none",
-                    duration: 0.4
-                })
-                    .fromTo(".destination-card",
-                        { y: 50, opacity: 0 },
-                        { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.2)" }
-                    );
-            }
-        }
-    }, [cardVisible, activePlace]);
-
-
-
-    /* ================== PLACE SELECT ================== */
-    /* ================== PLACE SELECT ================== */
-    const handleSelect = (place) => {
-        if (activePlace?.name === place.name) return;
-        setActivePlace(place);
-        setCardVisible(true);
-        // Animation is triggered by useEffect above
-    };
 
     /* ================== NAVIGATE TO EXPLORER ================== */
     const handleExploreClick = () => {
@@ -403,7 +432,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
         if (window.innerWidth > 768) {
             // DESKTOP REVERSE
             // 1. Hide Card & Arrow
-            tl.to(".destination-card", {
+            tl.to(".dest-card", {
                 x: "10%",
                 opacity: 0,
                 duration: 0.4,
@@ -424,21 +453,17 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                     opacity: 1,
                     x: 0,
                     duration: 0.6,
+                    pointerEvents: "auto",
                     ease: "power3.out"
                 }, "-=0.4");
         } else {
-            // MOBILE REVERSE
-            tl.to(".destination-card", {
-                y: 50,
+            // MOBILE REVERSE: Slide down card
+            tl.to(".dest-card", {
+                y: "100%",
                 opacity: 0,
-                duration: 0.4
-            })
-                .to([".dest-panel.left", ".dest-panel.right"], {
-                    opacity: 1,
-                    y: 0,
-                    pointerEvents: "auto",
-                    duration: 0.4
-                });
+                duration: 0.4,
+                ease: "power3.in"
+            });
         }
 
         // Reset Globe View
@@ -448,104 +473,180 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
     return (
         <section
             id="destinations"
-            className="destinations-section"
+            className={`destinations-section ${isMobile ? 'mobile-view' : ''}`}
             ref={internalSectionRef}
         >
-            {/* LEFT PANEL */}
-            <aside className={`dest-panel left ${cardVisible ? 'faded' : ''}`}>
-                <div className="panel-header">
-                    <span className="panel-tag">Explore</span>
-                    <h4 className="panel-title">International</h4>
-                </div>
+            {
+                isMobile ? (
+                    /* ================= MOBILE LAYOUT ================= */
+                    <div className="mobile-layout-container" >
+                        {/* 1. Globe Area (Fixed at top) */}
+                        < div className="mobile-globe-area" ref={containerRef} >
+                            <Stars />
+                            <Suspense fallback={<div className="globe-loader">Loading...</div>}>
+                                <Globe
+                                    ref={globeRef}
+                                    onGlobeReady={handleGlobeReady}
+                                    enableZoom={false}
+                                    width={dimensions.width}
+                                    height={dimensions.height * 0.45} // 45% of screen height
+                                    globeImageUrl="/assets/earth-blue-marble.jpg"
+                                    bumpImageUrl="/assets/earth-topology.png"
+                                    backgroundColor="rgba(0,0,0,0)"
+                                    atmosphereColor="#1cbae5"
+                                    atmosphereAltitude={0.15}
+                                    htmlElementsData={activePlace ? [activePlace] : []}
+                                    htmlLat="lat"
+                                    htmlLng="lng"
+                                    htmlElement={() => {
+                                        const el = document.createElement("div");
+                                        el.className = "dest-map-pin";
+                                        el.innerHTML = `<svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#e11d48"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>`;
+                                        return el;
+                                    }}
+                                />
+                            </Suspense>
+                        </div >
 
-                <ul className="panel-list">
-                    {international.map(d => (
-                        <li key={d.name} onClick={() => handleSelect(d)}>
-                            <div className="li-content">
-                                <span className="country-name">{d.name}</span>
-                                {d.badge && <span className="best-seller-badge">{d.badge}</span>}
+                        {/* 2. Controls & List Container */}
+                        < div className="mobile-controls-area" >
+                            {/* Tab Switcher */}
+                            < div className="mobile-tabs" >
+                                <button
+                                    className={`mobile-tab-btn ${mobileTab === 'international' ? 'active' : ''}`}
+                                    onClick={() => setMobileTab('international')}
+                                >
+                                    International
+                                </button>
+                                <button
+                                    className={`mobile-tab-btn ${mobileTab === 'domestic' ? 'active' : ''}`}
+                                    onClick={() => setMobileTab('domestic')}
+                                >
+                                    Domestic
+                                </button>
+                            </div >
+
+                            {/* List */}
+                            < div className="mobile-dest-list" style={{ opacity: cardVisible ? 0.3 : 1 }}>
+                                <h4 className="mobile-list-title">
+                                    {mobileTab === 'international' ? 'World Destinations' : 'Domestic Treasures'}
+                                </h4>
+                                <ul className="dest-panel-list">
+                                    {currentList.map(d => (
+                                        <li key={d.name} onClick={() => handleSelect(d)}>
+                                            <div className="dest-li-content">
+                                                <span className="dest-country-name">{d.name}</span>
+                                                {d.badge && <span className="dest-badge">{d.badge}</span>}
+                                            </div>
+                                            <span className="dest-arrow">→</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div >
+                        </div >
+                    </div >
+                ) : (
+                    /* ================= DESKTOP LAYOUT ================= */
+                    <>
+                        {/* LEFT PANEL */}
+                        <aside className={`dest-panel left ${cardVisible ? 'faded' : ''}`}>
+                            <div className="dest-panel-header">
+                                <span className="dest-panel-tag">Explore</span>
+                                <h4 className="dest-panel-title">International</h4>
                             </div>
-                            <span className="arrow">→</span>
-                        </li>
-                    ))}
-                </ul>
-            </aside>
 
-            {/* RIGHT PANEL */}
-            <aside className={`dest-panel right ${cardVisible ? 'faded' : ''}`}>
-                <div className="panel-header">
-                    <span className="panel-tag">Discover</span>
-                    <h4 className="panel-title">Domestic</h4>
-                </div>
+                            <ul className="dest-panel-list">
+                                {international.map(d => (
+                                    <li key={d.name} onClick={() => handleSelect(d)}>
+                                        <div className="dest-li-content">
+                                            <span className="dest-country-name">{d.name}</span>
+                                            {d.badge && <span className="dest-badge">{d.badge}</span>}
+                                        </div>
+                                        <span className="dest-arrow">→</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </aside>
 
-                <ul className="panel-list">
-                    {domestic.map(d => (
-                        <li key={d.name} onClick={() => handleSelect(d)}>
-                            <span className="country-name">{d.name}</span>
-                            <span className="arrow">→</span>
-                        </li>
-                    ))}
-                </ul>
-            </aside>
+                        {/* RIGHT PANEL */}
+                        <aside className={`dest-panel right ${cardVisible ? 'faded' : ''}`}>
+                            <div className="dest-panel-header">
+                                <span className="dest-panel-tag">Discover</span>
+                                <h4 className="dest-panel-title">Domestic</h4>
+                            </div>
 
-            {/* GLOBE */}
-            <div className={`globe-wrap ${cardVisible ? 'dimmed' : ''}`} ref={containerRef}>
-                <Stars />
-                <Suspense fallback={<div className="globe-loader">Loading Globe...</div>}>
-                    <Globe
-                        ref={globeRef}
-                        onGlobeReady={handleGlobeReady}
-                        enableZoom={false}
-                        width={dimensions.width}
-                        height={dimensions.height}
-                        globeImageUrl="/assets/earth-blue-marble.jpg"
-                        bumpImageUrl="/assets/earth-topology.png"
-                        backgroundColor="rgba(0,0,0,0)"
-                        atmosphereColor="#1cbae5"
-                        atmosphereAltitude={0.15}
-                        htmlElementsData={activePlace ? [activePlace] : []}
-                        htmlLat="lat"
-                        htmlLng="lng"
-                        htmlElement={(d) => {
-                            const el = document.createElement("div");
-                            el.className = "map-pin";
-                            el.innerHTML = `
-              <svg width="26" height="26" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#e11d48"/>
-                <circle cx="12" cy="9" r="2.5" fill="#fff"/>
-              </svg>
-            `;
-                            return el;
-                        }}
-                    />
-                </Suspense>
-            </div>
+                            <ul className="dest-panel-list">
+                                {domestic.map(d => (
+                                    <li key={d.name} onClick={() => handleSelect(d)}>
+                                        <span className="dest-country-name">{d.name}</span>
+                                        <span className="dest-arrow">→</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </aside>
 
-            {/* CONNECTION ARROW (Desktop Only usually) */}
-            {activePlace && cardVisible && window.innerWidth > 768 && (
-                <ConnectionArrow width={dimensions.width} height={dimensions.height} />
-            )}
-
-            {/* OVERLAY CARD */}
-            {activePlace && cardVisible && (
-                <div className="destination-card-overlay">
-                    <div className="destination-card" ref={cardRef}>
-                        <button className="close-card-btn" onClick={handleCloseCard}>×</button>
-                        <div className="card-image">
-                            <img src={optimizeCloudinaryUrl(activePlace.image, 800)} alt={activePlace.name} />
+                        {/* GLOBE */}
+                        <div className={`dest-globe-wrap ${cardVisible ? 'dimmed' : ''}`} ref={containerRef}>
+                            <Stars />
+                            <Suspense fallback={<div className="dest-globe-loader">Loading Globe...</div>}>
+                                <Globe
+                                    ref={globeRef}
+                                    onGlobeReady={handleGlobeReady}
+                                    enableZoom={false}
+                                    width={dimensions.width}
+                                    height={dimensions.height}
+                                    globeImageUrl="/assets/earth-blue-marble.jpg"
+                                    bumpImageUrl="/assets/earth-topology.png"
+                                    backgroundColor="rgba(0,0,0,0)"
+                                    atmosphereColor="#1cbae5"
+                                    atmosphereAltitude={0.15}
+                                    htmlElementsData={activePlace ? [activePlace] : []}
+                                    htmlLat="lat"
+                                    htmlLng="lng"
+                                    htmlElement={(d) => {
+                                        const el = document.createElement("div");
+                                        el.className = "dest-map-pin";
+                                        el.innerHTML = `
+                                    <svg width="26" height="26" viewBox="0 0 24 24">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#e11d48"/>
+                                        <circle cx="12" cy="9" r="2.5" fill="#fff"/>
+                                    </svg>
+                                    `;
+                                        return el;
+                                    }}
+                                />
+                            </Suspense>
                         </div>
-                        <div className="card-content">
-                            <h3>{activePlace.name}</h3>
-                            <p>{activePlace.description}</p>
-                            <button className="explore-btn" onClick={handleExploreClick}>
-                                Explore {activePlace.name}
-                                <span className="btn-arrow">→</span>
-                            </button>
+
+                        {/* CONNECTION ARROW (Desktop Only) */}
+                        {activePlace && cardVisible && (
+                            <ConnectionArrow width={dimensions.width} height={dimensions.height} />
+                        )}
+                    </>
+                )}
+
+            {/* OVERLAY CARD (Shared) */}
+            {
+                activePlace && cardVisible && (
+                    <div className="dest-card-overlay">
+                        <div className="dest-card" ref={cardRef}>
+                            <button className="dest-close-btn" onClick={handleCloseCard}>×</button>
+                            <div className="dest-card-image">
+                                <img src={getOptimizedUrl(activePlace.image, 800)} alt={activePlace.name} />
+                            </div>
+                            <div className="dest-card-content">
+                                <h3>{activePlace.name}</h3>
+                                <p>{activePlace.description}</p>
+                                <button className="dest-explore-btn" onClick={handleExploreClick}>
+                                    Explore {activePlace.name}
+                                    <span className="dest-btn-arrow">→</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </section>
+                )
+            }
+        </section >
     );
 });
 

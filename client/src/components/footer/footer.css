@@ -10,7 +10,7 @@
     font-family: 'Outfit', sans-serif;
     overflow: hidden;
     width: 100%;
-    height: 100vh;
+    min-height: 110vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -146,12 +146,12 @@
 }
 
 /* Social Links */
-.social-links {
+.footer-social-links {
     display: flex;
     gap: 15px;
 }
 
-.social-icon {
+.footer-social-icon {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -166,7 +166,7 @@
     transition: all 0.3s ease;
 }
 
-.social-icon:hover {
+.footer-social-icon:hover {
     background: #FFD700;
     color: #000;
     border-color: #FFD700;
@@ -229,7 +229,7 @@
         align-items: center;
     }
 
-    .social-links {
+    .footer-social-links {
         justify-content: center;
     }
 

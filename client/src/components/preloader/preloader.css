@@ -19,7 +19,7 @@
 }
 
 /* Water Fill Element: The Rising Wave */
-.water-fill {
+.preloader-water-fill {
     position: absolute;
     left: 50%;
     top: 150%;
@@ -34,17 +34,17 @@
     z-index: 0;
 }
 
-.preloader-container.loaded {
+.preloader-container.preloader-loaded {
     opacity: 0;
     pointer-events: none;
 }
 
-.preloader-container.loaded .logo-placeholder {
+.preloader-container.preloader-loaded .preloader-logo-placeholder {
     animation: zoomAndFade 0.2s cubic-bezier(0.7, 0, 0.2, 1) forwards;
     animation-delay: 2.1s;
 }
 
-.logo-placeholder {
+.preloader-logo-placeholder {
     position: relative;
     z-index: 10;
 
@@ -57,7 +57,7 @@
 }
 
 /* The Base Logo */
-.logo-placeholder img {
+.preloader-logo-placeholder img {
     width: 100%;
     height: auto;
     display: block;
