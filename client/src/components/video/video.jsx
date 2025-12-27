@@ -113,7 +113,7 @@ export default function Video() {
     "https://youtu.be/alBym_D6Ni4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571867/singapore_v98wpc.mp4",
     "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571888/srilanka_nmvfom.mp4",
-    "https://res.cloudinary.com/divwmzd8g/video/upload/v1764571914/thailand_avuka1.mp4",
+    "https://youtu.be/wIvc0AnVQy4",
   ];
 
   const col1 = videos.filter((_, i) => i % 3 === 0);

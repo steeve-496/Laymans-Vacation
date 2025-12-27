@@ -54,6 +54,18 @@ function App() {
     };
   }, []);
 
+  // Lock Body Scroll when in Explorer or Packages mode
+  useEffect(() => {
+    if (viewMode !== "home") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [viewMode]);
+
   /* ================= DESTINATION PIN CLICK ================= */
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
@@ -183,12 +195,7 @@ function App() {
             onExplore={handleExplore}
             onClose={handleCloseExplorer} // Ensure StateExplorer has generic back/close if needed, or we add a button in the wrapper
           />
-          <button
-            className="explorer-back-btn"
-            onClick={handleCloseExplorer}
-          >
-            ←
-          </button>
+
         </div>
       )}
 

@@ -87,7 +87,7 @@ const countryData = {
     ]
 };
 
-const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryChange, onExplore }, ref) => {
+const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryChange, onExplore, onClose }, ref) => {
     const [selectedStateIndex, setSelectedStateIndex] = useState(0);
     const dialRef = useRef(null);
     const containerRef = useRef(null);
@@ -235,6 +235,11 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
             className={`st-exp-section${isEntering ? " st-exp-enter" : ""}`}
             ref={containerRef}
         >
+            <button className="st-exp-back-btn" onClick={onClose}>
+                <span>←</span>
+                <span>Back</span>
+            </button>
+
             <div className="st-exp-container">
                 {/* Area 1: State Display */}
                 <div className="st-exp-display">

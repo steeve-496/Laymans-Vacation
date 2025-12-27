@@ -234,7 +234,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                 )
                 .fromTo(".arrow-head",
                     { opacity: 0, scale: 0 },
-                    { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" },
+                    { opacity: 1, scale: 1, duration: 0.1, ease: "back.out(2)" },
                     "-=0.3"
                 );
         }
@@ -397,7 +397,7 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
                 <g transform={`translate(${endX}, ${endY}) rotate(${angle})`}>
                     <polygon
                         className="arrow-head"
-                        points="0,0 -12,-6 -12,6"
+                        points="4,0 -12,-6 -12,6"
                         fill="#e11d48"
                     />
                 </g>
