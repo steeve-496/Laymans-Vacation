@@ -3,403 +3,53 @@ html {
 }
 
 .st-exp-section {
-    --dial-radius: max(200px, 35vh);
-    --reveal-y: 50vh;
-    --reveal-x: 50vw;
-    width: 100%;
-    height: 100vh;
-    max-height: 100vh;
-    box-sizing: border-box;
-    overflow: hidden;
-    background-color: var(--color-off-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading);
-    position: relative;
-}
-
-.st-exp-section.st-exp-reveal {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: var(--z-max);
-    clip-path: circle(0px at var(--reveal-x) var(--reveal-y));
-    -webkit-clip-path: circle(0px at var(--reveal-x) var(--reveal-y));
-    transition: clip-path 1.2s cubic-bezier(0.2, 0, 0, 1), -webkit-clip-path 1.2s cubic-bezier(0.2, 0, 0, 1);
-    will-change: clip-path;
-    pointer-events: none;
-}
-
-.st-exp-section.st-exp-reveal.st-exp-reveal-expanded {
-    clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
-    -webkit-clip-path: circle(150% at var(--reveal-x) var(--reveal-y));
-}
-
-.st-exp-section.st-exp-enter .st-exp-container {
-    animation: stateExplorerFadeIn 0.65s ease both;
-}
-
-@keyframes stateExplorerFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.st-exp-container {
-    display: flex;
-    width: 100%;
-    max-width: 90vw;
-    /* Fluid max-width */
-    height: calc(100vh - 40px);
-    max-height: 100vh;
-    position: relative;
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-}
-
-.st-exp-display {
-    width: 50%;
-    padding: clamp(20px, 4vw, 40px);
+    box-sizing: border-box;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
-}
-
-.st-exp-display-content {
-    width: 100%;
-    height: 100%;
-    background: #1a1a1a;
-    border-radius: clamp(20px, 3vw, 40px);
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.st-exp-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.st-exp-info {
-    position: absolute;
-    bottom: clamp(20px, 4vw, 40px);
-    left: clamp(20px, 4vw, 40px);
-    color: var(--color-text-inverted);
-    z-index: 2;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.st-exp-info h3 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    /* Fluid font size */
-    margin: 0;
-    text-transform: uppercase;
-}
-
-.st-exp-info p {
-    font-size: clamp(1rem, 1.5vw, 1.5rem);
-    /* Fluid font size */
-    margin: 10px 0 0;
-}
-
-.st-exp-btn {
-    margin-top: 20px;
-    padding: 12px 30px;
-    background: transparent;
-    border: 2px solid white;
-    color: var(--color-text-inverted);
     font-family: var(--font-heading);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 30px;
-    transition: all 0.3s ease;
+    position: relative;
+    /* Transition background image smoothly - handled by React re-render but could add transition here */
+    transition: background-image 0.5s ease-in-out;
 }
 
-.st-exp-btn:hover {
-    background: var(--color-white);
-    color: black;
-    transform: translateY(-3px);
-}
-
-/* Area 2 & 3: Controls */
-.st-exp-controls-container {
+.st-exp-backdrop-blur {
     position: absolute;
     top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    pointer-events: none;
-}
-
-/* Rotating Dial Wrapper */
-.st-exp-dial-wrapper {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    /* Fixed position relative to height */
-    transform: translate(22vh, -50%);
-    width: calc(var(--dial-radius) * 2);
-    /* Guaranteed sync */
-    height: calc(var(--dial-radius) * 2);
-    pointer-events: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.st-exp-dial {
+    left: 0;
     width: 100%;
     height: 100%;
-    border: 1px solid #333;
-    border-radius: 50%;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+/* Card Container */
+.st-exp-card-container {
     position: relative;
-}
-
-.st-exp-dial-dot {
-    position: absolute;
-    width: clamp(20px, 3vh, 30px);
-    height: clamp(20px, 3vh, 30px);
-    background: var(--color-black);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: calc(clamp(20px, 3vh, 30px) / -2);
-    margin-left: calc(clamp(20px, 3vh, 30px) / -2);
-    top: 50%;
-    left: 50%;
-}
-
-.st-exp-dial-dot.st-exp-active {
-    transform: scale(1.5);
-    background-color: var(--color-black);
-    border: 3px solid var(--color-white);
-    box-shadow: 0 0 0 1px var(--color-black);
-}
-
-.st-exp-dot-label {
-    position: absolute;
-    left: -115px;
-    /* Moved left to create gap (outside circle) */
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1rem;
-    color: var(--color-black);
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    text-align: right;
-    width: 100px;
-}
-
-.st-exp-dial-dot:hover .st-exp-dot-label,
-.st-exp-dial-dot.st-exp-active .st-exp-dot-label {
-    opacity: 1;
-    font-weight: bold;
-}
-
-/* Area 3: Country Selector (White Semi-Circle) */
-.st-exp-country-selector {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    height: 60%;
-    background: var(--color-white);
-    border-radius: 50%;
+    z-index: 10;
+    width: 90vw;
+    max-width: 1400px;
+    height: 80vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    /* Inner glass effect */
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    z-index: 5;
-    pointer-events: auto;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.st-exp-selector-mask {
-    width: 100%;
-    height: 80%;
-    overflow: hidden;
-    position: relative;
-}
-
-.st-exp-selector-content {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-top: calc(19.2vh - 25px);
-    padding-bottom: calc(19.2vh - 25px);
-    cursor: grab;
-}
-
-.st-exp-selector-content:active {
-    cursor: grabbing;
-}
-
-.st-exp-country-item {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.st-exp-country-item.st-exp-active {
-    font-size: 2.5rem;
-    color: var(--color-black);
-}
-
-/* Mobile Layout */
-@media (max-width: 768px) {
-    .st-exp-section {
-        --dial-radius: 40vw;
-        /* Override radius for mobile width */
-        height: 100vh;
-        /* Fixed height to prevent scrolling issues */
-        min-height: -webkit-fill-available;
-        /* iOS fix */
-        padding: 0;
-        overflow: hidden;
-        background-color: var(--color-white);
-        /* Ensure black background */
-        display: flex;
-        flex-direction: column;
-    }
-
-    .st-exp-container {
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-        position: relative;
-    }
-
-    .st-exp-display {
-        width: 100%;
-        height: 55%;
-        /* Top half */
-        padding: 20px;
-        position: relative;
-        z-index: 10;
-        background: transparent;
-    }
-
-    .st-exp-display-content {
-        border-radius: 20px;
-        height: 100%;
-        background: var(--color-black);
-        /* Darker background for card */
-    }
-
-    .st-exp-info h3 {
-        font-size: 2.5rem;
-    }
-
-    .st-exp-info p {
-        font-size: 1rem;
-    }
-
-    .st-exp-controls-container {
-        width: 100%;
-        height: 45%;
-        /* Bottom half */
-        position: relative;
-        overflow: hidden;
-        background: var(--color-white);
-        /* Ensure controls area is black */
-        pointer-events: auto;
-        /* Re-enable interaction for mobile structure */
-    }
-
-    .st-exp-selector-content {
-        touch-action: none;
-        /* Critical for GSAP Draggable on mobile */
-    }
-
-    .st-exp-dial-wrapper {
-        top: auto;
-        bottom: -10vw;
-        /* Pull dial up slightly for better access */
-        right: 50%;
-        transform: translateX(50%);
-        width: calc(var(--dial-radius) * 2);
-        height: calc(var(--dial-radius) * 2);
-    }
-
-    .st-exp-selector-content {
-        padding-top: calc(25vw - 20px);
-        padding-bottom: calc(25vw - 20px);
-    }
-
-    .st-exp-dial-dot {
-        width: 15px;
-        height: 15px;
-        margin-top: -7.5px;
-        margin-left: -7.5px;
-    }
-
-    .st-exp-dot-label {
-        left: 50%;
-        margin-left: -50px;
-        /* Center 100px width */
-        width: 100px;
-        top: auto;
-        bottom: 25px;
-        /* Above the dot (Outside circle) */
-        text-align: center;
-        font-size: 0.75rem;
-        color: var(--color-text-secondary);
-        /* Light text for dark background */
-    }
-
-    .st-exp-dial-dot:hover .st-exp-dot-label,
-    .st-exp-dial-dot.st-exp-active .st-exp-dot-label {
-        color: var(--color-black);
-    }
-
-    /* Hide country selector background on mobile if it interferes */
-    .st-exp-country-selector {
-        background: rgba(255, 255, 255, 0.05);
-        /* Subtle background */
-        box-shadow: none;
-    }
-
-    .st-exp-country-item {
-        color: var(--color-text-secondary);
-    }
-
-
-    .st-exp-country-item.st-exp-active {
-        color: var(--color-black);
-    }
-
-    /* Mobile Back Button */
-    .st-exp-back-btn {
-        top: 20px;
-        left: 20px;
-        padding: 8px 20px;
-        background: rgba(255, 255, 255, 0.2);
-    }
-}
-
-/* ================= BACK BUTTON ================= */
+/* Back Button */
 .st-exp-back-btn {
     position: absolute;
     top: 40px;
@@ -408,22 +58,319 @@ html {
     align-items: center;
     gap: 12px;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 12px 24px;
-    border-radius: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: transparent;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    color: #000;
-    overflow: hidden;
+    color: #fff;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    transition: transform 0.3s ease;
 }
 
 .st-exp-back-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
-    color: #fff;
     transform: translateX(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-color: transparent;
+}
+
+/* Left Side */
+.st-exp-card-left {
+    flex: 1.2;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+}
+
+.st-exp-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.st-exp-card-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8);
+}
+
+.st-exp-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.st-exp-info {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    max-width: 80%;
+}
+
+.st-exp-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 1;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.st-exp-info p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0 0 40px 0;
+    opacity: 0.9;
+}
+
+.st-exp-explore-btn {
+    padding: 15px 35px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.st-exp-explore-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Right Side (Orbits) */
+.st-exp-card-right {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Transparent bg so image shows through or separate dark bg? */
+    /* Based on image, it looks like it's seamless or slightly darker. Let's keep it transparent to see blur bg */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.st-exp-dial-wrapper {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes orbitSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.st-exp-dial {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border: 2px solid white;
+    border-radius: 100%;
+}
+
+/* Dots */
+.st-exp-dial-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #333;
+    /* Dark default */
+    border-radius: 50%;
+    cursor: pointer;
+    top: 50%;
+    left: 50%;
+    margin-top: -3px;
+    margin-left: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.st-exp-dial-dot.st-exp-active {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.5);
+    /* Will be overridden by inline styles but specificity might help */
+}
+
+/* Labels */
+.st-exp-dot-label {
+    position: absolute;
+    left: 30px;
+    /* To right of dot */
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.st-exp-dial-dot:hover .st-exp-dot-label,
+.st-exp-dial-dot.st-exp-active .st-exp-dot-label {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Nucleus (Center) */
+.st-exp-country-nucleus {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 4px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.st-exp-nucleus-glow {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.st-exp-selector-mask {
+    width: 100%;
+    height: 160px;
+    /* Reduced specific height for visible items */
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+.st-exp-selector-content {
+    text-align: center;
+    cursor: grab;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.st-exp-selector-content:active {
+    cursor: grabbing;
+}
+
+.st-exp-country-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.st-exp-country-item.st-exp-active {
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .st-exp-card-container {
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .st-exp-card-left {
+        flex: 1;
+        padding: 40px 20px;
+    }
+
+    .st-exp-card-right {
+        flex: 1;
+        background: transparent;
+    }
+
+    .st-exp-dial-wrapper {
+        width: 100%;
+        height: 100%;
+        transform: scale(0.8);
+    }
+
+    .st-exp-orbits {
+        opacity: 0.3;
+    }
+
+    .st-exp-info h3 {
+        font-size: 2.5rem;
+    }
+
+    .st-exp-country-nucleus {
+        width: 140px;
+        height: 140px;
+    }
+
+    .st-exp-dial {
+        border-radius: 100%;
+        border: none;
+    }
+
+    .st-exp-country-nucleus {
+        width: 60%;
+        height: 75%;
+    }
+
+    .st-exp-country-item {
+        font-size: 1.5em;
+        height: 40px;
+    }
+
+    .st-exp-country-item.st-exp-active {
+        font-size: 1.75em;
+    }
 }

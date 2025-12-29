@@ -171,7 +171,7 @@ function App() {
       <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
-      <VideoSection />
+      <VideoSection appLoaded={!isLoading} />
 
       <Destinations ref={destinationsRef} onCountrySelect={handleCountrySelect} />
 

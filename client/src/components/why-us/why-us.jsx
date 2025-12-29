@@ -42,6 +42,9 @@ export default function WhyUs() {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top 70%",
+                end: "top 20%",
+                scrub: 1,
+
             }
         });
 

@@ -2,7 +2,7 @@
 import React, { forwardRef, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import "./packages.css";
-import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
+import { getOptimizedUrl } from "../../utils/imageOptimizer";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { PACKAGE_TIER_IMAGES } from "../../data/packageImages";
@@ -170,7 +170,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                 <div className="pkg-modal-body">
                     <div className="pkg-modal-left">
                         <img
-                            src={optimizeCloudinaryUrl(pkg.image, 800)}
+                            src={getOptimizedUrl(pkg.image, 800)}
                             alt={pkg.title}
                             className="pkg-modal-image"
                         />
@@ -391,8 +391,17 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
         setOriginRect(null);
     };
 
+    const activePackage = packages[activeIndex];
+
     return (
-        <section className="pkg-section" ref={ref}>
+        <section
+            className="pkg-section"
+            ref={ref}
+            style={{
+                backgroundImage: `url(${getOptimizedUrl(activePackage?.image, 1200)})`
+            }}
+        >
+            <div className="pkg-backdrop-blur"></div>
             <div className="pkg-connecting-line"></div>
 
             <div
@@ -409,7 +418,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
                         <div key={pkg.id} className="pkg-carousel-card">
                             <div className="pkg-card-image-wrapper">
                                 <img
-                                    src={optimizeCloudinaryUrl(pkg.image, 1200)}
+                                    src={getOptimizedUrl(pkg.image, 1200)}
                                     alt={pkg.title}
                                     draggable="false" // Prevent image drag
                                 />

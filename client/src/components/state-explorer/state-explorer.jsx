@@ -133,7 +133,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
     useGSAP(() => {
         const dial = dialRef.current;
         const countryList = countryListRef.current;
-        const itemHeight = 50; // Height of each country item
+        const itemHeight = 40; // Height of each country item
         const snapValue = itemHeight;
         const DOT_SPACING = isMobile ? 50 : 35; // Wider spacing on mobile for readability
         const START_ANGLE = 155;
@@ -234,52 +234,57 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
         <section
             className={`st-exp-section${isEntering ? " st-exp-enter" : ""}`}
             ref={containerRef}
+            style={{
+                backgroundImage: `url(${currentState ? getOptimizedUrl(currentState.image, 1200) : ''})`
+            }}
         >
-            <button className="st-exp-back-btn" onClick={onClose}>
-                <span>←</span>
-                <span>Back</span>
-            </button>
+            <div className="st-exp-backdrop-blur"></div>
 
-            <div className="st-exp-container">
-                {/* Area 1: State Display */}
-                <div className="st-exp-display">
-                    <div className="st-exp-display-content" key={`${selectedCountry}-${selectedStateIndex}`}>
-                        {currentState && (
-                            <>
+            <div className="st-exp-card-container">
+                <button className="st-exp-back-btn" onClick={onClose}>
+                    <span>←</span>
+                    <span>Back</span>
+                </button>
+
+                {/* Left Side: Content & Image Background */}
+                <div className="st-exp-card-left">
+                    {currentState && (
+                        <>
+                            <div className="st-exp-card-bg">
                                 <img
                                     src={getOptimizedUrl(currentState.image, 800)}
                                     alt={currentState.name}
-                                    className="st-exp-image"
                                     loading="lazy"
                                 />
-                                <div className="st-exp-info">
-                                    <h3>{currentState.name}</h3>
-                                    <p>{currentState.description}</p>
-                                    <button
-                                        className="st-exp-btn"
-                                        onClick={() => onExplore && onExplore(selectedCountry)}
-                                    >
-                                        Click to Explore
-                                    </button>
-                                </div>
-                            </>
-                        )}
-                    </div>
+                                <div className="st-exp-overlay"></div>
+                            </div>
+
+                            <div className="st-exp-info">
+                                <h3>{currentState.name}</h3>
+                                <p>{currentState.description}</p>
+                                <button
+                                    className="st-exp-explore-btn"
+                                    onClick={() => onExplore && onExplore(selectedCountry)}
+                                >
+                                    Click to Explore
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
 
-                {/* Area 2 & 3: Dial and Country Selector */}
-                <div className="st-exp-controls-container">
-                    {/* Rotating Dial Wrapper */}
+                {/* Right Side: Atomic/Orbital Controls */}
+                <div className="st-exp-card-right">
                     <div className="st-exp-dial-wrapper">
                         <div className="st-exp-dial" ref={dialRef}>
                             {states.map((state, index) => {
-                                const angle = 155 + (index * 35); // Updated spacing
+                                const angle = 155 + (index * 35);
                                 return (
                                     <div
                                         key={index}
                                         className={`st-exp-dial-dot ${index === selectedStateIndex ? "st-exp-active" : ""}`}
                                         style={{
-                                            transform: `rotate(${angle}deg) translate(var(--dial-radius)) rotate(-${angle}deg)`
+                                            transform: `rotate(${angle}deg) translate(270px) rotate(-${angle}deg)` // Fixed radius for card
                                         }}
                                         onClick={() => setSelectedStateIndex(index)}
                                     >
@@ -289,8 +294,8 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                             })}
                         </div>
 
-                        {/* Country Selector (Area 3) - Inside the Dial */}
-                        <div className="st-exp-country-selector">
+                        {/* Country Selector - Nucleus */}
+                        <div className="st-exp-country-nucleus">
                             <div className="st-exp-selector-mask">
                                 <div className="st-exp-selector-content" ref={countryListRef}>
                                     {Object.keys(countryData).map((country) => (
@@ -307,6 +312,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                                     ))}
                                 </div>
                             </div>
+                            <div className="st-exp-nucleus-glow"></div>
                         </div>
                     </div>
                 </div>

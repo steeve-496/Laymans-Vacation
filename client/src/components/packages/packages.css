@@ -7,6 +7,22 @@
     overflow-y: hidden;
     overflow-x: hidden;
     font-family: 'Inter', sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.6s ease-in-out;
+}
+
+.pkg-backdrop-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
 }
 
 .pkg-back-btn {
@@ -71,7 +87,7 @@
     width: 100%;
     height: 1px;
     background: #ffffff;
-    z-index: 0;
+    z-index: 1;
     transform: translateY(-50%);
 }
 
@@ -81,6 +97,8 @@
     display: flex;
     align-items: center;
     overflow-x: auto;
+    position: relative;
+    z-index: 5;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -572,6 +590,15 @@
 }
 
 @media (max-width: 768px) {
+    .pkg-carousel-container {
+        align-items: flex-start;
+        /* Align top for better viewing */
+        padding-top: 20px;
+        touch-action: pan-x;
+        /* Explicitly allow horizontal scroll */
+        -webkit-overflow-scrolling: touch;
+    }
+
     .pkg-carousel-track {
         padding-left: 20px;
         padding-right: 20px;
@@ -582,6 +609,28 @@
 
     .pkg-carousel-card {
         min-width: 85vw;
+        height: 65vh;
+        /* Match track height */
+        position: relative;
+        overflow: hidden;
+        /* Critical for containing image */
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+
+    .pkg-card-image-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .pkg-card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .pkg-card-title {
@@ -615,6 +664,7 @@
         margin-bottom: 1rem;
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         /* Limit text lines */
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -785,6 +835,7 @@
         margin-bottom: 1rem;
         display: -webkit-box;
         -webkit-line-clamp: 4;
+        line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
         /* Allow one more line */
