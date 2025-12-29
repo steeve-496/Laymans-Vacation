@@ -351,18 +351,13 @@ html {
     }
 
     .st-exp-country-nucleus {
-        width: 140px;
-        height: 140px;
+        width: 220px;
+        height: 220px;
     }
 
     .st-exp-dial {
         border-radius: 100%;
         border: none;
-    }
-
-    .st-exp-country-nucleus {
-        width: 60%;
-        height: 75%;
     }
 
     .st-exp-country-item {
@@ -373,4 +368,46 @@ html {
     .st-exp-country-item.st-exp-active {
         font-size: 1.75em;
     }
+
+    /* Mobile state selector (horizontal) */
+    .st-exp-mobile-states {
+        display: flex;
+        margin-bottom: 50%;
+        position: absolute;
+        justify-content: space-around;
+        align-items: center;
+        padding: 14px 16px;
+    }
+
+    .st-exp-mobile-state {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.1rem;
+        display: flex;
+        width: 150px;
+        height: 150px;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+    .st-exp-mobile-state .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #fff;
+    }
+
+    .st-exp-mobile-state.active {
+        opacity: 1;
+    }
+
+    .st-exp-mobile-state.active .dot {
+        box-shadow: 0 0 0 2px #bfbfbf;
+        background: #ffffff;
+    }
+
 }

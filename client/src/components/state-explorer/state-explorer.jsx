@@ -131,6 +131,7 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
 
     // 2. Interaction Logic - Runs when Country changes
     useGSAP(() => {
+        if (isMobile) return;
         const dial = dialRef.current;
         const countryList = countryListRef.current;
         const itemHeight = 40; // Height of each country item
@@ -276,23 +277,40 @@ const StateExplorer = forwardRef(({ selectedCountry = "Azerbaijan", onCountryCha
                 {/* Right Side: Atomic/Orbital Controls */}
                 <div className="st-exp-card-right">
                     <div className="st-exp-dial-wrapper">
-                        <div className="st-exp-dial" ref={dialRef}>
-                            {states.map((state, index) => {
-                                const angle = 155 + (index * 35);
-                                return (
-                                    <div
+                        {!isMobile && (
+                            <div className="st-exp-dial" ref={dialRef}>
+                                {states.map((state, index) => {
+                                    const angle = 155 + index * 35;
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`st-exp-dial-dot ${index === selectedStateIndex ? "st-exp-active" : ""}`}
+                                            style={{
+                                                transform: `rotate(${angle}deg) translate(270px) rotate(-${angle}deg)`
+                                            }}
+                                            onClick={() => setSelectedStateIndex(index)}
+                                        >
+                                            <span className="st-exp-dot-label">{state.name}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {isMobile && (
+                            <div className="st-exp-mobile-states">
+                                {states.map((state, index) => (
+                                    <button
                                         key={index}
-                                        className={`st-exp-dial-dot ${index === selectedStateIndex ? "st-exp-active" : ""}`}
-                                        style={{
-                                            transform: `rotate(${angle}deg) translate(270px) rotate(-${angle}deg)` // Fixed radius for card
-                                        }}
+                                        className={`st-exp-mobile-state ${index === selectedStateIndex ? "active" : ""}`}
                                         onClick={() => setSelectedStateIndex(index)}
                                     >
-                                        <span className="st-exp-dot-label">{state.name}</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                        <span className="dot" />
+                                        <span className="label">{state.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Country Selector - Nucleus */}
                         <div className="st-exp-country-nucleus">
