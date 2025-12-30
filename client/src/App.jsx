@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Preloader from "./components/preloader/preloader";
 import Header from "./components/header/header";
@@ -16,30 +17,37 @@ import WhoWeAre from "./components/who-we-are/who-we-are";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-function App() {
-  const [viewMode, setViewMode] = useState("home"); // home | explorer | packages
-  const [selectedCountry, setSelectedCountry] = useState("Azerbaijan");
-  const [selectedPackageLocation, setSelectedPackageLocation] = useState(null);
-
-  const packagesRef = useRef(null);
-  const stateExplorerRef = useRef(null);
+// Home Page Component
+function HomePage() {
   const destinationsRef = useRef(null);
+  const location = useLocation();
 
-  const explorerWrapperRef = useRef(null);
-
-  // Manage Preloader State
-  const [isLoading, setIsLoading] = useState(true);
+  // Manage Preloader State - only show once per session
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if preloader has already been shown this session
+    return !sessionStorage.getItem('preloaderShown');
+  });
 
   useEffect(() => {
+    // If preloader was already shown, skip
+    if (sessionStorage.getItem('preloaderShown')) {
+      setIsLoading(false);
+      return;
+    }
+
     // Fallback if window load doesn't fire (e.g. single page nav or cached)
     const timeout = setTimeout(() => {
       setIsLoading(false);
+      sessionStorage.setItem('preloaderShown', 'true');
     }, 4500); // Max wait time
 
     const handleLoad = () => {
       clearTimeout(timeout);
       // Small delay to ensure smooth transition
-      setTimeout(() => setIsLoading(false), 500);
+      setTimeout(() => {
+        setIsLoading(false);
+        sessionStorage.setItem('preloaderShown', 'true');
+      }, 500);
     };
 
     if (document.readyState === "complete") {
@@ -54,172 +62,70 @@ function App() {
     };
   }, []);
 
-  // Lock Body Scroll when in Explorer or Packages mode
+  // Handle hash navigation (e.g., /#destinations from state-explorer back button)
   useEffect(() => {
-    if (viewMode !== "home") {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [viewMode]);
+    if (!isLoading && location.hash) {
+      const elementId = location.hash.replace('#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Check if coming from state-explorer (instant scroll) or hero (smooth scroll)
+        const isFromStateExplorer = location.search.includes('instant=true');
 
-  /* ================= DESTINATION PIN CLICK ================= */
-  const handleCountrySelect = (country) => {
-    setSelectedCountry(country);
-    setViewMode("explorer");
-  };
-
-  /* ================= EXPLORER PARALLAX TRANSITION ================= */
-  useGSAP(() => {
-    if (viewMode === "explorer" && destinationsRef.current && explorerWrapperRef.current) {
-      // Enter Explorer Mode
-      const tl = gsap.timeline();
-
-      // 1. Destinations Recedes
-      tl.to(destinationsRef.current, {
-        scale: 0.95,
-        y: 50,
-        opacity: 0.5,
-        filter: "blur(5px)",
-        duration: 0.8,
-        ease: "power3.inOut"
-      }, 0);
-
-      // 2. Explorer Slides Up
-      tl.fromTo(explorerWrapperRef.current,
-        { y: "100vh" },
-        {
-          y: "0%",
-          duration: 1,
-          ease: "power3.out"
-        },
-        0 // Start together (slightly delayed feeling due to easing)
-      );
-
-    } else if (viewMode === "home" && destinationsRef.current) {
-      // Return to Home (Close Explorer)
-      // If wrapper exists (it won't if conditional rendering unmounts it immediately), we animate out.
-      // We need to delay unmounting if we want to animate out, but for now let's just reset Destinations.
-
-      gsap.to(destinationsRef.current, {
-        scale: 1,
-        y: 0,
-        opacity: 1,
-        filter: "blur(0px)",
-        duration: 0.6,
-        ease: "power3.out"
-      });
-    }
-  }, [viewMode]);
-
-  /* ================= EXPLORER → PACKAGES ================= */
-  const handleExplore = (location) => {
-    setSelectedPackageLocation(location);
-    setViewMode("packages");
-
-    gsap.fromTo(
-      packagesRef.current,
-      { x: "100%" },
-      { x: "0%", duration: 0.8, ease: "power3.out" }
-    );
-  };
-
-  /* ================= PACKAGES → EXPLORER ================= */
-  const handleBackToExplorer = () => {
-    gsap.to(packagesRef.current, {
-      x: "100%",
-      duration: 0.6,
-      ease: "power3.in",
-      onComplete: () => {
-        setViewMode("explorer");
-        setSelectedPackageLocation(null);
+        setTimeout(() => {
+          element.scrollIntoView({
+            behavior: isFromStateExplorer ? 'instant' : 'smooth',
+            block: 'start'
+          });
+        }, isFromStateExplorer ? 0 : 100);
       }
-    });
-  };
-
-  /* ================= EXPLORER → HOME ================= */
-  const handleCloseExplorer = () => {
-    if (explorerWrapperRef.current) {
-      gsap.to(explorerWrapperRef.current, {
-        y: "100vh",
-        duration: 0.6,
-        ease: "power3.in",
-        onComplete: () => setViewMode("home")
-      });
-
-      if (destinationsRef.current) {
-        gsap.to(destinationsRef.current, {
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          filter: "blur(0px)",
-          duration: 0.6,
-          ease: "power3.out",
-          delay: 0.1
-        });
-      }
-    } else {
-      setViewMode("home");
     }
-  };
+  }, [isLoading, location.hash, location.search]);
 
   return (
-    <div className="app-container">
+    <>
       <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
       <VideoSection appLoaded={!isLoading} />
-
-      <Destinations ref={destinationsRef} onCountrySelect={handleCountrySelect} />
-
-      {/* ================= STATE EXPLORER ================= */}
-      {viewMode === "explorer" && (
-        <div
-          ref={explorerWrapperRef}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 50,
-            background: "#f4f4f4", // Ensure bg covers
-            height: "100vh",
-            width: "100vw"
-          }}
-        >
-          <StateExplorer
-            ref={stateExplorerRef}
-            selectedCountry={selectedCountry}
-            onCountryChange={setSelectedCountry}
-            onExplore={handleExplore}
-            onClose={handleCloseExplorer} // Ensure StateExplorer has generic back/close if needed, or we add a button in the wrapper
-          />
-
-        </div>
-      )}
-
-      {/* ================= PACKAGES ================= */}
-      <div
-        ref={packagesRef}
-        style={{
-          position: "fixed",
-          inset: 0,
-          transform: "translateX(100%)",
-          zIndex: 60
-        }}
-      >
-        <Packages
-          location={selectedPackageLocation || selectedCountry}
-          onBack={handleBackToExplorer}
-        />
-      </div>
-
+      <Destinations ref={destinationsRef} />
       <WhyUs />
       <Testimonials />
       <WhoWeAre />
       <ContactUs />
       <Footer />
+    </>
+  );
+}
+
+// Packages Page Wrapper
+function PackagesPage() {
+  const navigate = useNavigate();
+  const { country, location } = useParams();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  return (
+    <Packages
+      location={location || country}
+      country={country}
+      onBack={handleBack}
+    />
+  );
+}
+
+// Import useParams for PackagesPage
+import { useParams } from "react-router-dom";
+
+function App() {
+  return (
+    <div className="app-container">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/explore/:country" element={<StateExplorer />} />
+        <Route path="/packages/:country/:location?" element={<PackagesPage />} />
+      </Routes>
     </div>
   );
 }

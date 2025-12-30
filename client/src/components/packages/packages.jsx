@@ -205,7 +205,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
     );
 };
 
-const Packages = forwardRef(({ location, onBack }, ref) => {
+const Packages = forwardRef(({ location, country, onBack }, ref) => {
     const containerRef = useRef(null);
     const scrollContainerRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -219,6 +219,9 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
     const [hasFormShown, setHasFormShown] = useState(false);
     const [showFormInModal, setShowFormInModal] = useState(false);
 
+    // Use country for image lookup, fallback to location if country not provided
+    const imageKey = country || location;
+
     const packages = [
         {
             id: 1,
@@ -226,7 +229,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Glimpse",
             title: `Best of ${location}`,
             price: "Rs 25,000",
-            image: getPackageImage(location, "Basic"),
+            image: getPackageImage(imageKey, "Basic"),
             duration: "5 Days",
             description: "Experience the highlights and hidden gems in this curated tour.",
             itinerary: [
@@ -243,7 +246,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Escape",
             title: `Romantic ${location}`,
             price: "Rs 80,000",
-            image: getPackageImage(location, "Getaway"),
+            image: getPackageImage(imageKey, "Getaway"),
             duration: "6 Days",
             description: "Perfect for couples. Sunsets, private dinners, and beautiful views.",
             itinerary: [
@@ -261,7 +264,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Voyage",
             title: `${location} Adventure`,
             price: "Rs 1,00,000",
-            image: getPackageImage(location, "Adventure"),
+            image: getPackageImage(imageKey, "Adventure"),
             duration: "8 Days",
             description: "For the thrill-seekers. Hiking, rafting, and exploring the wild.",
             itinerary: [
@@ -281,7 +284,7 @@ const Packages = forwardRef(({ location, onBack }, ref) => {
             navTitle: "The Odyssey",
             title: `Luxury ${location}`,
             price: "Rs 2,50,000",
-            image: getPackageImage(location, "Luxury"),
+            image: getPackageImage(imageKey, "Luxury"),
             duration: "10 Days",
             description: "Indulge in the finest accommodations and exclusive experiences.",
             itinerary: [

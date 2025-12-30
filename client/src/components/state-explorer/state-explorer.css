@@ -1,175 +1,401 @@
-html {
-    overflow-x: hidden;
-}
+/* State Explorer - Lens-Only Navigation Design */
 
-.st-exp-section {
+/* ===== Section Container - No Scroll ===== */
+.se-section {
+    position: relative;
     width: 100vw;
     height: 100vh;
-    box-sizing: border-box;
     overflow: hidden;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+}
+
+/* ===== Background ===== */
+.se-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading);
-    position: relative;
-    /* Transition background image smoothly - handled by React re-render but could add transition here */
-    transition: background-image 0.5s ease-in-out;
+    z-index: 0;
+    will-change: transform, opacity;
 }
 
-.st-exp-backdrop-blur {
+.se-bg-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.4) 50%,
+            rgba(0, 0, 0, 0.6) 100%);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     z-index: 1;
 }
 
-/* Card Container */
-.st-exp-card-container {
+/* ===== Content Container ===== */
+.se-content {
     position: relative;
-    z-index: 10;
-    width: 90vw;
-    max-width: 1400px;
-    height: 80vh;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px);
-    /* Inner glass effect */
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    display: flex;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Back Button */
-.st-exp-back-btn {
-    position: absolute;
-    top: 40px;
-    left: 40px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    z-index: 999;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    font-size: 1.1rem;
-    font-family: var(--font-body);
-    transition: transform 0.3s ease;
+    justify-content: space-between;
+    padding: 60px 80px 60px 60px;
+    box-sizing: border-box;
+    z-index: 10;
+    gap: 40px;
 }
 
-.st-exp-back-btn:hover {
-    transform: translateX(-5px);
-}
-
-/* Left Side */
-.st-exp-card-left {
-    flex: 1.2;
+/* ===== Main Card ===== */
+.se-card {
     position: relative;
+    flex: 1;
+    max-width: 1000px;
+    height: 75vh;
+    max-height: 650px;
+    border-radius: 24px;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 60px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    will-change: transform, opacity;
 }
 
-.st-exp-card-bg {
+.se-card-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
 }
 
-.st-exp-card-bg img {
+.se-card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.8);
+    transition: transform 0.8s ease;
 }
 
-.st-exp-overlay {
+.se-card:hover .se-card-image img {
+    transform: scale(1.02);
+}
+
+.se-card-gradient {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(to right,
+            rgba(0, 0, 0, 0.75) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            transparent 100%);
 }
 
-.st-exp-info {
-    position: relative;
-    z-index: 2;
-    color: #fff;
-    max-width: 80%;
-}
-
-.st-exp-info h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 5vw, 5rem);
-    line-height: 1;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-}
-
-.st-exp-info p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 300;
-    margin: 0 0 40px 0;
-    opacity: 0.9;
-}
-
-.st-exp-explore-btn {
-    padding: 15px 35px;
+/* ===== Back Button ===== */
+.se-back-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    color: #fff;
-    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
     border-radius: 50px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.se-back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-3px);
+}
+
+.se-back-arrow {
+    font-size: 1.1rem;
+}
+
+/* ===== Card Content ===== */
+.se-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 50px;
+    z-index: 5;
+    max-width: 60%;
+}
+
+.se-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    color: #fff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    margin: 0 0 15px 0;
+    line-height: 1.1;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
-.st-exp-explore-btn:hover {
-    background: #fff;
-    color: #000;
+.se-card-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 30px 0;
+    line-height: 1.6;
+    max-width: 400px;
 }
 
-/* Right Side (Orbits) */
-.st-exp-card-right {
-    flex: 1;
+.se-explore-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.se-explore-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ===== Lens Slider Control ===== */
+.se-lens-slider {
     position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    height: 350px;
+    flex-shrink: 0;
+    min-width: 150px;
+}
+
+/* Scale Labels - State Names */
+.se-scale-numbers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 10px 0;
+    align-items: flex-end;
+}
+
+.se-scale-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.35);
+    transition: all 0.3s ease;
+    text-align: right;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.se-scale-num:hover {
+    color: rgba(212, 175, 55, 0.7);
+    transform: translateX(-3px);
+}
+
+.se-scale-num.active {
+    color: #d4af37;
+    font-weight: 600;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    transform: translateX(-5px);
+}
+
+/* Slider Track */
+.se-slider-track {
+    position: relative;
+    width: 60px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.se-track-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 10%,
+            rgba(255, 255, 255, 0.3) 90%,
+            transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.se-tick {
+    width: 10px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateX(-4px);
+}
+
+.se-tick.se-tick-major {
+    width: 18px;
+    height: 2px;
+    transform: translateX(-8px);
+    background: rgba(212, 175, 55, 0.6);
+}
+
+/* Slider Dial */
+.se-slider-dial {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    cursor: grab;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Transparent bg so image shows through or separate dark bg? */
-    /* Based on image, it looks like it's seamless or slightly darker. Let's keep it transparent to see blur bg */
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+    touch-action: none;
 }
 
-.st-exp-dial-wrapper {
-    position: relative;
-    width: 600px;
-    height: 600px;
+.se-slider-dial:active {
+    cursor: grabbing;
+}
+
+.se-dial-glow {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(212, 175, 55, 0.4) 0%,
+            rgba(212, 175, 55, 0.15) 40%,
+            transparent 70%);
+    animation: dialPulse 2s ease-in-out infinite;
+}
+
+@keyframes dialPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+}
+
+.se-dial-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,
+            #2a2a2a 0%,
+            #1a1a1a 100%);
+    border: 2px solid rgba(212, 175, 55, 0.6);
+    box-shadow:
+        0 0 25px rgba(212, 175, 55, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
 }
 
-@keyframes orbitSpin {
+.se-slider-dial:hover .se-dial-circle {
+    border-color: #d4af37;
+    box-shadow:
+        0 0 35px rgba(212, 175, 55, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Track Glow Effect */
+.se-track-glow {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 80px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(212, 175, 55, 0.6) 50%,
+            transparent 100%);
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+/* Current Value Display */
+.se-current-value {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.se-value-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: #d4af37;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+}
+
+.se-value-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 5px;
+}
+
+/* ===== Sparkle Decoration ===== */
+.se-sparkle {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    font-size: 2rem;
+    color: rgba(212, 175, 55, 0.6);
+    animation: sparkleRotate 4s linear infinite;
+    z-index: 5;
+}
+
+@keyframes sparkleRotate {
     from {
         transform: rotate(0deg);
     }
@@ -179,235 +405,345 @@ html {
     }
 }
 
-.st-exp-dial {
+/* ===== Navigation Hint ===== */
+.se-nav-hint {
     position: absolute;
-    width: 80%;
-    height: 80%;
-    border: 2px solid white;
-    border-radius: 100%;
-}
-
-/* Dots */
-.st-exp-dial-dot {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #333;
-    /* Dark default */
-    border-radius: 50%;
-    cursor: pointer;
-    top: 50%;
+    bottom: 30px;
     left: 50%;
-    margin-top: -3px;
-    margin-left: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.st-exp-dial-dot.st-exp-active {
-    background: #fff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    transform: scale(1.5);
-    /* Will be overridden by inline styles but specificity might help */
-}
-
-/* Labels */
-.st-exp-dot-label {
-    position: absolute;
-    left: 30px;
-    /* To right of dot */
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    white-space: nowrap;
-    pointer-events: none;
-    transition: all 0.3s;
-}
-
-.st-exp-dial-dot:hover .st-exp-dot-label,
-.st-exp-dial-dot.st-exp-active .st-exp-dot-label {
-    color: #fff;
-    font-weight: 500;
-}
-
-/* Nucleus (Center) */
-.st-exp-country-nucleus {
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 4px solid #fff;
-    border-radius: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 2px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 20;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    gap: 8px;
+    animation: navHintPulse 2s ease-in-out infinite;
 }
 
-.st-exp-nucleus-glow {
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 50%;
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-    animation: pulseGlow 3s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
+@keyframes navHintPulse {
 
     0%,
     100% {
         opacity: 0.5;
-        transform: scale(1);
     }
 
     50% {
         opacity: 1;
-        transform: scale(1.05);
     }
 }
 
-.st-exp-selector-mask {
-    width: 100%;
-    height: 160px;
-    /* Reduced specific height for visible items */
-    overflow: hidden;
+/* ===== Responsive Design ===== */
+@media (max-width: 1200px) {
+    .se-content {
+        padding: 40px;
+    }
+
+    .se-card {
+        width: 60%;
+    }
+
+    .se-lens-slider {
+        height: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .se-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        padding: 80px 30px 40px;
+    }
+
+    .se-card {
+        width: 100%;
+        max-width: 600px;
+        height: 55vh;
+    }
+
+    .se-card-content {
+        max-width: 80%;
+        padding: 30px;
+    }
+
+    .se-lens-slider {
+        display: none;
+    }
+
+    /* Show mobile dots on tablet/mobile */
+    .se-mobile-dots {
+        display: flex !important;
+    }
+
+    .se-current-value {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .se-section {
+        touch-action: none;
+    }
+
+    .se-content {
+        padding: 30px 20px 100px;
+        gap: 20px;
+    }
+
+    .se-card {
+        width: 100%;
+        height: 60vh;
+        max-height: none;
+        border-radius: 20px;
+    }
+
+    .se-back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 10px 18px;
+        font-size: 0.8rem;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .se-card-content {
+        padding: 25px;
+        max-width: 100%;
+    }
+
+    .se-card-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        margin-bottom: 10px;
+    }
+
+    .se-card-description {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        max-width: 100%;
+        line-height: 1.5;
+    }
+
+    .se-explore-btn {
+        padding: 14px 28px;
+        font-size: 0.8rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .se-card-gradient {
+        background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.95) 0%,
+                rgba(0, 0, 0, 0.6) 40%,
+                transparent 100%);
+    }
+
+    .se-sparkle {
+        display: none;
+    }
+
+    .se-nav-hint {
+        bottom: 20px;
+        display: none;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .se-content {
+        padding: 20px 15px 90px;
+    }
+
+    .se-card {
+        height: 65vh;
+        border-radius: 16px;
+    }
+
+    .se-back-btn {
+        top: 10px;
+        left: 10px;
+        padding: 8px 14px;
+        font-size: 0.75rem;
+    }
+
+    .se-card-content {
+        padding: 20px;
+    }
+
+    .se-card-title {
+        font-size: clamp(1.5rem, 7vw, 2rem);
+    }
+
+    .se-card-description {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .se-explore-btn {
+        padding: 12px 24px;
+        font-size: 0.75rem;
+    }
+
+    .se-nav-hint {
+        bottom: 15px;
+    }
+}
+
+/* ===== Mobile Dots Navigation ===== */
+.se-mobile-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+}
+
+.se-mobile-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
     position: relative;
-    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
 }
 
-.st-exp-selector-content {
-    text-align: center;
-    cursor: grab;
-    padding-top: 40px;
-    padding-bottom: 40px;
+.se-mobile-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
-.st-exp-selector-content:active {
-    cursor: grabbing;
+.se-mobile-dot.active {
+    background: #d4af37;
+    border-color: #d4af37;
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
 }
 
-.st-exp-country-item {
-    height: 40px;
+.se-mobile-dot.active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.4;
+    }
+}
+
+/* ===== Swipe Indicator for Mobile ===== */
+.se-swipe-indicator {
+    display: none;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    gap: 15px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.se-swipe-arrow {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    cursor: pointer;
+    gap: 5px;
+    animation: swipeArrowPulse 1.5s ease-in-out infinite;
 }
 
-.st-exp-country-item.st-exp-active {
-    font-size: 1.2rem;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+.se-swipe-arrow.left {
+    animation-delay: 0.75s;
 }
 
+@keyframes swipeArrowPulse {
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .st-exp-card-container {
-        flex-direction: column;
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        border: none;
-        background: rgba(0, 0, 0, 0.8);
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: translateX(0);
     }
 
-    .st-exp-card-left {
-        flex: 1;
-        padding: 40px 20px;
-    }
-
-    .st-exp-card-right {
-        flex: 1;
-        background: transparent;
-    }
-
-    .st-exp-dial-wrapper {
-        width: 100%;
-        height: 100%;
-        transform: scale(0.8);
-    }
-
-    .st-exp-orbits {
-        opacity: 0.3;
-    }
-
-    .st-exp-info h3 {
-        font-size: 2.5rem;
-    }
-
-    .st-exp-country-nucleus {
-        width: 220px;
-        height: 220px;
-    }
-
-    .st-exp-dial {
-        border-radius: 100%;
-        border: none;
-    }
-
-    .st-exp-country-item {
-        font-size: 1.5em;
-        height: 40px;
-    }
-
-    .st-exp-country-item.st-exp-active {
-        font-size: 1.75em;
-    }
-
-    /* Mobile state selector (horizontal) */
-    .st-exp-mobile-states {
-        display: flex;
-        margin-bottom: 50%;
-        position: absolute;
-        justify-content: space-around;
-        align-items: center;
-        padding: 14px 16px;
-    }
-
-    .st-exp-mobile-state {
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 1.1rem;
-        display: flex;
-        width: 150px;
-        height: 150px;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        opacity: 0.6;
-        cursor: pointer;
-    }
-
-    .st-exp-mobile-state .dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #fff;
-    }
-
-    .st-exp-mobile-state.active {
+    50% {
         opacity: 1;
+        transform: translateX(-3px);
+    }
+}
+
+.se-swipe-arrow.right {
+    animation-name: swipeArrowPulseRight;
+}
+
+@keyframes swipeArrowPulseRight {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: translateX(0);
     }
 
-    .st-exp-mobile-state.active .dot {
-        box-shadow: 0 0 0 2px #bfbfbf;
-        background: #ffffff;
+    50% {
+        opacity: 1;
+        transform: translateX(3px);
     }
+}
 
+@media (max-width: 992px) {
+    .se-swipe-indicator {
+        display: flex;
+    }
+}
+
+/* ===== State counter for mobile ===== */
+.se-mobile-counter {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 20;
+}
+
+.se-mobile-counter .current {
+    color: #d4af37;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .se-mobile-counter {
+        display: block;
+    }
 }

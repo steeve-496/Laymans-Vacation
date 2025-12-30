@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, forwardRef, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 const Globe = React.lazy(() => import("react-globe.gl"));
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -122,7 +123,8 @@ const domestic = [
 
 const DEFAULT_VIEW = { altitude: 2.5 };
 
-const Destinations = forwardRef(({ onCountrySelect }, ref) => {
+const Destinations = forwardRef((props, ref) => {
+    const navigate = useNavigate();
     const globeRef = useRef(null);
     // Use the forwarded ref if provided, otherwise internal fallback (though usually parent will provide ref)
     // To handle both, we can use useImperativeHandle or just direct ref assignment if valid.
@@ -412,9 +414,9 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
 
     /* ================== NAVIGATE TO EXPLORER ================== */
     const handleExploreClick = () => {
-        // Just trigger selection, parent handles transition
-        if (onCountrySelect && activePlace) {
-            onCountrySelect(activePlace.name);
+        // Navigate to state explorer page using React Router
+        if (activePlace) {
+            navigate(`/explore/${encodeURIComponent(activePlace.name)}`);
         }
     };
 
@@ -479,72 +481,70 @@ const Destinations = forwardRef(({ onCountrySelect }, ref) => {
             {
                 isMobile ? (
                     /* ================= MOBILE LAYOUT ================= */
-                    <div className="mobile-layout-container" >
-                        {/* 1. Globe Area (Fixed at top) */}
-                        < div className="mobile-globe-area" ref={containerRef} >
-                            <Stars />
-                            <Suspense fallback={<div className="globe-loader">Loading...</div>}>
-                                <Globe
-                                    ref={globeRef}
-                                    onGlobeReady={handleGlobeReady}
-                                    enableZoom={false}
-                                    width={dimensions.width}
-                                    height={dimensions.height * 0.45} // 45% of screen height
-                                    globeImageUrl="/assets/earth-blue-marble.jpg"
-                                    bumpImageUrl="/assets/earth-topology.png"
-                                    backgroundColor="rgba(0,0,0,0)"
-                                    atmosphereColor="#1cbae5"
-                                    atmosphereAltitude={0.15}
-                                    htmlElementsData={activePlace ? [activePlace] : []}
-                                    htmlLat="lat"
-                                    htmlLng="lng"
-                                    htmlElement={() => {
-                                        const el = document.createElement("div");
-                                        el.className = "dest-map-pin";
-                                        el.innerHTML = `<svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#e11d48"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>`;
-                                        return el;
-                                    }}
-                                />
-                            </Suspense>
-                        </div >
+                    <div className="mobile-layout-container">
+                        {/* Premium Header */}
+                        <div className="mobile-dest-header">
+                            <span className="mobile-dest-tag">Explore The World</span>
+                            <h2 className="mobile-dest-title">Choose Your Destination</h2>
+                        </div>
 
-                        {/* 2. Controls & List Container */}
-                        < div className="mobile-controls-area" >
-                            {/* Tab Switcher */}
-                            < div className="mobile-tabs" >
-                                <button
-                                    className={`mobile-tab-btn ${mobileTab === 'international' ? 'active' : ''}`}
-                                    onClick={() => setMobileTab('international')}
-                                >
-                                    International
-                                </button>
-                                <button
-                                    className={`mobile-tab-btn ${mobileTab === 'domestic' ? 'active' : ''}`}
-                                    onClick={() => setMobileTab('domestic')}
-                                >
-                                    Domestic
-                                </button>
-                            </div >
+                        {/* Tab Switcher - Pill Style */}
+                        <div className="mobile-tabs">
+                            <button
+                                className={`mobile-tab-btn ${mobileTab === 'international' ? 'active' : ''}`}
+                                onClick={() => setMobileTab('international')}
+                            >
+                                International
+                            </button>
+                            <button
+                                className={`mobile-tab-btn ${mobileTab === 'domestic' ? 'active' : ''}`}
+                                onClick={() => setMobileTab('domestic')}
+                            >
+                                Domestic
+                            </button>
+                        </div>
 
-                            {/* List */}
-                            < div className="mobile-dest-list" style={{ opacity: cardVisible ? 0.3 : 1 }}>
-                                <h4 className="mobile-list-title">
-                                    {mobileTab === 'international' ? 'World Destinations' : 'Domestic Treasures'}
-                                </h4>
-                                <ul className="dest-panel-list">
-                                    {currentList.map(d => (
-                                        <li key={d.name} onClick={() => handleSelect(d)}>
-                                            <div className="dest-li-content">
-                                                <span className="dest-country-name">{d.name}</span>
-                                                {d.badge && <span className="dest-badge">{d.badge}</span>}
+                        {/* Horizontal Card Carousel */}
+                        <div className="mobile-carousel-wrapper">
+                            <div className="mobile-carousel">
+                                {currentList.map((d, index) => (
+                                    <div
+                                        key={d.name}
+                                        className="mobile-dest-card"
+                                        onClick={() => navigate(`/explore/${encodeURIComponent(d.name)}`)}
+                                    >
+                                        {/* Card Image */}
+                                        <div className="mobile-card-image">
+                                            <img
+                                                src={getOptimizedUrl(d.image, 600)}
+                                                alt={d.name}
+                                                loading="lazy"
+                                            />
+                                            <div className="mobile-card-gradient"></div>
+                                            {d.badge && <span className="mobile-card-badge">{d.badge}</span>}
+                                        </div>
+
+                                        {/* Card Content */}
+                                        <div className="mobile-card-content">
+                                            <h3>{d.name}</h3>
+                                            <p>{d.description}</p>
+                                            <div className="mobile-card-explore">
+                                                <span>Explore</span>
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                                </svg>
                                             </div>
-                                            <span className="dest-arrow">→</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div >
-                        </div >
-                    </div >
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Swipe Hint */}
+                        <div className="mobile-swipe-hint">
+                            <span>← Swipe to explore →</span>
+                        </div>
+                    </div>
                 ) : (
                     /* ================= DESKTOP LAYOUT ================= */
                     <>
