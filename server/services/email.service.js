@@ -17,17 +17,38 @@ const sendEmail = async (options) => {
         return;
     }
 
-    let transporterConfig;
+    // Sanitize and trim environment variables
+    const emailUser = (process.env.EMAIL_USER || '').trim();
+    const emailPass = (process.env.EMAIL_PASS || '').replace(/\s+/g, ''); // Remove all spaces
+    const emailHost = (process.env.EMAIL_HOST || '').trim();
+    const emailPort = parseInt((process.env.EMAIL_PORT || '587').toString().trim());
+    const emailSecure = (process.env.EMAIL_SECURE || '').toString().trim() === 'true';
+
+    console.log("----- [Email Service Debug Config] -----");
+    console.log(`Using Custom SMTP: ${!!process.env.EMAIL_HOST}`);
+    if (process.env.EMAIL_HOST) {
+        console.log(`Host: '${emailHost}'`);
+        console.log(`Port: ${emailPort}`);
+        console.log(`Secure: ${emailSecure}`);
+        console.log(`User: '${emailUser}'`);
+    } else {
+        console.log(`Service: Gmail (Default)`);
+        console.log(`User: '${emailUser}'`);
+    }
+    console.log(`Password Present: ${!!emailPass}`);
+    console.log(`Password Length: ${emailPass.length}`);
+    console.log("----------------------------------------");
+
 
     if (process.env.EMAIL_HOST) {
         // Custom SMTP
         transporterConfig = {
-            host: process.env.EMAIL_HOST,
-            port: parseInt(process.env.EMAIL_PORT || '587'),
-            secure: process.env.EMAIL_SECURE === 'true',
+            host: emailHost,
+            port: emailPort,
+            secure: emailSecure,
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, '') : '', // Remove spaces
+                user: emailUser,
+                pass: emailPass,
             },
         };
     } else {
@@ -35,8 +56,8 @@ const sendEmail = async (options) => {
         transporterConfig = {
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: emailUser,
+                pass: emailPass,
             },
         };
     }
