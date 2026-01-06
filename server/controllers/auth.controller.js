@@ -275,6 +275,11 @@ const forgotPassword = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // Restrict to Superadmin
+        if (admin.role !== 'superadmin') {
+            return res.status(403).json({ message: "Not authorized. Only Superadmins can reset passwords." });
+        }
+
         if (!admin.email) {
             return res.status(400).json({ message: "No email linked to this account. Contact support." });
         }
