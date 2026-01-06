@@ -138,48 +138,50 @@ const Settings = () => {
             <div className="item-list" style={{ marginBottom: 40 }}>
                 <div className="list-item" style={{ display: 'block' }}>
                     <h3>Manage Admins</h3>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 10 }}>
-                        <thead>
-                            <tr style={{ textAlign: 'left', borderBottom: '1px solid #eee' }}>
-                                <th style={{ padding: 10 }}>Username</th>
-                                <th style={{ padding: 10 }}>Email</th>
-                                <th style={{ padding: 10 }}>Role</th>
-                                <th style={{ padding: 10 }}>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {admins.map(admin => (
-                                <tr key={admin.id} style={{ borderBottom: '1px solid #f8f8f8', background: editingAdmin?.id === admin.id ? '#f0f9ff' : 'transparent' }}>
-                                    <td style={{ padding: 10 }}>
-                                        {admin.username}
-                                        {currentUser && currentUser.id === admin.id && <span style={{ marginLeft: 8, fontSize: 11, color: '#666', background: '#e5e7eb', padding: '2px 6px', borderRadius: 4 }}>You</span>}
-                                    </td>
-                                    <td style={{ padding: 10 }}>{admin.email || '-'}</td>
-                                    <td style={{ padding: 10 }}>
-                                        <span style={{
-                                            background: admin.role === 'superadmin' ? '#dbeafe' : '#f3f4f6',
-                                            color: admin.role === 'superadmin' ? '#1e40af' : '#374151',
-                                            padding: '2px 8px', borderRadius: 4, fontSize: 12
-                                        }}>
-                                            {admin.role}
-                                        </span>
-                                    </td>
-                                    <td style={{ padding: 10 }}>
-                                        <button
-                                            className="edit-btn small"
-                                            onClick={() => handleEdit(admin)}
-                                            style={{ marginRight: 8, padding: '4px 8px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
-                                        >
-                                            Edit
-                                        </button>
-                                        {currentUser && currentUser.id !== admin.id && (
-                                            <button className="delete-btn small" onClick={() => handleDelete(admin.id)}>Delete</button>
-                                        )}
-                                    </td>
+                    <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 10, minWidth: '600px' }}>
+                            <thead>
+                                <tr style={{ textAlign: 'left', borderBottom: '1px solid #eee' }}>
+                                    <th style={{ padding: 10 }}>Username</th>
+                                    <th style={{ padding: 10 }}>Email</th>
+                                    <th style={{ padding: 10 }}>Role</th>
+                                    <th style={{ padding: 10 }}>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {admins.map(admin => (
+                                    <tr key={admin.id} style={{ borderBottom: '1px solid #f8f8f8', background: editingAdmin?.id === admin.id ? '#f0f9ff' : 'transparent' }}>
+                                        <td style={{ padding: 10 }}>
+                                            {admin.username}
+                                            {currentUser && currentUser.id === admin.id && <span style={{ marginLeft: 8, fontSize: 11, color: '#666', background: '#e5e7eb', padding: '2px 6px', borderRadius: 4 }}>You</span>}
+                                        </td>
+                                        <td style={{ padding: 10 }}>{admin.email || '-'}</td>
+                                        <td style={{ padding: 10 }}>
+                                            <span style={{
+                                                background: admin.role === 'superadmin' ? '#dbeafe' : '#f3f4f6',
+                                                color: admin.role === 'superadmin' ? '#1e40af' : '#374151',
+                                                padding: '2px 8px', borderRadius: 4, fontSize: 12
+                                            }}>
+                                                {admin.role}
+                                            </span>
+                                        </td>
+                                        <td style={{ padding: 10 }}>
+                                            <button
+                                                className="edit-btn small"
+                                                onClick={() => handleEdit(admin)}
+                                                style={{ marginRight: 8, padding: '4px 8px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                                            >
+                                                Edit
+                                            </button>
+                                            {currentUser && currentUser.id !== admin.id && (
+                                                <button className="delete-btn small" onClick={() => handleDelete(admin.id)}>Delete</button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -264,7 +266,7 @@ const Settings = () => {
                 confirmText={modal.confirmText}
                 isDestructive={modal.isDestructive}
             />
-        </div>
+        </div >
     );
 };
 
