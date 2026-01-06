@@ -25,7 +25,10 @@ const AdminLogin = () => {
         setError('');
         setLoading(true);
         try {
-            await api.post('/auth/login', { username, password });
+            const { data } = await api.post('/auth/login', { username, password });
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
             navigate('/admin/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Invalid credentials');

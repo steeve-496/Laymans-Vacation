@@ -32,6 +32,7 @@ const AdminLayout = () => {
     const handleLogout = async () => {
         try {
             await api.post('/auth/logout');
+            localStorage.removeItem('token'); // Clear Bearer token
             navigate('/admin/login');
         } catch (error) {
             console.error(error);

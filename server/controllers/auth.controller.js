@@ -49,6 +49,7 @@ const loginAdmin = async (req, res) => {
                 id: admin.id,
                 username: admin.username,
                 role: admin.role,
+                token: token, // Send token to client for mobile compatibility
                 message: 'Login successful'
             });
         } else {
