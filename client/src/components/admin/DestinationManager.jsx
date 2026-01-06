@@ -106,8 +106,18 @@ const DestinationManager = () => {
             confirmText: 'Delete',
             isDestructive: true,
             onConfirm: async () => {
-                await api.delete(`/destinations/${id}`);
-                fetchDestinations();
+                // Optimistic UI Update
+                const previousDestinations = [...destinations];
+                setDestinations(prev => prev.filter(d => d.id !== id));
+
+                try {
+                    await api.delete(`/destinations/${id}`);
+                } catch (error) {
+                    console.error("Failed to delete destination", error);
+                    // Revert on failure
+                    setDestinations(previousDestinations);
+                    alert("Failed to delete. Please check your connection.");
+                }
             }
         });
     };

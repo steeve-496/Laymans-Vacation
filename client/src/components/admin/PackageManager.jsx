@@ -104,8 +104,18 @@ const PackageManager = ({ destinationId }) => {
             confirmText: 'Delete',
             isDestructive: true,
             onConfirm: async () => {
-                await api.delete(`/packages/${id}`);
-                fetchPackages();
+                // Optimistic UI Update
+                const previousPackages = [...packages];
+                setPackages(prev => prev.filter(p => p.id !== id));
+
+                try {
+                    await api.delete(`/packages/${id}`);
+                } catch (error) {
+                    console.error("Failed to delete package", error);
+                    // Revert
+                    setPackages(previousPackages);
+                    alert("Failed to delete. Please check your connection.");
+                }
             }
         });
     };

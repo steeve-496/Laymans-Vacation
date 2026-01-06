@@ -44,11 +44,16 @@ const StateExplorerManager = ({ destinationId }) => {
             confirmText: 'Delete',
             isDestructive: true,
             onConfirm: async () => {
+                // Optimistic UI Update
+                const previousStates = [...states];
+                setStates(prev => prev.filter(s => s.id !== id));
+
                 try {
                     await api.delete(`/state-explorer/${id}`);
-                    fetchStates();
                 } catch (error) {
                     console.error('Failed to delete state:', error);
+                    setStates(previousStates);
+                    alert("Failed to delete. Please check your connection.");
                 }
             }
         });
