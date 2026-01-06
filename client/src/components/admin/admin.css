@@ -700,7 +700,18 @@
         font-size: 20px !important;
         cursor: grab !important;
         touch-action: none;
-        /* Critical for drag on mobile */
+        /* Prevents browser scroll when touching handle */
+    }
+
+    /* Improve Scroll Performance on the item itself */
+    .list-item.mobile-compact-item {
+        touch-action: pan-y;
+        /* Explicitly allow vertical scroll on the card body */
+        -webkit-user-select: none;
+        /* Prevent text selection jitter */
+        user-select: none;
+        transform: translate3d(0, 0, 0);
+        /* Force GPU acceleration */
     }
 
     .mobile-compact-item .item-actions {
