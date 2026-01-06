@@ -41,7 +41,12 @@ const sendEmail = async (options) => {
         };
     }
 
-    const transporter = nodemailer.createTransport(transporterConfig);
+    const transporter = nodemailer.createTransport({
+        ...transporterConfig,
+        connectionTimeout: 10000, // 10 seconds
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
+    });
 
     const message = {
         from: `${process.env.FROM_NAME || 'Layman Support'} <${process.env.FROM_EMAIL || process.env.EMAIL_USER}>`,
@@ -50,8 +55,19 @@ const sendEmail = async (options) => {
         text: options.message,
     };
 
-    const info = await transporter.sendMail(message);
-    console.log('Message sent: %s', info.messageId);
+    try {
+        const info = await transporter.sendMail(message);
+        console.log('Message sent: %s', info.messageId);
+    } catch (error) {
+        console.error("Nodemailer Send Error:", error);
+        // Fallback for dev/debug: Log content so admin can manually reset if email fails
+        console.log("---------------- [Email Failed - Manual Fallback] ----------------");
+        console.log(`To: ${options.email}`);
+        console.log(`Subject: ${options.subject}`);
+        console.log(`Message: ${options.message}`);
+        console.log("------------------------------------------------------------------");
+        throw error; // Re-throw to let controller know it failed
+    }
 };
 
 module.exports = sendEmail;

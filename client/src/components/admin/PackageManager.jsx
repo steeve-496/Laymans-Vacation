@@ -3,6 +3,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import api from '../../utils/api';
+import ConfirmModal from './ConfirmModal';
 
 const SortableItem = ({ id, pkg, onDelete, onEdit }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -49,6 +50,7 @@ const PackageManager = ({ destinationId }) => {
         category: '',
         details: { itinerary: [] }
     });
+    const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -95,10 +97,17 @@ const PackageManager = ({ destinationId }) => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Delete this package?')) {
-            await api.delete(`/packages/${id}`);
-            fetchPackages();
-        }
+        setModal({
+            isOpen: true,
+            title: 'Delete Package?',
+            message: 'Are you sure you want to delete this package?',
+            confirmText: 'Delete',
+            isDestructive: true,
+            onConfirm: async () => {
+                await api.delete(`/packages/${id}`);
+                fetchPackages();
+            }
+        });
     };
 
     const handleSave = async (e) => {
@@ -316,6 +325,16 @@ const PackageManager = ({ destinationId }) => {
                     </DndContext>
                 </div>
             )}
+
+            <ConfirmModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                confirmText={modal.confirmText}
+                isDestructive={modal.isDestructive}
+            />
         </div>
     );
 };

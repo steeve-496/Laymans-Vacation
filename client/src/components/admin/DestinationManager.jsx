@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
+import ConfirmModal from './ConfirmModal';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -42,6 +43,7 @@ const DestinationManager = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [currentDest, setCurrentDest] = useState({ name: '', image: '', description: '', badge: '', isInternational: true, lat: 0, lng: 0 });
     const [activeTab, setActiveTab] = useState('overview'); // overview, packages, explorer
+    const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -88,10 +90,17 @@ const DestinationManager = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Delete this destination?')) {
-            await api.delete(`/destinations/${id}`);
-            fetchDestinations();
-        }
+        setModal({
+            isOpen: true,
+            title: 'Delete Destination?',
+            message: 'Are you sure you want to delete this destination?',
+            confirmText: 'Delete',
+            isDestructive: true,
+            onConfirm: async () => {
+                await api.delete(`/destinations/${id}`);
+                fetchDestinations();
+            }
+        });
     };
 
     const handleSave = async (e) => {
@@ -290,6 +299,16 @@ const DestinationManager = () => {
                     </DndContext>
                 </div>
             )}
+
+            <ConfirmModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                confirmText={modal.confirmText}
+                isDestructive={modal.isDestructive}
+            />
         </div>
     );
 };

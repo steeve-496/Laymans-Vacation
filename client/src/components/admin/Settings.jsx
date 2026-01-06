@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
+import ConfirmModal from './ConfirmModal';
 
 const Settings = () => {
     const [admins, setAdmins] = useState([]);
@@ -15,6 +16,7 @@ const Settings = () => {
     const [currentUser, setCurrentUser] = useState(null);
 
     const [editingAdmin, setEditingAdmin] = useState(null);
+    const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
     useEffect(() => {
         fetchAdmins();
@@ -44,19 +46,26 @@ const Settings = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this admin?")) {
-            try {
-                await api.delete(`/auth/delete/${id}`);
-                setMessage("Admin deleted");
-                fetchAdmins();
-                if (editingAdmin && editingAdmin.id === id) {
-                    setEditingAdmin(null);
-                    setFormData({ username: '', password: '', confirmPassword: '', role: 'admin' });
+        setModal({
+            isOpen: true,
+            title: 'Delete Admin?',
+            message: 'Are you sure you want to delete this admin account? This action cannot be undone.',
+            confirmText: 'Delete Admin',
+            isDestructive: true,
+            onConfirm: async () => {
+                try {
+                    await api.delete(`/auth/delete/${id}`);
+                    setMessage("Admin deleted");
+                    fetchAdmins();
+                    if (editingAdmin && editingAdmin.id === id) {
+                        setEditingAdmin(null);
+                        setFormData({ username: '', password: '', confirmPassword: '', role: 'admin' });
+                    }
+                } catch (err) {
+                    setError(err.response?.data?.message || "Delete failed");
                 }
-            } catch (err) {
-                setError(err.response?.data?.message || "Delete failed");
             }
-        }
+        });
     };
 
     const handleEdit = (admin) => {
@@ -245,6 +254,16 @@ const Settings = () => {
                     </form>
                 </div>
             </div>
+            {/* Modal */}
+            <ConfirmModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                confirmText={modal.confirmText}
+                isDestructive={modal.isDestructive}
+            />
         </div>
     );
 };

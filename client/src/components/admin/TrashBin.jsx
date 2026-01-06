@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
+import ConfirmModal from './ConfirmModal';
 
 const TrashBin = () => {
     const [deletedItems, setDeletedItems] = useState({
@@ -10,6 +11,9 @@ const TrashBin = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+
+    // Modal State
+    const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
     const fetchTrash = async () => {
         setLoading(true);
@@ -53,42 +57,56 @@ const TrashBin = () => {
     };
 
     const handlePermanentDelete = async (type, id) => {
-        if (!window.confirm("Are you sure? This cannot be undone.")) return;
+        setModal({
+            isOpen: true,
+            title: 'Delete Forever?',
+            message: 'Are you sure you want to permanently delete this item? This action cannot be undone.',
+            confirmText: 'Delete Forever',
+            isDestructive: true,
+            onConfirm: async () => {
+                try {
+                    let endpoint = '';
+                    if (type === 'destination') endpoint = `/destinations/${id}/permanent`;
+                    if (type === 'package') endpoint = `/packages/${id}/permanent`;
+                    if (type === 'state-explorer') endpoint = `/state-explorer/${id}/permanent`;
 
-        try {
-            let endpoint = '';
-            if (type === 'destination') endpoint = `/destinations/${id}/permanent`;
-            if (type === 'package') endpoint = `/packages/${id}/permanent`;
-            if (type === 'state-explorer') endpoint = `/state-explorer/${id}/permanent`;
-
-            await api.delete(endpoint);
-            setMessage(`${type} permanently deleted`);
-            fetchTrash();
-            setTimeout(() => setMessage(''), 3000);
-        } catch (err) {
-            setError('Permanent delete failed');
-        }
+                    await api.delete(endpoint);
+                    setMessage(`${type} permanently deleted`);
+                    fetchTrash();
+                    setTimeout(() => setMessage(''), 3000);
+                } catch (err) {
+                    setError('Permanent delete failed');
+                }
+            }
+        });
     };
 
     const handleEmptyTrash = async () => {
-        if (!window.confirm("WARNING: This will permanently delete ALL items in the trash. This action CANNOT be undone. Are you sure?")) return;
-
-        try {
-            setLoading(true);
-            await Promise.all([
-                api.delete('/destinations/empty-trash'),
-                api.delete('/packages/empty-trash'),
-                api.delete('/state-explorer/empty-trash')
-            ]);
-            setMessage("Trash emptied successfully");
-            fetchTrash();
-            setTimeout(() => setMessage(''), 3000);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to empty trash: " + (err.response?.data?.message || err.message));
-        } finally {
-            setLoading(false);
-        }
+        setModal({
+            isOpen: true,
+            title: 'Empty Trash?',
+            message: 'WARNING: This will permanently delete ALL items in the trash. This action CANNOT be undone. Are you sure?',
+            confirmText: 'Empty Trash',
+            isDestructive: true,
+            onConfirm: async () => {
+                try {
+                    setLoading(true);
+                    await Promise.all([
+                        api.delete('/destinations/empty-trash'),
+                        api.delete('/packages/empty-trash'),
+                        api.delete('/state-explorer/empty-trash')
+                    ]);
+                    setMessage("Trash emptied successfully");
+                    fetchTrash();
+                    setTimeout(() => setMessage(''), 3000);
+                } catch (err) {
+                    console.error(err);
+                    setError("Failed to empty trash: " + (err.response?.data?.message || err.message));
+                } finally {
+                    setLoading(false);
+                }
+            }
+        });
     };
 
     if (loading) return <div>Loading Trash...</div>;
@@ -213,6 +231,16 @@ const TrashBin = () => {
                     </div>
                 )}
             </div>
+            {/* Modal */}
+            <ConfirmModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                confirmText={modal.confirmText}
+                isDestructive={modal.isDestructive}
+            />
         </div>
     );
 };

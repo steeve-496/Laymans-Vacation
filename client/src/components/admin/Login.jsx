@@ -16,16 +16,21 @@ const AdminLogin = () => {
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
         try {
             await api.post('/auth/login', { username, password });
             navigate('/admin/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Invalid credentials');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -37,12 +42,16 @@ const AdminLogin = () => {
             setError('Please enter username');
             return;
         }
+        setLoading(true);
         try {
             await api.post('/auth/forgot-password', { username: resetUser });
             setMessage('OTP sent to your email (check server console if testing)');
             setView('reset');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to send OTP');
+            console.error("Forgot Password Error:", err);
+            setError(err.response?.data?.message || 'Failed to send OTP (Check console)');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -50,6 +59,7 @@ const AdminLogin = () => {
         e.preventDefault();
         setError('');
         setMessage('');
+        setLoading(true);
         try {
             await api.post('/auth/reset-password', {
                 username: resetUser,
@@ -62,6 +72,8 @@ const AdminLogin = () => {
             setPassword('');
         } catch (err) {
             setError(err.response?.data?.message || 'Reset failed');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,8 +86,8 @@ const AdminLogin = () => {
                     {view === 'reset' && 'Reset Password'}
                 </h2>
 
-                {error && <p className="error-msg">{error}</p>}
-                {message && <p className="success-msg" style={{ color: '#4ade80', marginBottom: '1rem' }}>{message}</p>}
+                {error && <p className="error-msg" style={{ color: '#ef4444', background: 'rgba(239, 68, 68, 0.1)', padding: '10px', borderRadius: '6px' }}>{error}</p>}
+                {message && <p className="success-msg" style={{ color: '#22c55e', background: 'rgba(34, 197, 94, 0.1)', padding: '10px', borderRadius: '6px', marginBottom: '1rem' }}>{message}</p>}
 
                 {view === 'login' && (
                     <form onSubmit={handleLogin}>
@@ -102,7 +114,9 @@ const AdminLogin = () => {
                                 {showPassword ? "Hide" : "Show"}
                             </button>
                         </div>
-                        <button type="submit" className="login-btn">Login</button>
+                        <button type="submit" className="login-btn" disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login'}
+                        </button>
                         <p className="forgot-link" onClick={() => {
                             setView('forgot');
                             setError('');
@@ -125,7 +139,9 @@ const AdminLogin = () => {
                             onChange={(e) => setResetUser(e.target.value)}
                             required
                         />
-                        <button type="submit" className="login-btn">Send OTP</button>
+                        <button type="submit" className="login-btn" disabled={loading}>
+                            {loading ? 'Sending OTP...' : 'Send OTP'}
+                        </button>
                         <p className="forgot-link" onClick={() => setView('login')}>Back to Login</p>
                     </form>
                 )}
@@ -158,7 +174,9 @@ const AdminLogin = () => {
                                 {showPassword ? "Hide" : "Show"}
                             </button>
                         </div>
-                        <button type="submit" className="login-btn">Reset Password</button>
+                        <button type="submit" className="login-btn" disabled={loading}>
+                            {loading ? 'Resetting...' : 'Reset Password'}
+                        </button>
                         <p className="forgot-link" onClick={() => setView('login')}>Back to Login</p>
                     </form>
                 )}

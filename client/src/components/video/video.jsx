@@ -45,14 +45,14 @@ export default function Video({ appLoaded }) {
   const mainCardRef = useRef(null);
 
   const videos = [
-    "/videos/azerbaijan.mp4",
+    "https://iframe.mediadelivery.net/play/574864/45662b92-f9d6-4dd6-a97c-60b2ed54e1bd",
     "/videos/bali.mp4",
     "/videos/bhutan.mp4",
     "/videos/dubai.mp4",
     "/videos/kazaksthan.mp4",
     "/videos/malaysia.mp4",
     "/videos/singapore.mp4",
-    "/videos/kerala.mp4",
+    "https://iframe.mediadelivery.net/play/574864/61a7e7e9-a874-40e5-ac99-666cf96e8140",
     "/videos/srilanka.mp4",
     "/videos/thailand.mp4",
     "/videos/veitnam.mp4",

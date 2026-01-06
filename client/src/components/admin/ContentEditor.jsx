@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
+import ConfirmModal from './ConfirmModal';
 
 const ContentEditor = () => {
     // State Explorer Handling (Similar to others but maybe simpler or just list)
@@ -13,6 +14,7 @@ const ContentEditor = () => {
     const [states, setStates] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentState, setCurrentState] = useState({ stateName: '', image: '' });
+    const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
     useEffect(() => {
         fetchStates();
@@ -24,10 +26,17 @@ const ContentEditor = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Delete this item?')) {
-            await api.delete(`/content/states/${id}`);
-            fetchStates();
-        }
+        setModal({
+            isOpen: true,
+            title: 'Delete State?',
+            message: 'Are you sure you want to delete this state?',
+            confirmText: 'Delete',
+            isDestructive: true,
+            onConfirm: async () => {
+                await api.delete(`/content/states/${id}`);
+                fetchStates();
+            }
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -85,6 +94,16 @@ const ContentEditor = () => {
                     ))}
                 </div>
             )}
+            {/* Modal */}
+            <ConfirmModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                confirmText={modal.confirmText}
+                isDestructive={modal.isDestructive}
+            />
         </div>
     );
 };

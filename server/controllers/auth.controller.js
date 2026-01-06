@@ -309,7 +309,7 @@ const forgotPassword = async (req, res) => {
         } catch (emailError) {
             console.error("Email send failed:", emailError);
             // Rollback OTP? Or just let it sit.
-            res.status(500).json({ message: "Email could not be sent" });
+            res.status(500).json({ message: "Email send failed (Timeout or Auth Error). Check server logs." });
         }
 
     } catch (error) {
