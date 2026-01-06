@@ -1,22 +1,33 @@
 const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const sendEmail = async (options) => {
-    // Create transporter
-    // For now, we use a placeholder or check env.
-    // Ideally, the user should provide valid credentials.
+    // 1. PRIMARY METHOD: RESEND (Recommended for Production)
+    if (process.env.RESEND_API_KEY) {
+        try {
+            console.log(`----- [Email Service] Sending via Resend API to: ${options.email} -----`);
+            const resend = new Resend(process.env.RESEND_API_KEY);
+            const data = await resend.emails.send({
+                from: 'Layman <onboarding@resend.dev>', // Default testing domain. User can verify their own later.
+                to: options.email,
+                subject: options.subject,
+                text: options.message,
+            });
 
-    // We'll log the email to console if no credentials are present (Dev mode).
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        console.log("----------------------------------------------------");
-        console.log("WARNING: Email credentials not found in .env");
-        console.log(`To: ${options.email}`);
-        console.log(`Subject: ${options.subject}`);
-        console.log(`Message: ${options.message}`);
-        console.log("----------------------------------------------------");
-        // We resolve successfully effectively mocking it for dev
-        return;
+            if (data.error) {
+                console.error("Resend API Error:", data.error);
+                throw new Error(data.error.message);
+            }
+
+            console.log('Resend Success ID:', data.id);
+            return; // Success! Exit early.
+        } catch (error) {
+            console.error("Resend Failed. Falling back to Nodemailer...", error);
+            // Don't return, let it fall through to Nodemailer as backup
+        }
     }
 
+    // 2. SECONDARY METHOD: NODEMAILER (Legacy/SMTP)
     // Sanitize and trim environment variables
     const emailUser = (process.env.EMAIL_USER || '').trim();
     const emailPass = (process.env.EMAIL_PASS || '').replace(/\s+/g, ''); // Remove all spaces
@@ -24,22 +35,11 @@ const sendEmail = async (options) => {
     const emailPort = parseInt((process.env.EMAIL_PORT || '587').toString().trim());
     const emailSecure = (process.env.EMAIL_SECURE || '').toString().trim() === 'true';
 
-    console.log("----- [Email Service Debug Config] -----");
+    console.log("----- [Email Service Debug Config (SMTP)] -----");
     console.log(`Using Custom SMTP: ${!!process.env.EMAIL_HOST}`);
-    if (process.env.EMAIL_HOST) {
-        console.log(`Host: '${emailHost}'`);
-        console.log(`Port: ${emailPort}`);
-        console.log(`Secure: ${emailSecure}`);
-        console.log(`User: '${emailUser}'`);
-    } else {
-        console.log(`Service: Gmail (Default)`);
-        console.log(`User: '${emailUser}'`);
-    }
-    console.log(`Password Present: ${!!emailPass}`);
-    console.log(`Password Length: ${emailPass.length}`);
-    console.log("----------------------------------------");
+    console.log("-----------------------------------------------");
 
-
+    let transporterConfig;
     if (process.env.EMAIL_HOST) {
         // Custom SMTP
         transporterConfig = {
