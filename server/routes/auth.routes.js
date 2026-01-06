@@ -11,5 +11,7 @@ router.post('/register', protect, createAdmin);
 router.get('/list', protect, getAdmins);
 router.put('/update/:id', protect, updateAdmin);
 router.delete('/delete/:id', protect, deleteAdmin);
+router.post('/forgot-password', require('../controllers/auth.controller').forgotPassword);
+router.post('/reset-password', require('../controllers/auth.controller').resetPassword);
 
 module.exports = router;

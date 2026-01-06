@@ -57,7 +57,8 @@ const loginAdmin = async (req, res) => {
         }
     } catch (error) {
         console.error("DEBUG: Login Error:", error);
-        res.status(500).json({ message: 'Server error' });
+        console.error("DEBUG: Login Error:", error);
+        res.status(500).json({ message: error.message, stack: error.stack });
     }
 };
 
@@ -134,7 +135,8 @@ const createAdmin = async (req, res) => {
             data: {
                 username,
                 password: hashedPassword,
-                role: role || 'admin'
+                role: role || 'admin',
+                email: req.body.email || null
             },
         });
 
@@ -163,7 +165,7 @@ const getAdmins = async (req, res) => {
 
     try {
         const admins = await prisma.admin.findMany({
-            select: { id: true, username: true, role: true }
+            select: { id: true, username: true, role: true, email: true }
         });
         // We don't verify password here
         res.json(admins);
@@ -181,7 +183,7 @@ const updateAdmin = async (req, res) => {
         return res.status(403).json({ message: "Not authorized. Superadmin access required." });
     }
 
-    const { role, password, username } = req.body;
+    const { role, password, username, email } = req.body;
     try {
         const data = {};
         if (role) data.role = role;
@@ -195,6 +197,17 @@ const updateAdmin = async (req, res) => {
             data.username = username;
         }
 
+        if (email) {
+            // Check if email is taken?
+            // Assuming email is optional but if provided should be unique usually?
+            // Schema has email @unique. So we must check.
+            const existingEmail = await prisma.admin.findUnique({ where: { email } });
+            if (existingEmail && existingEmail.id !== req.params.id) {
+                return res.status(400).json({ message: "Email already in use" });
+            }
+            data.email = email;
+        }
+
         if (password && password.trim() !== '') {
             const salt = await bcrypt.genSalt(10);
             data.password = await bcrypt.hash(password, salt);
@@ -203,7 +216,7 @@ const updateAdmin = async (req, res) => {
         const admin = await prisma.admin.update({
             where: { id: req.params.id },
             data,
-            select: { id: true, username: true, role: true }
+            select: { id: true, username: true, role: true, email: true }
         });
         res.json(admin);
     } catch (error) {
@@ -244,4 +257,127 @@ const deleteAdmin = async (req, res) => {
     }
 }
 
-module.exports = { loginAdmin, logoutAdmin, getMe, seedAdmin, createAdmin, getAdmins, updateAdmin, deleteAdmin };
+const sendEmail = require('../services/email.service');
+const crypto = require('crypto'); // Built-in node module for random bytes
+
+// ... (Existing functions)
+
+// @desc    Forgot Password (Send OTP)
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    const { username } = req.body;
+
+    try {
+        const admin = await prisma.admin.findUnique({
+            where: { username }
+        });
+
+        if (!admin) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!admin.email) {
+            return res.status(400).json({ message: "No email linked to this account. Contact support." });
+        }
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // Hash OTP before saving (security)
+        const salt = await bcrypt.genSalt(10);
+        const hashedOtp = await bcrypt.hash(otp, salt);
+
+        // Set expiry (10 minutes)
+        const expire = new Date(Date.now() + 10 * 60 * 1000);
+
+        await prisma.admin.update({
+            where: { id: admin.id },
+            data: {
+                resetOtp: hashedOtp,
+                resetOtpExpire: expire
+            }
+        });
+
+        const message = `Your password reset code is: ${otp}\n\nThis code expires in 10 minutes.`;
+
+        try {
+            await sendEmail({
+                email: admin.email,
+                subject: 'Layman Admin Password Reset',
+                message
+            });
+            res.json({ message: "Email sent" });
+        } catch (emailError) {
+            console.error("Email send failed:", emailError);
+            // Rollback OTP? Or just let it sit.
+            res.status(500).json({ message: "Email could not be sent" });
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// @desc    Reset Password (Verify OTP)
+// @route   POST /api/auth/reset-password
+// @access  Public
+const resetPassword = async (req, res) => {
+    const { username, otp, newPassword } = req.body;
+
+    try {
+        const admin = await prisma.admin.findUnique({
+            where: { username }
+        });
+
+        if (!admin) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!admin.resetOtp || !admin.resetOtpExpire) {
+            return res.status(400).json({ message: "Invalid request" });
+        }
+
+        if (new Date() > admin.resetOtpExpire) {
+            return res.status(400).json({ message: "OTP expired" });
+        }
+
+        const isMatch = await bcrypt.compare(otp, admin.resetOtp);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        await prisma.admin.update({
+            where: { id: admin.id },
+            data: {
+                password: hashedPassword,
+                resetOtp: null,
+                resetOtpExpire: null
+            }
+        });
+
+        res.json({ message: "Password reset successful" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+module.exports = {
+    loginAdmin,
+    logoutAdmin,
+    getMe,
+    seedAdmin,
+    createAdmin,
+    getAdmins,
+    updateAdmin,
+    deleteAdmin,
+    forgotPassword,
+    resetPassword
+};

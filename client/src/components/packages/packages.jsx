@@ -8,7 +8,7 @@ import gsap from "gsap";
 import api from "../../utils/api";
 
 
-
+import { PACKAGE_TIER_IMAGES } from "../../data/packageImages";
 const ContactForm = ({ onClose }) => {
     return (
         <div className="pkg-form-overlay">
@@ -247,7 +247,33 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                         .filter(p => p.destinationId === currentDest.id)
                         .sort((a, b) => a.order - b.order); // Sort by order
 
-                    setPackages(filteredPkgs);
+                    const processedPkgs = filteredPkgs.map(pkg => {
+                        // Extract category from title or existing category field
+                        // Assuming pkg.category matches keys "Basic", "Getaway", "Adventure", "Luxury"
+                        // Or map title "Basic Azerbaijan" -> "Basic"
+
+                        let category = pkg.category;
+                        if (!category && pkg.title) {
+                            if (pkg.title.includes('Basic')) category = 'Basic';
+                            else if (pkg.title.includes('Getaway')) category = 'Getaway';
+                            else if (pkg.title.includes('Adventure')) category = 'Adventure';
+                            else if (pkg.title.includes('Luxury')) category = 'Luxury';
+                        }
+
+                        // Fallback
+                        if (!category) category = 'Basic';
+
+                        // Get static image
+                        const countryImages = PACKAGE_TIER_IMAGES[location] || PACKAGE_TIER_IMAGES['default'];
+                        const staticImage = countryImages[category] || countryImages['Basic'];
+
+                        return {
+                            ...pkg,
+                            image: staticImage // Override image
+                        };
+                    });
+
+                    setPackages(processedPkgs);
                 } else {
                     console.warn("Destination not found for packages:", location);
                     setPackages([]);

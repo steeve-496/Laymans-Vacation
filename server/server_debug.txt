@@ -3562,3 +3562,507 @@ Getting Admin Destinations...
 Found 14 destinations
 [REQUEST] GET /api/auth/me
 [REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+Found 14 destinations
+[REQUEST] POST /api/auth/logout
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+----------------------------------------------------
+WARNING: Email credentials not found in .env
+To: admin@layman.com
+Subject: Layman Admin Password Reset
+Message: Your password reset code is: 203040
+
+This code expires in 10 minutes.
+----------------------------------------------------
+[REQUEST] POST /api/auth/reset-password
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"steeve","password":"123"}
+DEBUG: Found user 'steeve', Role: superadmin
+DEBUG: Password match for 'steeve': true
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] POST /api/auth/logout
+[REQUEST] POST /api/auth/forgot-password
+[ERROR] Email send failed: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-34f5f8b0d7esm1022448a91.16 - gsmtp
+    at SMTPConnection._formatError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:809:19)
+    at SMTPConnection._actionAUTHComplete (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:1617:34)
+    at SMTPConnection.<anonymous> (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:556:26)
+    at SMTPConnection._processResponse (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:993:20)
+    at SMTPConnection._onData (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:774:14)
+    at SMTPConnection._onSocketData (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\nodemailer\lib\smtp-connection\index.js:195:44)
+    at TLSSocket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'EAUTH',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-34f5f8b0d7esm1022448a91.16 - gsmtp',
+  responseCode: 535,
+  command: 'AUTH PLAIN'
+}
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"steeve","password":"123"}
+DEBUG: Found user 'steeve', Role: superadmin
+DEBUG: Password match for 'steeve': true
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] PUT /api/auth/update/695b9d0558eba6b690f9a8bc
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] POST /api/auth/logout
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+Message sent: <67e7b252-fb45-3441-f0ae-62857b1f3f1a@gmail.com>
+Message sent: <65e673ae-a49f-51f8-20e5-737d268761e6@gmail.com>
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"steeve","password":"123"}
+DEBUG: Found user 'steeve', Role: superadmin
+DEBUG: Password match for 'steeve': true
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] POST /api/auth/register
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] POST /api/auth/forgot-password
+Message sent: <27efa411-b79c-8a43-1511-868832051278@gmail.com>
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] POST /api/auth/forgot-password
+[REQUEST] POST /api/auth/forgot-password
+Message sent: <f9129558-b540-7b73-d679-44b447d8341a@gmail.com>
+[REQUEST] POST /api/auth/reset-password
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"shuaib","password":"321"}
+DEBUG: Found user 'shuaib', Role: admin
+DEBUG: Password match for 'shuaib': true
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] DELETE /api/state-explorer/695c9245dd1d2e7f0fc72a01
+[REQUEST] GET /api/state-explorer
+[REQUEST] DELETE /api/state-explorer/695c9245dd1d2e7f0fc72a02
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/packages

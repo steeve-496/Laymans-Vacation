@@ -63,6 +63,7 @@ const Settings = () => {
         setEditingAdmin(admin);
         setFormData({
             username: admin.username,
+            email: admin.email || '',
             password: '',
             confirmPassword: '',
             role: admin.role
@@ -75,7 +76,7 @@ const Settings = () => {
 
     const handleCancelEdit = () => {
         setEditingAdmin(null);
-        setFormData({ username: '', password: '', confirmPassword: '', role: 'admin' });
+        setFormData({ username: '', email: '', password: '', confirmPassword: '', role: 'admin' });
         setMessage('');
         setError('');
     };
@@ -95,6 +96,7 @@ const Settings = () => {
                 // Update existing
                 await api.put(`/auth/update/${editingAdmin.id}`, {
                     username: formData.username,
+                    email: formData.email,
                     password: formData.password || undefined, // Only send if set
                     role: formData.role
                 });
@@ -104,13 +106,14 @@ const Settings = () => {
                 // Create new
                 await api.post('/auth/register', {
                     username: formData.username,
+                    email: formData.email,
                     password: formData.password,
                     role: formData.role
                 });
                 setMessage(`Admin '${formData.username}' created successfully!`);
             }
 
-            setFormData({ username: '', password: '', confirmPassword: '', role: 'admin' });
+            setFormData({ username: '', email: '', password: '', confirmPassword: '', role: 'admin' });
             fetchAdmins();
         } catch (err) {
             setError(err.response?.data?.message || (editingAdmin ? "Failed to update admin" : "Failed to create admin"));
@@ -130,6 +133,7 @@ const Settings = () => {
                         <thead>
                             <tr style={{ textAlign: 'left', borderBottom: '1px solid #eee' }}>
                                 <th style={{ padding: 10 }}>Username</th>
+                                <th style={{ padding: 10 }}>Email</th>
                                 <th style={{ padding: 10 }}>Role</th>
                                 <th style={{ padding: 10 }}>Actions</th>
                             </tr>
@@ -141,6 +145,7 @@ const Settings = () => {
                                         {admin.username}
                                         {currentUser && currentUser.id === admin.id && <span style={{ marginLeft: 8, fontSize: 11, color: '#666', background: '#e5e7eb', padding: '2px 6px', borderRadius: 4 }}>You</span>}
                                     </td>
+                                    <td style={{ padding: 10 }}>{admin.email || '-'}</td>
                                     <td style={{ padding: 10 }}>
                                         <span style={{
                                             background: admin.role === 'superadmin' ? '#dbeafe' : '#f3f4f6',
@@ -194,6 +199,15 @@ const Settings = () => {
                                 value={formData.username}
                                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                                 required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Email (For Password Recovery)</label>
+                            <input
+                                type="email"
+                                value={formData.email || ''}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                placeholder="e.g. admin@layman.com"
                             />
                         </div>
                         <div className="form-group">
