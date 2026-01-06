@@ -64,11 +64,20 @@ const DestinationManager = () => {
     };
 
     const handleToggleVisibility = async (id) => {
+        // Optimistic UI Update: Create new state immediately
+        const previousDestinations = [...destinations];
+        setDestinations(prev => prev.map(d =>
+            d.id === id ? { ...d, isVisible: !d.isVisible } : d
+        ));
+
         try {
             await api.patch(`/destinations/${id}/toggle-visibility`);
-            fetchDestinations();
+            // Success: No need to refetch, local state is already correct!
         } catch (error) {
-            console.error("Failed to toggle visibility");
+            console.error("Failed to toggle visibility", error);
+            // Revert on failure
+            setDestinations(previousDestinations);
+            alert("Failed to update visibility. Please check your connection.");
         }
     };
 
