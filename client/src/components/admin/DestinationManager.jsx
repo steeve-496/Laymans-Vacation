@@ -13,7 +13,7 @@ const SortableItem = ({ id, destination, onDelete, onEdit, onToggleVisibility })
     const style = { transform: CSS.Transform.toString(transform), transition };
 
     return (
-        <div ref={setNodeRef} style={style} className="list-item">
+        <div ref={setNodeRef} style={style} className="list-item mobile-compact-item">
             <div className="item-info">
                 <span {...attributes} {...listeners} className="drag-handle">☰</span>
                 <img src={destination.image} alt={destination.name} className="item-thumb" style={{ opacity: destination.isVisible ? 1 : 0.5 }} />
