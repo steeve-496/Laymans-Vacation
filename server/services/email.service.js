@@ -35,10 +35,6 @@ const sendEmail = async (options) => {
     const emailPort = parseInt((process.env.EMAIL_PORT || '587').toString().trim());
     const emailSecure = (process.env.EMAIL_SECURE || '').toString().trim() === 'true';
 
-    console.log("----- [Email Service Debug Config (SMTP)] -----");
-    console.log(`Using Custom SMTP: ${!!process.env.EMAIL_HOST}`);
-    console.log("-----------------------------------------------");
-
     let transporterConfig;
     if (process.env.EMAIL_HOST) {
         // Custom SMTP
