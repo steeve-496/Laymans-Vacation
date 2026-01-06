@@ -12,10 +12,29 @@ const PORT = process.env.PORT || 5000;
 
 const bodyParser = require('body-parser');
 
+const compression = require('compression');
+
 // Middleware
+app.use(compression()); // Compress all responses
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
+
+// Caching Middleware for Public Data
+app.use((req, res, next) => {
+    // Cache GET requests for public content for 1 hour (3600s)
+    if (req.method === 'GET' &&
+        (req.url.startsWith('/api/destinations') ||
+            req.url.startsWith('/api/packages') ||
+            req.url.startsWith('/api/state-explorer'))) {
+
+        // Don't cache admin routes
+        if (!req.url.includes('/admin')) {
+            res.set('Cache-Control', 'public, max-age=3600');
+        }
+    }
+    next();
+});
 
 // AUTO-DEBUGGING: Write logs to file
 const fs = require('fs');
