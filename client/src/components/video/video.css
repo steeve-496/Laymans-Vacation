@@ -97,45 +97,102 @@ body {
   }
 }
 
+/* Dynamic Scroll Text - Global Overlay */
+.video-scroll-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  /* Ensure above all video cards (max z-index was 100) */
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.video-scroll-text h2 {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 3.5rem;
+  /* Large for Desktop */
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  margin: 0;
+  opacity: 0;
+  /* Controlled by GSAP */
+  transition: opacity 0.5s ease;
+}
+
 @media (max-width: 768px) {
   .video-page-container {
-    margin-top: 40vh;
-    height: auto;
-    min-height: 100vh;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+    position: relative;
+    z-index: 20;
   }
 
+  /* Force all 3 columns visible on mobile */
+  .video-column,
   .video-column:first-child,
   .video-column:last-child {
-    display: none;
+    display: flex !important;
+    flex: 1 1 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    min-width: 0;
   }
 
   .video-column:nth-child(2) {
-    width: 100%;
-    flex: none;
     overflow: visible;
+    z-index: 10;
   }
 
   .video-grid {
+    display: flex !important;
     padding: 10px;
-    position: relative;
-    height: auto;
-    overflow: visible;
+    gap: 6px;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    justify-content: space-between;
   }
 
   .video-cards {
-    /* animation: none; Re-enable animation */
-    gap: 12px;
+    gap: 6px;
   }
 
   .video-column:nth-child(2) .video-cards {
     transform: translateY(-12%);
-    /* animation: none !important; Re-enable animation */
   }
 
+  /* Smaller video cards to fit all 3 columns */
   .video-card {
-    height: 30vh;
-    /* Reduce height slightly for better flow */
+    height: 25vh;
+    min-height: 120px;
+    max-height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+  }
+
+  .video-card video,
+  .video-card .video-placeholder,
+  .video-card .video-placeholder video {
+    border-radius: 12px;
+  }
+
+  /* Remove overlays for cleaner look on small cards */
+  .video-card::after {
+    display: none;
+  }
+
+  /* Dynamic Text Mobile Override */
+  .video-scroll-text h2 {
+    font-size: 1.8rem;
+    /* Increased for better visibility */
   }
 }

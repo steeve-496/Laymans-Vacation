@@ -5,16 +5,9 @@ import "./packages.css";
 import { getOptimizedUrl } from "../../utils/imageOptimizer";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { PACKAGE_TIER_IMAGES } from "../../data/packageImages";
+import api from "../../utils/api";
 
-const getPackageImage = (location, category) => {
-    const key = (location || "").trim();
-    return (
-        PACKAGE_TIER_IMAGES[key]?.[category] ||
-        PACKAGE_TIER_IMAGES.default?.[category] ||
-        PACKAGE_TIER_IMAGES.default.Basic
-    );
-};
+
 
 const ContactForm = ({ onClose }) => {
     return (
@@ -177,7 +170,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                     </div>
                     <div className="pkg-modal-right">
                         <div className="pkg-day-list">
-                            {pkg.itinerary && pkg.itinerary.map((item, index, arr) => (
+                            {pkg.details?.itinerary && pkg.details.itinerary.map((item, index, arr) => (
                                 <div key={item.day} className="pkg-day-item">
                                     <div className="pkg-timeline-column">
                                         <div className="pkg-timeline-dot"></div>
@@ -222,85 +215,53 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
     // Use country for image lookup, fallback to location if country not provided
     const imageKey = country || location;
 
-    const packages = [
-        {
-            id: 1,
-            category: "Basic",
-            navTitle: "The Glimpse",
-            title: `Best of ${location}`,
-            price: "Rs 25,000",
-            image: getPackageImage(imageKey, "Basic"),
-            duration: "5 Days",
-            description: "Experience the highlights and hidden gems in this curated tour.",
-            itinerary: [
-                { day: 1, title: "Arrival & Welcome", description: "Arrive at the destination and transfer to your hotel. Enjoy a welcome dinner with local cuisine." },
-                { day: 2, title: "City Tour", description: "Guided tour of the city's most iconic landmarks, including historical sites and vibrant markets." },
-                { day: 3, title: "Cultural Immersion", description: "Visit local villages, interact with artisans, and learn about traditional crafts." },
-                { day: 4, title: "Nature Walk", description: "Explore the surrounding nature trails and enjoy a picnic lunch with scenic views." },
-                { day: 5, title: "Departure", description: "Free time for last-minute shopping before transferring to the airport for your flight home." }
-            ]
-        },
-        {
-            id: 4,
-            category: "Getaway",
-            navTitle: "The Escape",
-            title: `Romantic ${location}`,
-            price: "Rs 80,000",
-            image: getPackageImage(imageKey, "Getaway"),
-            duration: "6 Days",
-            description: "Perfect for couples. Sunsets, private dinners, and beautiful views.",
-            itinerary: [
-                { day: 1, title: "Romantic Arrival", description: "Private transfer to your luxury resort. Champagne welcome and sunset dinner on the beach." },
-                { day: 2, title: "Private Island Tour", description: "Exclusive boat tour to secluded islands. Snorkeling and private beach picnic." },
-                { day: 3, title: "Spa Day", description: "Indulge in a couples' spa treatment followed by a relaxing afternoon by the infinity pool." },
-                { day: 4, title: "Sunset Cruise", description: "Evening yacht cruise with cocktails and canapés, watching the sun dip below the horizon." },
-                { day: 5, title: "Candlelit Dinner", description: "A special 5-course dinner under the stars at a renowned cliffside restaurant." },
-                { day: 6, title: "Farewell", description: "Breakfast in bed and private transfer to the airport." }
-            ]
-        },
-        {
-            id: 2,
-            category: "Adventure",
-            navTitle: "The Voyage",
-            title: `${location} Adventure`,
-            price: "Rs 1,00,000",
-            image: getPackageImage(imageKey, "Adventure"),
-            duration: "8 Days",
-            description: "For the thrill-seekers. Hiking, rafting, and exploring the wild.",
-            itinerary: [
-                { day: 1, title: "Base Camp Arrival", description: "Arrive at base camp, meet your guides, and gear up for the adventure ahead." },
-                { day: 2, title: "Mountain Trekking", description: "Full-day trek through rugged terrain, reaching high-altitude viewpoints." },
-                { day: 3, title: "White Water Rafting", description: "Adrenaline-pumping rafting experience on the river rapids." },
-                { day: 4, title: "Jungle Safari", description: "Jeep safari through the national park to spot wildlife in their natural habitat." },
-                { day: 5, title: "Rock Climbing", description: "Guided rock climbing session suitable for all skill levels." },
-                { day: 6, title: "Camping Under Stars", description: "Overnight camping in the wilderness with a bonfire and storytelling." },
-                { day: 7, title: "Zip Lining", description: "Soar through the canopy on a zip line course." },
-                { day: 8, title: "Departure", description: "Return to civilization and transfer to the airport." }
-            ]
-        },
-        {
-            id: 3,
-            category: "Luxury",
-            navTitle: "The Odyssey",
-            title: `Luxury ${location}`,
-            price: "Rs 2,50,000",
-            image: getPackageImage(imageKey, "Luxury"),
-            duration: "10 Days",
-            description: "Indulge in the finest accommodations and exclusive experiences.",
-            itinerary: [
-                { day: 1, title: "VIP Arrival", description: "Helicopter transfer to your 5-star hotel. Personal butler service and welcome amenities." },
-                { day: 2, title: "Private City Tour", description: "Chauffeur-driven tour of the city's highlights with a private historian guide." },
-                { day: 3, title: "Wine Tasting", description: "Exclusive visit to a top vineyard for a private tasting and gourmet lunch." },
-                { day: 4, title: "Yacht Charter", description: "Full-day private yacht charter with onboard chef and water sports." },
-                { day: 5, title: "Michelin Star Dining", description: "Dinner at a 3-Michelin star restaurant with a curated tasting menu." },
-                { day: 6, title: "Cultural Gala", description: "VIP seats at a traditional cultural performance or opera." },
-                { day: 7, title: "Wellness Retreat", description: "Full day of holistic wellness treatments and yoga sessions." },
-                { day: 8, title: "Shopping Spree", description: "Personal shopper experience at luxury boutiques." },
-                { day: 9, title: "Farewell Banquet", description: "Grand farewell banquet in a private ballroom." },
-                { day: 10, title: "Departure", description: "Limousine transfer to the airport for your first-class flight." }
-            ]
-        }
-    ];
+    // Dynamic Data State
+    const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPackages = async () => {
+            if (!location) return;
+            try {
+                // Fetch all packages and filter locally (or could fetch by destinationId if available)
+                // Since we only have location name here, we will fetch key "destinations" -> find id -> fetch packages
+                // OR simpler: fetch all packages and filter by title/logic.
+                // BEST: Fetch all, filter by matching destination name (or pass dest ID)
+                // For now, let's assume we can fetch all and filter by `location` string in title?
+                // Actually, the SEED data linked packages to Destination ID.
+                // Frontend only knows location NAME here.
+                // We should probably fetch the destination first to get ID, then packages.
+                // OR: just fetch all packages and filter where title includes location or destination.name matches.
+
+                // Let's rely on retrieving the destination by name to get its ID, then filter packages.
+                // Optimized approach: API endpoint to get packages by destination name?
+                // Let's stick to client-side filter for speed if dataset is small.
+
+                // Fetch Destinations to map name -> ID (or just matching logic)
+                const destRes = await api.get('/destinations');
+                const currentDest = destRes.data.find(d => d.name === location);
+
+                if (currentDest) {
+                    const pkgRes = await api.get('/packages');
+                    const filteredPkgs = pkgRes.data
+                        .filter(p => p.destinationId === currentDest.id)
+                        .sort((a, b) => a.order - b.order); // Sort by order
+
+                    setPackages(filteredPkgs);
+                } else {
+                    console.warn("Destination not found for packages:", location);
+                    setPackages([]);
+                }
+
+            } catch (error) {
+                console.error("Failed to fetch packages:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPackages();
+    }, [location]);
 
     // Horizontal Scroll Animation (Entry)
     useGSAP(() => {

@@ -1,0 +1,86 @@
+// This is an auto-generated file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
+  role     String @default("admin") // 'admin' or 'superadmin'
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  action    String
+  details   String?
+  adminId   String   @db.ObjectId
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Destination {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String          @unique
+  image          String
+  description    String?
+  details        Json?
+  badge          String?
+  lat            Float?
+  lng            Float?
+  isInternational Boolean        @default(true)
+  isVisible      Boolean         @default(true)
+  order          Int             @default(0)
+  packages       Package[]
+  stateExplorers StateExplorer[]
+  deletedAt      DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Package {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  navTitle      String?
+  category      String?
+  image         String
+  price         String?
+  duration      String?
+  description   String?
+  details       Json?
+  destinationId String      @db.ObjectId
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  order         Int         @default(0)
+  deletedAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model StateExplorer {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  image         String
+  details       Json?
+  description   String?
+  destinationId String      @db.ObjectId
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  order         Int         @default(0)
+  deletedAt     DateTime?
+}
+
+model SectionContent {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  sectionKey  String   @unique // e.g., "who-we-are", "video-overlay"
+  title       String?
+  subtitle    String?
+  body        String?
+  image       String?
+  details     Json?
+}

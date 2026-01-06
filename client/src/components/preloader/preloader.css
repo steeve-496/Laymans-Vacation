@@ -105,3 +105,368 @@
         filter: grayscale(0%) contrast(100%) brightness(100%);
     }
 }
+
+/* ===== MOBILE PRELOADER STYLES - WORLD MAP REVEAL ===== */
+
+/* Hide mobile elements on desktop */
+.mobile-preloader-content,
+.mobile-loading-info {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .preloader-container {
+        background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 50%, #0d1117 100%);
+    }
+
+    /* Hide desktop water fill on mobile */
+    .preloader-water-fill {
+        display: none;
+    }
+
+    /* Show mobile content */
+    .mobile-preloader-content {
+        display: block;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    /* ===== DESTINATION DOTS ===== */
+    .destination-dots {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: rgba(212, 175, 55, 0.6);
+        border-radius: 50%;
+        animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    .dot::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50%;
+        animation: dotRing 2s ease-out infinite;
+    }
+
+    .dot-1 {
+        top: 25%;
+        left: 15%;
+        animation-delay: 0s;
+    }
+
+    .dot-2 {
+        top: 35%;
+        left: 75%;
+        animation-delay: 0.3s;
+    }
+
+    .dot-3 {
+        top: 55%;
+        left: 25%;
+        animation-delay: 0.6s;
+    }
+
+    .dot-4 {
+        top: 45%;
+        left: 60%;
+        animation-delay: 0.9s;
+    }
+
+    .dot-5 {
+        top: 70%;
+        left: 80%;
+        animation-delay: 1.2s;
+    }
+
+    @keyframes dotPulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+
+        50% {
+            transform: scale(1.5);
+            opacity: 1;
+        }
+    }
+
+    @keyframes dotRing {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(3);
+            opacity: 0;
+        }
+    }
+
+    /* ===== FLIGHT PATH SVG ===== */
+    .flight-path {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 300px;
+        height: auto;
+        opacity: 0.8;
+        overflow: visible;
+        /* Allow plane to fly slightly out if needed */
+    }
+
+    .path-line {
+        stroke-dasharray: 8, 8;
+        animation: dashMove 20s linear infinite;
+    }
+
+    .path-glow {
+        stroke-dasharray: 400;
+        stroke-dashoffset: 400;
+        animation: pathDraw 2s ease-out forwards;
+        filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.8));
+    }
+
+    @keyframes dashMove {
+        0% {
+            stroke-dashoffset: 0;
+        }
+
+        100% {
+            stroke-dashoffset: -100;
+        }
+    }
+
+    @keyframes pathDraw {
+        0% {
+            stroke-dashoffset: 400;
+        }
+
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    /* ===== AIRPLANE ===== */
+    .airplane-group {
+        /* CSS Motion Path */
+        offset-path: path("M 30,150 Q 80,80 150,100 T 270,50");
+        offset-distance: 0%;
+        offset-rotate: auto;
+        /* Aligns plane with path curvature */
+
+        color: #d4af37;
+        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.8));
+
+        animation: flyAlongPath 2.5s ease-in-out infinite;
+    }
+
+    @keyframes flyAlongPath {
+        0% {
+            offset-distance: 0%;
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            offset-distance: 100%;
+            opacity: 0;
+        }
+    }
+
+    /* ===== LOGO ON MOBILE - ALTERNATING ===== */
+    .preloader-logo-placeholder {
+        display: flex;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    /* Animation classes for alternating effect */
+    .preloader-logo-placeholder.fade-in,
+    .mobile-loading-info.fade-in {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .preloader-logo-placeholder.fade-out,
+    .mobile-loading-info.fade-out {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .preloader-logo-placeholder img {
+        filter: none;
+        /* Animation conflicts with transform transition if not careful, 
+           but img is child, so it's fine */
+        animation: logoFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    /* ===== LOADING INFO ===== */
+    .mobile-loading-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 200px;
+    }
+
+    .loading-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 0;
+        animation: textFade 0.5s ease-in-out;
+    }
+
+    @keyframes textFade {
+        0% {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .loading-progress {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #d4af37, #f5d76e, #d4af37);
+        background-size: 200% 100%;
+        border-radius: 3px;
+        animation: progressFill 2.5s ease-out forwards, shimmer 1.5s linear infinite;
+    }
+
+    @keyframes progressFill {
+        0% {
+            width: 0%;
+        }
+
+        30% {
+            width: 30%;
+        }
+
+        60% {
+            width: 60%;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    /* ===== EXIT ANIMATION ===== */
+    .preloader-container.preloader-loaded {
+        opacity: 1;
+        /* Override desktop opacity: 0 to ensure visibility during delay */
+        animation: fadeOutMobile 0.5s ease-out 4s forwards;
+        /* Increased delay to 4s to allow full alternation */
+    }
+
+    .preloader-container.preloader-loaded .preloader-logo-placeholder {
+        animation: logoZoomOut 0.5s ease-out 4s forwards;
+    }
+
+    .preloader-container.preloader-loaded .mobile-preloader-content {
+        animation: contentFadeOut 0.3s ease-out 3.8s forwards;
+    }
+
+    .preloader-container.preloader-loaded .mobile-loading-info {
+        animation: contentFadeOut 0.3s ease-out 3.8s forwards;
+    }
+
+    @keyframes fadeOutMobile {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes logoZoomOut {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    @keyframes contentFadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+}

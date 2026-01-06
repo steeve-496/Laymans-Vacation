@@ -84,37 +84,22 @@ function Hero() {
       });
 
       mm.add("(max-width: 768px)", () => {
-        // Mobile Animation - Increased Y movement and scale to overlap text
+        // Mobile Animation - subtle fade and scale down (Curtain Effect)
+        // Hero stays pinned at bottom layer, Video slides over it
+
         gsap.to(".hero-bg-image", {
-          zIndex: 999,
+          opacity: 0.5,
+          scale: 0.95,
+          ease: "none",
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
-            end: "10% top",
-            toggleActions: "play none none reverse",
+            end: "bottom top",
+            scrub: true,
+            pin: true,
+            pinSpacing: false,
           }
         });
-
-        gsap.fromTo(
-          ".hero-bg-image img",
-          {
-            scale: 1.2, // Match CSS initial scale
-            y: 0
-          },
-          {
-            y: -160, // Increased to ensure overlap
-            scale: 2, // Increased scale for dramatic effect
-            ease: "none",
-            scrollTrigger: {
-              trigger: heroRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-              pin: true,
-              pinSpacing: false,
-            },
-          }
-        );
       });
 
     });

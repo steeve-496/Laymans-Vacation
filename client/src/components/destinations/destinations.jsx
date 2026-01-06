@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Stars from "./Stars";
 import "./destinations.css";
 import { getOptimizedUrl } from "../../utils/imageOptimizer";
+import api from "../../utils/api";
 
 gsap.registerPlugin(ScrollTrigger);
 // ... existing code ...
@@ -15,117 +16,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 
-const international = [
-    {
-        name: "Azerbaijan",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Azerbaijan.webp",
-        lat: 40.1431,
-        lng: 47.5769,
-        description: "Known as the Land of Fire, blending ancient history with modern futuristic architecture."
-    },
-    {
-        name: "Bali",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bali.webp",
-        lat: -8.7892,
-        lng: 115.2162,
-        description: "A tropical paradise famed for its stunning beaches, spirituality, and vibrant culture."
-    },
-    {
-        name: "Bhutan",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bhutan.webp",
-        lat: 27.4667,
-        lng: 90.4667,
-        description: "The Last Shangri-La, offering breathtaking Himalayan landscapes and rich Buddhist heritage."
-    },
-    {
-        name: "Dubai",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp",
-        lat: 25.2044,
-        lng: 55.2714,
-        description: "A city of superlatives with towering skyscrapers, luxury shopping, and desert adventures.",
-        badge: "Best Seller"
-    },
-    {
-        name: "Kazakhstan",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Kazakhstan.webp",
-        lat: 43.2467,
-        lng: 66.9667,
-        description: "The heart of Central Asia, featuring vast steppes, mountains, and modern cities."
-    },
-    {
-        name: "Malaysia",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Malaysia.webp",
-        lat: 3.1390,
-        lng: 101.6937,
-        description: "A melting pot of cultures with iconic towers, rainforests, and beautiful islands."
-    },
-    {
-        name: "Singapore",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655249/Singapore_gvfyn6.jpg",
-        lat: 1.3521,
-        lng: 103.8198,
-        description: "A futuristic city-state known for its cleanliness, green spaces, and diverse food scene."
-    },
-    {
-        name: "Sri Lanka",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Sri%20Lanka.webp",
-        lat: 6.9315,
-        lng: 79.8667,
-        description: "The Pearl of the Indian Ocean, rich in history, wildlife, and golden sandy beaches."
-    },
-    {
-        name: "Thailand",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Thailand_a2ide4.png",
-        lat: 13.7563,
-        lng: 100.5018,
-        description: "The Land of Smiles, famous for its temples, street food, and tropical islands.",
-        badge: "Best Seller"
-    },
-    {
-        name: "Vietnam",
-        image: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655268/Vietnam_qgebdl.png",
-        lat: 10.8236,
-        lng: 106.6290,
-        description: "A country of staggering natural beauty and cultural complexities."
-    },
-];
 
-const domestic = [
-    {
-        name: "Munnar",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp",
-        lat: 10.0889,
-        lng: 77.0595,
-        description: "Rolling tea gardens and misty hills make this a perfect honey-moon destination."
-    },
-    {
-        name: "Wayanad",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp",
-        lat: 11.6854,
-        lng: 76.1320,
-        description: "A green paradise with waterfalls, caves, and exotic wildlife in Kerala."
-    },
-    {
-        name: "Varkala",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp",
-        lat: 8.7379,
-        lng: 76.7163,
-        description: "Famous for its stunning cliff-side beaches and relaxed coastal vibe."
-    },
-    {
-        name: "Alleppey",
-        image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp",
-        lat: 9.4981,
-        lng: 76.3388,
-        description: "The Venice of the East, renowned for its tranquil backwaters and houseboats."
-    },
-];
 
 const DEFAULT_VIEW = { altitude: 2.5 };
 
 const Destinations = forwardRef((props, ref) => {
     const navigate = useNavigate();
     const globeRef = useRef(null);
+
+    // State for dynamic data
+    const [international, setInternational] = useState([]);
+    const [domestic, setDomestic] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/destinations');
+                const data = response.data;
+
+                // Sort by order
+                const sortedData = data.sort((a, b) => a.order - b.order);
+
+                setInternational(sortedData.filter(d => d.isInternational));
+                setDomestic(sortedData.filter(d => !d.isInternational));
+            } catch (error) {
+                console.error("Failed to fetch destinations:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
     // Use the forwarded ref if provided, otherwise internal fallback (though usually parent will provide ref)
     // To handle both, we can use useImperativeHandle or just direct ref assignment if valid.
     // Simplest for animation: Ref can be attached to the section.
@@ -159,6 +81,20 @@ const Destinations = forwardRef((props, ref) => {
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
+
+    // New state for category selection view
+    const [showCategoryView, setShowCategoryView] = useState(true);
+
+    // Handle category selection
+    const handleCategorySelect = (category) => {
+        setMobileTab(category);
+        setShowCategoryView(false);
+    };
+
+    // Handle back to categories
+    const handleBackToCategories = () => {
+        setShowCategoryView(true);
+    };
 
     // Get Active List based on Mobile Tab
     const currentList = mobileTab === "international" ? international : domestic;
@@ -299,7 +235,57 @@ const Destinations = forwardRef((props, ref) => {
         }
     }, [cardVisible]);
 
-    /* ================== SCROLL + ENTRY ================== */
+    /* ================== MOBILE ANIMATIONS ================== */
+    useGSAP(() => {
+        if (!isMobile) return;
+
+        // Cleanup previous animations if any (auto-handled by useGSAP scope revert, but good to be explicit with contexts if needed)
+
+        if (showCategoryView) {
+            // CATEGORY VIEW ANIMATION
+            // Use ScrollTrigger so it animates when user scrolls down to it
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".mobile-layout-container",
+                    start: "top 85%", // Animate when top of container hits 85% of viewport
+                    toggleActions: "play none none reverse" // Re-animate on scroll back? Or just play? 'play none none reverse' allows re-entry
+                }
+            });
+
+            tl.fromTo(".mobile-dest-header",
+                { y: -30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+            )
+                .fromTo(".category-card",
+                    { y: 50, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" },
+                    "-=0.5"
+                );
+
+        } else {
+            // CAROUSEL VIEW ANIMATION
+            // Immediate animation since we are already in the section
+            const tl = gsap.timeline();
+
+            tl.fromTo(".mobile-dest-nav-header",
+                { opacity: 0, x: -20 },
+                { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
+            )
+                .fromTo(".mobile-dest-card",
+                    { x: 100, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+                    "-=0.3"
+                )
+                .fromTo(".mobile-swipe-hint",
+                    { opacity: 0, y: 10 },
+                    { opacity: 1, y: 0, duration: 0.5, delay: 0.5 },
+                    "<"
+                );
+        }
+
+    }, { dependencies: [showCategoryView, isMobile], scope: internalSectionRef });
+
+    /* ================== SCROLL + ENTRY (DESKTOP) ================== */
     useGSAP(() => {
         const resetToInitialState = () => {
             if (selectionTimeline.current) {
@@ -316,44 +302,62 @@ const Destinations = forwardRef((props, ref) => {
             globeRef.current?.pointOfView(DEFAULT_VIEW, 1000);
         };
 
-        // Pinning/Scroll Logic
-        ScrollTrigger.create({
-            trigger: internalSectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            pin: true,
-            scrub: true,
-            onEnterBack: () => resetToInitialState(),
-            onLeave: () => resetToInitialState()
-        });
+        // Use matchMedia for reliable viewport-based logic
+        const mm = gsap.matchMedia();
 
-        // Entry Animation
-        const tl = gsap.timeline({
-            scrollTrigger: {
+        // Desktop ONLY - Pinning and entry animations
+        mm.add("(min-width: 769px)", () => {
+            // Pinning/Scroll Logic - ONLY on desktop
+            ScrollTrigger.create({
                 trigger: internalSectionRef.current,
-                start: "top bottom-=100", // Triggers when top of section acts hits bottom of viewport (minus 100px buffer)
-                end: "center center",
-                toggleActions: "play none none none" // Play and stay visible
-            }
-        });
+                start: "top top",
+                end: "bottom top",
+                pin: true,
+                scrub: true,
+                onEnterBack: () => resetToInitialState(),
+                onLeave: () => resetToInitialState()
+            });
 
-        tl.fromTo(".dest-panel.left",
-            { x: -120, opacity: 0 },
-            {
-                x: 0,
-                opacity: 1,
-                duration: 1,
-                ease: "power3.out"
-            }
-        )
-            .fromTo(".dest-panel.right",
-                { x: 120, opacity: 0 },
+            // Entry Animation - Desktop only
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: internalSectionRef.current,
+                    start: "top bottom-=100",
+                    end: "center center",
+                    toggleActions: "play none none none"
+                }
+            });
+
+            tl.fromTo(".dest-panel.left",
+                { x: -120, opacity: 0 },
                 {
                     x: 0,
                     opacity: 1,
                     duration: 1,
                     ease: "power3.out"
-                }, "<");
+                }
+            )
+                .fromTo(".dest-panel.right",
+                    { x: 120, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power3.out"
+                    }, "<");
+        });
+
+        // Mobile - No pinning, no entry animations
+        mm.add("(max-width: 768px)", () => {
+            // Ensure no ScrollTrigger effects on mobile
+            ScrollTrigger.getAll().forEach(st => {
+                if (st.trigger === internalSectionRef.current) {
+                    st.kill();
+                }
+            });
+        });
+
+        return () => mm.revert();
 
     }, { scope: internalSectionRef });
 
@@ -482,53 +486,35 @@ const Destinations = forwardRef((props, ref) => {
                 isMobile ? (
                     /* ================= MOBILE LAYOUT ================= */
                     <div className="mobile-layout-container">
-                        {/* Premium Header */}
-                        <div className="mobile-dest-header">
-                            <span className="mobile-dest-tag">Explore The World</span>
-                            <h2 className="mobile-dest-title">Choose Your Destination</h2>
-                        </div>
+                        {showCategoryView ? (
+                            /* ===== CATEGORY SELECTION VIEW ===== */
+                            <>
+                                {/* Header */}
+                                <div className="mobile-dest-header">
+                                    <span className="mobile-dest-tag">Your Journey Awaits</span>
+                                    <h2 className="mobile-dest-title">Where Would You Like To Go?</h2>
+                                </div>
 
-                        {/* Tab Switcher - Pill Style */}
-                        <div className="mobile-tabs">
-                            <button
-                                className={`mobile-tab-btn ${mobileTab === 'international' ? 'active' : ''}`}
-                                onClick={() => setMobileTab('international')}
-                            >
-                                International
-                            </button>
-                            <button
-                                className={`mobile-tab-btn ${mobileTab === 'domestic' ? 'active' : ''}`}
-                                onClick={() => setMobileTab('domestic')}
-                            >
-                                Domestic
-                            </button>
-                        </div>
-
-                        {/* Horizontal Card Carousel */}
-                        <div className="mobile-carousel-wrapper">
-                            <div className="mobile-carousel">
-                                {currentList.map((d, index) => (
+                                {/* Category Cards */}
+                                <div className="mobile-category-cards">
+                                    {/* International Card */}
                                     <div
-                                        key={d.name}
-                                        className="mobile-dest-card"
-                                        onClick={() => navigate(`/explore/${encodeURIComponent(d.name)}`)}
+                                        className="category-card international"
+                                        onClick={() => handleCategorySelect('international')}
                                     >
-                                        {/* Card Image */}
-                                        <div className="mobile-card-image">
+                                        <div className="category-card-bg">
                                             <img
-                                                src={getOptimizedUrl(d.image, 600)}
-                                                alt={d.name}
+                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 600)}
+                                                alt="International"
                                                 loading="lazy"
                                             />
-                                            <div className="mobile-card-gradient"></div>
-                                            {d.badge && <span className="mobile-card-badge">{d.badge}</span>}
+                                            <div className="category-overlay"></div>
                                         </div>
-
-                                        {/* Card Content */}
-                                        <div className="mobile-card-content">
-                                            <h3>{d.name}</h3>
-                                            <p>{d.description}</p>
-                                            <div className="mobile-card-explore">
+                                        <div className="category-card-content">
+                                            <span className="category-icon">🌏</span>
+                                            <h3>International</h3>
+                                            <p>{international.length} Destinations</p>
+                                            <div className="category-explore">
                                                 <span>Explore</span>
                                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -536,14 +522,110 @@ const Destinations = forwardRef((props, ref) => {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
 
-                        {/* Swipe Hint */}
-                        <div className="mobile-swipe-hint">
-                            <span>← Swipe to explore →</span>
-                        </div>
+                                    {/* Domestic Card */}
+                                    <div
+                                        className="category-card domestic"
+                                        onClick={() => handleCategorySelect('domestic')}
+                                    >
+                                        <div className="category-card-bg">
+                                            <img
+                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 600)}
+                                                alt="Domestic"
+                                                loading="lazy"
+                                            />
+                                            <div className="category-overlay"></div>
+                                        </div>
+                                        <div className="category-card-content">
+                                            <span className="category-icon">🇮🇳</span>
+                                            <h3>Domestic</h3>
+                                            <p>{domestic.length} Hidden Gems</p>
+                                            <div className="category-explore">
+                                                <span>Explore</span>
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            /* ===== DESTINATION CAROUSEL VIEW ===== */
+                            <>
+                                {/* Back Header */}
+                                <div className="mobile-dest-nav-header">
+                                    <button className="back-btn" onClick={handleBackToCategories}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                                        </svg>
+                                        <span>Back</span>
+                                    </button>
+                                    <h3 className="nav-title">{mobileTab === 'international' ? 'International' : 'Domestic'}</h3>
+                                    <span className="nav-count">{currentList.length} Places</span>
+                                </div>
+
+                                {/* Destination Carousel */}
+                                <div className="mobile-carousel-wrapper">
+                                    <div className="mobile-carousel">
+                                        {currentList.map((d, index) => (
+                                            <div
+                                                key={d.name}
+                                                className="mobile-dest-card"
+                                                onClick={() => navigate(`/explore/${encodeURIComponent(d.name)}`)}
+                                            >
+                                                {/* Card Image */}
+                                                <div className="mobile-card-image">
+                                                    <img
+                                                        src={getOptimizedUrl(d.image, 600)}
+                                                        alt={d.name}
+                                                        loading="lazy"
+                                                    />
+                                                    <div className="mobile-card-gradient"></div>
+                                                    {d.badge && <span className="mobile-card-badge">{d.badge}</span>}
+                                                </div>
+
+                                                {/* Card Content */}
+                                                <div className="mobile-card-content">
+                                                    <h3>{d.name}</h3>
+                                                    <p>{d.description}</p>
+
+                                                    {/* Package Quick Info */}
+                                                    <div className="package-quick-info">
+                                                        <div className="info-item">
+                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <circle cx="12" cy="12" r="10" />
+                                                                <polyline points="12,6 12,12 16,14" />
+                                                            </svg>
+                                                            <span>{mobileTab === 'international' ? '4-7 Days' : '2-4 Days'}</span>
+                                                        </div>
+                                                        <div className="info-item">
+                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+                                                            </svg>
+                                                            <span>{mobileTab === 'international' ? 'Flight Incl.' : 'Customizable'}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Explore Button */}
+                                                    <div className="mobile-card-explore">
+                                                        <span>View Packages</span>
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Swipe Hint */}
+                                <div className="mobile-swipe-hint">
+                                    <span>← Swipe to explore →</span>
+                                </div>
+                            </>
+                        )}
                     </div>
                 ) : (
                     /* ================= DESKTOP LAYOUT ================= */

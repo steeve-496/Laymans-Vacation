@@ -65,8 +65,25 @@ export default function Video({ appLoaded }) {
   const columns = [col1, col2, col3];
   const colRefs = [col1Ref, col2Ref, col3Ref];
 
+  /* ================== DYNAMIC TEXT LOGIC ================== */
+  const phrases = [
+    "Explore The Unseen",
+    "Live The Journey",
+    "Capture The Moment"
+  ];
+
+  const [activePhrase, setActivePhrase] = useState(0);
+
   useGSAP(
     () => {
+      // Helper to update phrase
+      const updatePhrase = (self) => {
+        const progress = self.progress;
+        const index = Math.floor(progress * phrases.length);
+        const validIndex = Math.min(index, phrases.length - 1);
+        setActivePhrase(validIndex);
+      };
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -74,24 +91,39 @@ export default function Video({ appLoaded }) {
           end: "+=200%",
           pin: true,
           scrub: 1,
+          onUpdate: updatePhrase
         },
       });
 
+      // Mobile Text Fade In/Out
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=200%",
+        onEnter: () => gsap.to(".video-scroll-text h2", { opacity: 1, duration: 0.5 }),
+        onLeave: () => gsap.to(".video-scroll-text h2", { opacity: 0, duration: 0.5 }),
+        onEnterBack: () => gsap.to(".video-scroll-text h2", { opacity: 1, duration: 0.5 }),
+        onLeaveBack: () => gsap.to(".video-scroll-text h2", { opacity: 0, duration: 0.5 })
+      });
+
+      // Check if mobile
+      const isMobile = window.innerWidth <= 768;
+
       // Initial state
       tl.set(mainCardRef.current, {
-        scale: 4, // Increased scale
+        scale: isMobile ? 7 : 4, // 7 for Mobile (Zoomed), 4 for Desktop (Original)
         zIndex: 100,
         transformOrigin: "center center",
       })
         .set(col1Ref.current, {
           opacity: 0,
           scale: 0.8,
-          xPercent: -100, // Start diverged left
+          xPercent: -100,
         })
         .set(col3Ref.current, {
           opacity: 0,
           scale: 0.8,
-          xPercent: 100, // Start diverged right
+          xPercent: 100,
         });
 
       // Animation
@@ -103,24 +135,29 @@ export default function Video({ appLoaded }) {
         .to([col1Ref.current, col3Ref.current], {
           opacity: 1,
           scale: 1,
-          xPercent: 0, // Converge to center
+          xPercent: 0,
           duration: 1.1,
           ease: "power2.out",
         }, "<+0.2")
-        // Exit animation (Shrink and Fade out at the end of scroll)
+        // Exit animation
         .to(gridRef.current, {
           scale: 0.5,
           opacity: 0,
           duration: 0.5,
           ease: "power2.in",
-        }, ">+0.5"); // Start after convergence is done
+        }, ">+0.5");
 
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [] }
   );
 
   return (
     <div className="video-page-container" ref={containerRef}>
+      {/* Dynamic Text Overlay - Fixed Center */}
+      <div className="video-scroll-text">
+        <h2>{phrases[activePhrase]}</h2>
+      </div>
+
       <div className="video-grid" ref={gridRef}>
         {columns.map((columnVideos, index) => (
           <div

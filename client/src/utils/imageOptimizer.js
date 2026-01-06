@@ -1,15 +1,7 @@
 export const optimizeCloudinaryUrl = (url, width = null) => {
     if (!url || !url.includes("cloudinary.com")) return url;
-
-    const parts = url.split("upload/");
-    if (parts.length < 2) return url;
-
-    let transformations = "f_auto,q_auto";
-    if (width) {
-        transformations += `,w_${width}`;
-    }
-
-    return `${parts[0]}upload/${transformations}/${parts[1]}`;
+    // Return raw URL to avoid 401s with strict transformations
+    return url;
 };
 
 export const optimizeUnsplashUrl = (url, width = 800) => {

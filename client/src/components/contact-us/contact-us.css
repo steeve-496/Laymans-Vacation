@@ -233,20 +233,131 @@
 }
 
 @media (max-width: 768px) {
+    .cu-section {
+        padding: 40px 16px 100px;
+        background: linear-gradient(180deg, #f5f5f5 0%, #eee 100%);
+    }
+
     .cu-container {
         grid-template-columns: 1fr;
+        border-radius: 24px;
+        overflow: hidden;
     }
 
+    /* Info panel - compact header style */
     .cu-info-panel {
-        padding: clamp(24px, 3.5vw, 40px);
+        padding: 28px 24px;
+        background: linear-gradient(135deg, #1a5b78 0%, #155a75 100%);
     }
 
+    .cu-info-panel::before {
+        opacity: 0.5;
+    }
+
+    .cu-header {
+        margin-bottom: 16px;
+    }
+
+    .cu-title {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .cu-text {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .cu-details {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .cu-detail-item {
+        flex: 1;
+        min-width: 140px;
+        gap: 10px;
+    }
+
+    .cu-detail-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .cu-detail-text {
+        font-size: 0.85rem;
+    }
+
+    /* Form panel */
     .cu-form-panel {
-        padding: clamp(20px, 3vw, 36px);
+        padding: 24px;
+    }
+
+    .cu-form-panel .cu-form-group {
+        margin-bottom: 16px;
+    }
+
+    .cu-form-panel .cu-form-label {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+    }
+
+    .cu-form-panel .cu-form-input,
+    .cu-form-panel .cu-form-textarea {
+        padding: 4px;
+        font-size: 1rem;
+        border-radius: 12px;
+        background: #f8f8f8;
+    }
+
+    .cu-form-panel .cu-form-input:focus,
+    .cu-form-panel .cu-form-textarea:focus {
+        box-shadow: 0 0 0 3px rgba(26, 91, 120, 0.15);
+    }
+
+    .cu-form-panel .cu-form-textarea {
+        min-height: 100px;
     }
 
     .cu-form-panel .cu-form-row {
         flex-direction: column;
-        gap: 15px;
+        gap: 16px;
+    }
+
+    .cu-form-panel .cu-form-group.half,
+    .cu-form-panel .cu-form-group.third {
+        flex: none;
+        min-width: 100%;
+    }
+
+    .cu-helper-text {
+        font-size: 0.7rem;
+        margin-top: 6px;
+    }
+
+    /* Full-width submit button */
+    .cu-submit-btn {
+        width: 100%;
+        padding: 16px 4px;
+        margin-top: 16px;
+        background: linear-gradient(135deg, #1a5b78 0%, #155a75 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        box-shadow: 0 8px 30px rgba(26, 91, 120, 0.25);
+    }
+
+    .cu-submit-btn:active {
+        transform: scale(0.98);
+        box-shadow: 0 4px 15px rgba(26, 91, 120, 0.3);
+    }
+
+    /* Decorative elements */
+    .cu-decor {
+        display: none;
     }
 }

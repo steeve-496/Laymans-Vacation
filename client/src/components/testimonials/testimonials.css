@@ -183,23 +183,123 @@
 /* MOBILE */
 @media (max-width: 768px) {
     .testi-section {
-        padding: 60px 5vw;
+        padding: 60px 0;
+        background: linear-gradient(180deg, #f5f5f5 0%, #ececec 100%);
     }
 
+    .testi-header {
+        padding: 0 20px;
+        margin-bottom: 40px;
+    }
+
+    .testi-title {
+        font-size: 2rem;
+    }
+
+    .testi-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Horizontal scroll carousel */
     .testi-grid {
-        grid-template-columns: 1fr;
-        padding: 0;
-        gap: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        padding: 0 20px 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        max-width: none;
+    }
+
+    .testi-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .testi-postcard-wrapper {
+        flex-shrink: 0;
+        width: 85vw;
+        max-width: 320px;
+        scroll-snap-align: center;
+        transform: none !important;
+        /* Remove rotation */
     }
 
     .testi-postcard-wrapper:nth-child(n) {
         transform: none;
-        /* Remove rotation on mobile for cleaner stack */
         margin-bottom: 0;
-        /* Grid gap handles spacing */
     }
 
-    .testi-title {
-        font-size: 2.5rem;
+    .testi-postcard-wrapper:hover {
+        transform: none;
+        z-index: auto;
+    }
+
+    .testi-postcard {
+        padding: 24px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        min-height: 280px;
+    }
+
+    .testi-postcard-wrapper:hover .testi-postcard {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Stamp repositioned */
+    .testi-stamp-mark {
+        top: 15px;
+        right: 15px;
+        width: 50px;
+        height: 60px;
+        transform: rotate(3deg);
+    }
+
+    .testi-quote-icon {
+        font-size: 3rem;
+        color: rgba(212, 175, 55, 0.3);
+    }
+
+    .testi-review-text {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    .testi-user-profile {
+        gap: 12px;
+        padding-top: 16px;
+    }
+
+    .testi-user-avatar {
+        width: 45px;
+        height: 45px;
+    }
+
+    .testi-user-name {
+        font-size: 0.95rem;
+    }
+
+    .testi-user-location {
+        font-size: 0.75rem;
+    }
+
+    .testi-stars {
+        font-size: 0.85rem;
+    }
+
+    /* Swipe hint */
+    .testi-section::after {
+        content: '← Swipe for more →';
+        display: block;
+        text-align: center;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+        padding: 16px 0 0;
     }
 }

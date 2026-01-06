@@ -1,3 +1,4 @@
-html {
-    overflow-x: hidden !important;
-}
+@import url("./mobile-base.css");
+
+/* Note: Removed html overflow-x: hidden to allow horizontal scrolling in components */
+/* Each section that needs to prevent overflow should handle it individually */

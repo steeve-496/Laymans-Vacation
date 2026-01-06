@@ -10,7 +10,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sidebarTL = useRef(null);
+
+  // Check for mobile viewport
+  useGSAP(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Initial entry animation
   useGSAP(() => {
@@ -152,7 +161,13 @@ function Header() {
     <>
       <header className="header-nav">
         <div className="header-logo">
-          <img src="https://ik.imagekit.io/tsxbvz4jb6/Laymans/TheLayman'sVacation.png" alt="logo" />
+          <img
+            src={isMobile
+              ? "https://ik.imagekit.io/tsxbvz4jb6/Laymans/logo-m.png"
+              : "https://ik.imagekit.io/tsxbvz4jb6/Laymans/TheLayman'sVacation.png"
+            }
+            alt="logo"
+          />
         </div>
 
         <ul className="header-nav-list">

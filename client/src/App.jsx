@@ -14,57 +14,28 @@ import Footer from "./components/footer/footer";
 import ContactUs from "./components/contact-us/contact-us";
 import WhoWeAre from "./components/who-we-are/who-we-are";
 
+// Admin Components
+import AdminLogin from "./components/admin/Login";
+import AdminLayout from "./components/admin/AdminLayout";
+import Dashboard from "./components/admin/Dashboard";
+import DestinationManager from "./components/admin/DestinationManager";
+import PackageManager from "./components/admin/PackageManager";
+import StateExplorerManager from "./components/admin/StateExplorerManager";
+import Settings from "./components/admin/Settings";
+import TrashBinPage from "./components/admin/TrashBinPage";
+import AuditLogPage from "./components/admin/AuditLogPage";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 // Home Page Component
-function HomePage() {
+function HomePage({ appLoaded }) {
   const destinationsRef = useRef(null);
   const location = useLocation();
 
-  // Manage Preloader State - only show once per session
-  const [isLoading, setIsLoading] = useState(() => {
-    // Check if preloader has already been shown this session
-    return !sessionStorage.getItem('preloaderShown');
-  });
-
+  // Scroll to hash when app is loaded
   useEffect(() => {
-    // If preloader was already shown, skip
-    if (sessionStorage.getItem('preloaderShown')) {
-      setIsLoading(false);
-      return;
-    }
-
-    // Fallback if window load doesn't fire (e.g. single page nav or cached)
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-      sessionStorage.setItem('preloaderShown', 'true');
-    }, 4500); // Max wait time
-
-    const handleLoad = () => {
-      clearTimeout(timeout);
-      // Small delay to ensure smooth transition
-      setTimeout(() => {
-        setIsLoading(false);
-        sessionStorage.setItem('preloaderShown', 'true');
-      }, 500);
-    };
-
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-    }
-
-    return () => {
-      window.removeEventListener("load", handleLoad);
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  // Handle hash navigation (e.g., /#destinations from state-explorer back button)
-  useEffect(() => {
-    if (!isLoading && location.hash) {
+    if (appLoaded && location.hash) {
       const elementId = location.hash.replace('#', '');
       const element = document.getElementById(elementId);
       if (element) {
@@ -79,14 +50,13 @@ function HomePage() {
         }, isFromStateExplorer ? 0 : 100);
       }
     }
-  }, [isLoading, location.hash, location.search]);
+  }, [appLoaded, location.hash, location.search]);
 
   return (
     <>
-      <Preloader isLoading={isLoading} />
       <Header />
       <Hero />
-      <VideoSection appLoaded={!isLoading} />
+      <VideoSection appLoaded={appLoaded} />
       <Destinations ref={destinationsRef} />
       <WhyUs />
       <Testimonials />
@@ -119,12 +89,56 @@ function PackagesPage() {
 import { useParams } from "react-router-dom";
 
 function App() {
+  // Global Preloader State
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simple window load detection
+    const handleLoad = () => {
+      // Small buffer to ensure everything is settled
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 800);
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    // Safety fallback
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 4500);
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      clearTimeout(timeout);
+    };
+  }, []);
+
   return (
     <div className="app-container">
+      {/* Global Preloader - Shows on every refresh */}
+      <Preloader isLoading={isLoading} />
+
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage appLoaded={!isLoading} />} />
         <Route path="/explore/:country" element={<StateExplorer />} />
         <Route path="/packages/:country/:location?" element={<PackagesPage />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="destinations" element={<DestinationManager />} />
+          <Route path="packages" element={<PackageManager />} />
+          <Route path="state-explorer" element={<StateExplorerManager />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="trash" element={<TrashBinPage />} />
+          <Route path="activity-logs" element={<AuditLogPage />} />
+        </Route>
       </Routes>
     </div>
   );

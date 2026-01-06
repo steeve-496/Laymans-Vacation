@@ -9,71 +9,7 @@ gsap.registerPlugin(Draggable);
 
 import { getOptimizedUrl } from "../../utils/imageOptimizer";
 
-const countryData = {
-    "Azerbaijan": [
-        { name: "Baku", description: "The City of Winds, blending ancient history with modern futuristic architecture.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Azerbaijan.webp" },
-        { name: "Gabala", description: "Nature's Paradise with stunning mountain views and adventure activities.", image: "https://images.unsplash.com/photo-1588369281132-55b5f37e6818?w=600&auto=format&fit=crop&q=60" },
-        { name: "Sheki", description: "Ancient Silk Road city with historic palaces and traditional crafts.", image: "https://images.unsplash.com/photo-1590588875980-dc6f453e57c9?w=600&auto=format&fit=crop&q=60" },
-    ],
-    "Bali": [
-        { name: "Ubud", description: "Cultural heart of Bali with temples, rice terraces and art galleries.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bali.webp" },
-        { name: "Kuta", description: "Famous for stunning sunsets, surf beaches and vibrant nightlife.", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000&auto=format&fit=crop" },
-        { name: "Nusa Penida", description: "Island escape with dramatic cliffs, pristine beaches and crystal waters.", image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1000&auto=format&fit=crop" },
-    ],
-    "Bhutan": [
-        { name: "Thimphu", description: "Capital city blending tradition with modernity, home to dzongs and markets.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Bhutan.webp" },
-        { name: "Paro", description: "Gateway to Tiger's Nest monastery with stunning Himalayan landscapes.", image: "https://images.unsplash.com/photo-1638245771029-9bdb1e3e7a01?w=600&auto=format&fit=crop&q=60" },
-        { name: "Punakha", description: "Winter capital featuring the majestic Punakha Dzong and river valleys.", image: "https://images.unsplash.com/photo-1586347347212-429e14d79f83?w=600&auto=format&fit=crop&q=60" },
-    ],
-    "Dubai": [
-        { name: "Burj Khalifa", description: "Touch the sky at the world's tallest building with panoramic city views.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp" },
-        { name: "Palm Jumeirah", description: "Iconic man-made island with luxury resorts and stunning architecture.", image: "https://images.pexels.com/photos/8319454/pexels-photo-8319454.jpeg" },
-        { name: "Desert Safari", description: "Golden dunes adventure with camel rides, BBQ dinner and entertainment.", image: "https://images.pexels.com/photos/936250/pexels-photo-936250.jpeg" },
-    ],
-    "Munnar": [
-        { name: "Hills & Wildlife", description: "Includes Eravikulam National Park, Mattupetty Dam and sunset points.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp" },
-        { name: "Tea Trail Escape", description: "Perfect short break with tea gardens, waterfalls and local sightseeing.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp" },
-    ],
-    "Wayanad": [
-        { name: "Wayanad Nature Break", description: "Caves, dams and forest viewpoints with relaxed pacing.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/wayanad.webp" },
-    ],
-    "Varkala": [
-        { name: "Cliff & Cafe Getaway", description: "Beach time, cliff walk, cafes and sunset viewpoints.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/varkala.webp" },
-    ],
-    "Alleppey": [
-        { name: "Houseboat Classic", description: "Overnight houseboat stay with meals and sunset cruise.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/kerala.webp" },
-    ],
-    "Kazakhstan": [
-        { name: "Almaty", description: "City of Apples surrounded by snow-capped mountains and modern culture.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Kazakhstan.webp" },
-        { name: "Astana", description: "Modern marvel capital with futuristic architecture and landmarks.", image: "https://images.pexels.com/photos/2475746/pexels-photo-2475746.jpeg" },
-        { name: "Charyn Canyon", description: "Valley of Castles with stunning red rock formations.", image: "https://images.pexels.com/photos/28359695/pexels-photo-28359695.jpeg" },
-    ],
-    "Malaysia": [
-        { name: "Kuala Lumpur", description: "Iconic Petronas Twin Towers, diverse culture and amazing street food.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Malaysia.webp" },
-        { name: "Langkawi", description: "Jewel of Kedah with pristine beaches, cable car and duty-free shopping.", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1000&auto=format&fit=crop" },
-        { name: "Penang", description: "Pearl of the Orient with heritage streets, temples and local cuisine.", image: "https://images.pexels.com/photos/34401/pexels-photo.jpg" },
-    ],
-    "Singapore": [
-        { name: "Marina Bay", description: "Iconic skyline with Marina Bay Sands, Merlion and waterfront dining.", image: "https://images.pexels.com/photos/3914755/pexels-photo-3914755.jpeg" },
-        { name: "Sentosa", description: "State of Fun with Universal Studios, beaches and adventure parks.", image: "https://images.pexels.com/photos/11527373/pexels-photo-11527373.jpeg" },
-        { name: "Gardens by Bay", description: "Supertree Grove, Cloud Forest and Flower Dome attractions.", image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=1000&auto=format&fit=crop" },
-    ],
-    "Sri Lanka": [
-        { name: "Colombo", description: "Ocean city with colonial heritage, markets and modern attractions.", image: "https://images.pexels.com/photos/2239999/pexels-photo-2239999.jpeg" },
-        { name: "Kandy", description: "Hill capital with Temple of the Tooth and scenic lake.", image: "https://images.pexels.com/photos/32678292/pexels-photo-32678292.jpeg" },
-        { name: "Ella", description: "Mountain views, Nine Arches Bridge and tea plantation trails.", image: "https://ik.imagekit.io/tsxbvz4jb6/Laymans/Sri%20Lanka.webp" },
-    ],
-    "Thailand": [
-        { name: "Bangkok", description: "City of Angels with grand palaces, temples and vibrant street life.", image: "https://images.pexels.com/photos/3121347/pexels-photo-3121347.jpeg" },
-        { name: "Phuket", description: "Pearl of Andaman with beautiful beaches, islands and water sports.", image: "https://images.pexels.com/photos/2554603/pexels-photo-2554603.jpeg" },
-        { name: "Chiang Mai", description: "Rose of the North with ancient temples and elephant sanctuaries.", image: "https://images.pexels.com/photos/2956618/pexels-photo-2956618.jpeg" },
-    ],
-    "Vietnam": [
-        { name: "Hanoi", description: "City of Peace with ancient temples, French colonial architecture.", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/14/61/62/de/chua-m-t-c-t-one-pillar.jpg?h=500&s=1&w=900" },
-        { name: "Ha Long Bay", description: "Descending Dragon bay with limestone karsts and emerald waters.", image: "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1000&auto=format&fit=crop" },
-        { name: "Da Nang", description: "Coastal charm with beautiful beaches and marble mountains.", image: "https://images.pexels.com/photos/28297412/pexels-photo-28297412.jpeg" },
-    ]
-};
+import api from "../../utils/api";
 
 const StateExplorer = () => {
     const { country } = useParams();
@@ -88,7 +24,47 @@ const StateExplorer = () => {
     const bgRef = useRef(null);
     const isAnimating = useRef(false);
 
-    const states = countryData[selectedCountry] || countryData["Azerbaijan"];
+    const [states, setStates] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStates = async () => {
+            try {
+                // Fetch destination by name to get ID
+                const destRes = await api.get('/destinations');
+                const currentDest = destRes.data.find(d => d.name === selectedCountry);
+
+                if (currentDest) {
+                    const stateRes = await api.get('/state-explorer');
+                    // Filter by matching destinationId (assumes backend returns all or specialized endpoint)
+                    const filteredStates = stateRes.data
+                        .filter(s => s.destinationId === currentDest.id)
+                        .sort((a, b) => a.order - b.order);
+
+                    if (filteredStates.length > 0) {
+                        setStates(filteredStates);
+                    } else {
+                        // Fallback or empty? If empty, maybe show nothing or redirect.
+                        // For now we assume seed data exists for "countries" in list.
+                        console.warn(`No states found for ${selectedCountry}`);
+                        setStates([]);
+                    }
+                } else {
+                    console.warn(`Destination not found: ${selectedCountry}`);
+                    setStates([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch state explorer data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStates();
+    }, [selectedCountry]);
+
+
+
+
     const totalStates = states.length;
     const currentState = states[activeIndex];
 
@@ -99,7 +75,7 @@ const StateExplorer = () => {
 
     // Handle explore click - navigate to packages
     const handleExplore = () => {
-        navigate(`/packages/${selectedCountry}/${currentState.name}`);
+        navigate(`/packages/${selectedCountry}/${currentState.destination?.name || currentState.name}`);
     };
 
     // Change state with smooth animation
@@ -121,7 +97,6 @@ const StateExplorer = () => {
         });
 
         if (isMobile) {
-            // Mobile: Smooth 3D flip/tilt + vertical slide animation
             tl.to(cardRef.current, {
                 opacity: 0,
                 y: slideDirection * 60,
@@ -133,7 +108,6 @@ const StateExplorer = () => {
                 transformOrigin: "center center"
             });
 
-            // Background smooth crossfade
             tl.to(bgRef.current, {
                 opacity: 0,
                 scale: 1.08,
@@ -142,12 +116,9 @@ const StateExplorer = () => {
                 ease: "power2.inOut"
             }, "-=0.4");
 
-            // Update state at the midpoint
             tl.call(() => {
                 setActiveIndex(newIndex);
             }, null, "-=0.1");
-
-            // Background smooth zoom in
             tl.fromTo(bgRef.current,
                 { opacity: 0, scale: 1.12, filter: "blur(10px)" },
                 { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" },
@@ -357,7 +328,7 @@ const StateExplorer = () => {
 
     // GSAP Draggable for lens slider
     useGSAP(() => {
-        if (!sliderRef.current || !sliderTrackRef.current || totalStates <= 1) return;
+        if (loading || states.length === 0 || !sliderRef.current || !sliderTrackRef.current || totalStates <= 1) return;
 
         const trackHeight = sliderTrackRef.current.offsetHeight;
         const maxY = trackHeight - 60;
@@ -470,7 +441,10 @@ const StateExplorer = () => {
     };
 
     // Entry animation
+    // Entry animation
     useGSAP(() => {
+        if (loading || states.length === 0 || !cardRef.current) return;
+
         const tl = gsap.timeline();
 
         tl.fromTo(cardRef.current,
@@ -489,10 +463,14 @@ const StateExplorer = () => {
             { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" },
             "-=0.2"
         );
-    }, { scope: sectionRef });
+    }, { scope: sectionRef, dependencies: [loading, states.length] });
 
     // Use state names for the slider labels instead of numbers
     const scaleLabels = states.map(state => state.name);
+
+    if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>Loading Explorer...</div>;
+    if (states.length === 0) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>No content available for {selectedCountry}.</div>;
+    if (!currentState) return null;
 
     return (
         <section className="se-section" ref={sectionRef}>
