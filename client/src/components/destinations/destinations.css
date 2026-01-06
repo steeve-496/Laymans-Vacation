@@ -10,7 +10,7 @@
 /* ================= PANELS ================= */
 .dest-panel {
     position: absolute;
-    top: 30%;
+    top: 40%;
     transform: translateY(-50%);
     width: 300px;
     z-index: 20;

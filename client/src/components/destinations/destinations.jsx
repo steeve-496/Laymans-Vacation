@@ -313,9 +313,9 @@ const Destinations = forwardRef((props, ref) => {
                 start: "top top",
                 end: "bottom top",
                 pin: true,
-                scrub: true,
-                onEnterBack: () => resetToInitialState(),
-                onLeave: () => resetToInitialState()
+                // scrub: true, // Not needed for pinning only
+                onLeave: () => resetToInitialState(),
+                onLeaveBack: () => resetToInitialState()
             });
 
             // Entry Animation - Desktop only

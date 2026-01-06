@@ -227,10 +227,17 @@ const deleteAdmin = async (req, res) => {
             return res.status(400).json({ message: "Cannot delete yourself" });
         }
 
-        await prisma.admin.delete({
-            where: { id: req.params.id }
+        const adminId = req.params.id;
+
+        // Manually cascade delete audit logs
+        await prisma.auditLog.deleteMany({
+            where: { adminId: adminId }
         });
-        res.json({ message: "Admin removed" });
+
+        await prisma.admin.delete({
+            where: { id: adminId }
+        });
+        res.json({ message: "Admin and associated audit logs removed" });
     } catch (error) {
         console.error("Delete Admin Error:", error);
         res.status(500).json({ message: error.message || "Delete failed" });

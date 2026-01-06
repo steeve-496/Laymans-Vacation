@@ -3230,3 +3230,243 @@ Found 15 destinations
 [REQUEST] GET /api/destinations/admin/all
 Getting Admin Destinations...
 Found 15 destinations
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 15 visible out of 15 active destinations.
+[REQUEST] DELETE /api/auth/delete/695c979564c506cb2731b70c
+[ERROR] Delete Admin Error: PrismaClientKnownRequestError: 
+Invalid `prisma.admin.delete()` invocation in
+C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\auth.controller.js:230:34
+
+  227     return res.status(400).json({ message: "Cannot delete yourself" });
+  228 }
+  229 
+→ 230 await prisma.admin.delete(
+The change you are trying to make would violate the required relation 'AdminToAuditLog' between the `AuditLog` and `Admin` models.
+    at $n.handleRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async deleteAdmin (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\auth.controller.js:230:9) {
+  code: 'P2014',
+  clientVersion: '5.22.0',
+  meta: {
+    modelName: 'Admin',
+    relation_name: 'AdminToAuditLog',
+    model_a_name: 'AuditLog',
+    model_b_name: 'Admin'
+  }
+}
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] DELETE /api/auth/delete/695c979564c506cb2731b70c
+[ERROR] Delete Admin Error: PrismaClientKnownRequestError: 
+Invalid `prisma.admin.delete()` invocation in
+C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\auth.controller.js:230:34
+
+  227     return res.status(400).json({ message: "Cannot delete yourself" });
+  228 }
+  229 
+→ 230 await prisma.admin.delete(
+The change you are trying to make would violate the required relation 'AdminToAuditLog' between the `AuditLog` and `Admin` models.
+    at $n.handleRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async deleteAdmin (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\auth.controller.js:230:9) {
+  code: 'P2014',
+  clientVersion: '5.22.0',
+  meta: {
+    modelName: 'Admin',
+    relation_name: 'AdminToAuditLog',
+    model_a_name: 'AuditLog',
+    model_b_name: 'Admin'
+  }
+}
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] DELETE /api/auth/delete/695c979564c506cb2731b70c
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 15 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 15 destinations
+[REQUEST] DELETE /api/destinations/695c96aa1b86adc2c80b64e7
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/destinations/trash
+[REQUEST] DELETE /api/destinations/empty-trash
+[REQUEST] DELETE /api/packages/empty-trash
+[REQUEST] DELETE /api/state-explorer/empty-trash
+[ERROR] PrismaClientKnownRequestError: 
+Invalid `prisma.stateExplorer.deleteMany()` invocation in
+C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\destination.controller.js:323:34
+
+  320 
+  321 await prisma.$transaction([
+  322     prisma.package.deleteMany({ where: { destinationId: { in: ids } } }),
+→ 323     prisma.stateExplorer.deleteMany(
+Transaction failed due to a write conflict or a deadlock. Please retry your transaction
+    at $n.handleRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:7315)
+    at $n.handleAndLogRequestError (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\node_modules\@prisma\client\runtime\library.js:130:9633) {
+  code: 'P2034',
+  clientVersion: '5.22.0',
+  meta: { modelName: 'StateExplorer' }
+}
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/destinations/trash
+[REQUEST] DELETE /api/destinations/empty-trash
+[REQUEST] DELETE /api/packages/empty-trash
+[REQUEST] DELETE /api/state-explorer/empty-trash
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/list
+[REQUEST] GET /api/auth/me
+[REQUEST] POST /api/auth/logout
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"shuaib","password":"123"}
+DEBUG: User 'shuaib' not found in DB
+[REQUEST] POST /api/auth/login
+DEBUG: Login Attempt Payload: {"username":"steeve","password":"123"}
+DEBUG: Found user 'steeve', Role: superadmin
+DEBUG: Password match for 'steeve': true
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 14 destinations
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/trash
+[REQUEST] GET /api/packages/trash
+[REQUEST] GET /api/state-explorer/trash
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
