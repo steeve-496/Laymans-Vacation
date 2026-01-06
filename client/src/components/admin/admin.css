@@ -664,4 +664,9 @@
         text-align: center;
         padding: 12px;
     }
+
+    /* Fix iOS Zoom Issue */
+    .admin-login-card input {
+        font-size: 16px !important;
+    }
 }
