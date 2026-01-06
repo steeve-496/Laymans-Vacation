@@ -119,7 +119,7 @@ const StateExplorerManager = ({ destinationId }) => {
             ) : (
                 <div className="item-list">
                     {filteredStates.map(state => (
-                        <div key={state.id} className="list-item">
+                        <div key={state.id} className="list-item mobile-compact-item">
                             <div className="item-info">
                                 <img src={state.image} alt={state.name} className="item-thumb" />
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>

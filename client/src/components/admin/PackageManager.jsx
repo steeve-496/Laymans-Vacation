@@ -10,7 +10,7 @@ const SortableItem = ({ id, pkg, onDelete, onEdit }) => {
     const style = { transform: CSS.Transform.toString(transform), transition };
 
     return (
-        <div ref={setNodeRef} style={style} className="list-item">
+        <div ref={setNodeRef} style={style} className="list-item mobile-compact-item">
             <div className="item-info">
                 <span {...attributes} {...listeners} className="drag-handle">☰</span>
                 <img src={pkg.image} alt={pkg.title} className="item-thumb" />
