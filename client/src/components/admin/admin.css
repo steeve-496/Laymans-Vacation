@@ -670,3 +670,54 @@
         font-size: 16px !important;
     }
 }
+
+/* STRICT OVERRIDES FOR MOBILE COMPACT LIST (MUST BE LAST) */
+@media (max-width: 768px) {
+    .list-item.mobile-compact-item {
+        flex-direction: row !important;
+        align-items: center !important;
+        padding: 8px !important;
+        gap: 12px !important;
+        min-height: auto !important;
+    }
+
+    .mobile-compact-item .item-info {
+        flex-direction: row !important;
+        align-items: center !important;
+        flex: 1 !important;
+        gap: 12px !important;
+    }
+
+    .mobile-compact-item .item-thumb {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 6px !important;
+        object-fit: cover !important;
+    }
+
+    .mobile-compact-item .drag-handle {
+        padding: 8px !important;
+        font-size: 20px !important;
+        cursor: grab !important;
+        touch-action: none;
+        /* Critical for drag on mobile */
+    }
+
+    .mobile-compact-item .item-actions {
+        border-top: none !important;
+        padding-top: 0 !important;
+        width: auto !important;
+        gap: 6px !important;
+        justify-content: flex-end !important;
+    }
+
+    /* Hide text labels on mobile for edit/delete to save space if needed, 
+       or just make them smaller. Let's make them smaller but keep text for clarity. */
+    .mobile-compact-item .item-actions .edit-btn,
+    .mobile-compact-item .item-actions .delete-btn,
+    .mobile-compact-item .item-actions .secondary-btn {
+        padding: 6px 12px !important;
+        font-size: 11px !important;
+        flex: 0 0 auto !important;
+    }
+}
