@@ -75,7 +75,8 @@ const StateExplorer = () => {
 
     // Handle explore click - navigate to packages
     const handleExplore = () => {
-        navigate(`/packages/${selectedCountry}/${currentState.destination?.name || currentState.name}`);
+        // Use the state name explicitly to find its packages
+        navigate(`/packages/${selectedCountry}/${currentState.name}`);
     };
 
     // Change state with smooth animation

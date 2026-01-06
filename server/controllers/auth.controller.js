@@ -13,12 +13,10 @@ const generateToken = (id) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginAdmin = async (req, res) => {
-    console.log("DEBUG: Login Attempt Payload:", JSON.stringify(req.body));
     const { username, password } = req.body;
 
     try {
         if (!username || !password) {
-            console.log("DEBUG: Missing username or password");
             return res.status(400).json({ message: 'Please provide both username and password' });
         }
 
@@ -27,22 +25,23 @@ const loginAdmin = async (req, res) => {
         });
 
         if (!admin) {
-            console.log(`DEBUG: User '${username}' not found in DB`);
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        console.log(`DEBUG: Found user '${username}', Role: ${admin.role}`);
         const isMatch = await bcrypt.compare(password, admin.password);
-        console.log(`DEBUG: Password match for '${username}': ${isMatch}`);
 
         if (admin && isMatch) {
             const token = generateToken(admin.id);
 
             // Set Cookie
+            // For production with cross-site (Render backend + Vercel/Local frontend), we need SameSite='None' and Secure=true
+            // CAUTION: Secure=true requires HTTPS. 
+            // If testing on localhost (HTTP) against Remote (HTTPS), Secure=true MIGHT work on localhost but usually requires HTTPS.
+            // Chrome treats localhost as secure context.
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
+                secure: true, // Required for SameSite: 'None'
+                sameSite: 'none', // Required for cross-site
                 maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
             });
 
@@ -56,9 +55,8 @@ const loginAdmin = async (req, res) => {
             res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
-        console.error("DEBUG: Login Error:", error);
-        console.error("DEBUG: Login Error:", error);
-        res.status(500).json({ message: error.message, stack: error.stack });
+        console.error("Login Error:", error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

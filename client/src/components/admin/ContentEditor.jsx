@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const ContentEditor = () => {
     // State Explorer Handling (Similar to others but maybe simpler or just list)
@@ -19,24 +19,24 @@ const ContentEditor = () => {
     }, []);
 
     const fetchStates = async () => {
-        const res = await axios.get('http://localhost:5000/api/content/states');
+        const res = await api.get('/content/states');
         setStates(res.data);
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Delete this state?')) {
-            await axios.delete(`http://localhost:5000/api/content/states/${id}`, { withCredentials: true });
+        if (window.confirm('Delete this item?')) {
+            await api.delete(`/content/states/${id}`);
             fetchStates();
         }
     };
 
-    const handleSave = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             if (currentState.id) {
-                await axios.put(`http://localhost:5000/api/content/states/${currentState.id}`, currentState, { withCredentials: true });
+                await api.put(`/content/states/${currentState.id}`, currentState);
             } else {
-                await axios.post('http://localhost:5000/api/content/states', currentState, { withCredentials: true });
+                await api.post('/content/states', currentState);
             }
             setIsEditing(false);
             setCurrentState({ stateName: '', image: '' });

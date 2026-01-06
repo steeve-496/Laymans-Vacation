@@ -48,8 +48,11 @@ app.use(cors({
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
 
+        // TEMPORARY: Allow all origins for troubleshooting Render deployment issues
+        return callback(null, true);
+
+        /* 
         // Allow localhost and local network IPs
-        // Regex matches localhost, 127.0.0.1, and 192.168.x.x
         if (origin.match(/^http:\/\/localhost/) ||
             origin.match(/^http:\/\/127\.0\.0\.1/) ||
             origin.match(/^http:\/\/192\.168\.\d{1,3}\.\d{1,3}/)) {
@@ -58,6 +61,7 @@ app.use(cors({
 
         // Block other origins
         return callback(new Error('Not allowed by CORS'));
+        */
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],

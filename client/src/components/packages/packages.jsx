@@ -237,9 +237,15 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                 // Optimized approach: API endpoint to get packages by destination name?
                 // Let's stick to client-side filter for speed if dataset is small.
 
-                // Fetch Destinations to map name -> ID (or just matching logic)
+                // Fetch Destinations to map name -> ID
                 const destRes = await api.get('/destinations');
-                const currentDest = destRes.data.find(d => d.name === location);
+                let currentDest = destRes.data.find(d => d.name === location);
+
+                // Fallback: If location destination not found, try country destination
+                if (!currentDest && country && location !== country) {
+                    console.log(`Destination '${location}' not found, falling back to '${country}'`);
+                    currentDest = destRes.data.find(d => d.name === country);
+                }
 
                 if (currentDest) {
                     const pkgRes = await api.get('/packages');
@@ -247,11 +253,10 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                         .filter(p => p.destinationId === currentDest.id)
                         .sort((a, b) => a.order - b.order); // Sort by order
 
-                    const processedPkgs = filteredPkgs.map(pkg => {
-                        // Extract category from title or existing category field
-                        // Assuming pkg.category matches keys "Basic", "Getaway", "Adventure", "Luxury"
-                        // Or map title "Basic Azerbaijan" -> "Basic"
+                    // If we fell back to country, we might want to filter further (optional)? 
+                    // For now, just showing country packages is better than nothing.
 
+                    const processedPkgs = filteredPkgs.map(pkg => {
                         let category = pkg.category;
                         if (!category && pkg.title) {
                             if (pkg.title.includes('Basic')) category = 'Basic';
@@ -259,17 +264,18 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                             else if (pkg.title.includes('Adventure')) category = 'Adventure';
                             else if (pkg.title.includes('Luxury')) category = 'Luxury';
                         }
-
-                        // Fallback
                         if (!category) category = 'Basic';
 
-                        // Get static image
-                        const countryImages = PACKAGE_TIER_IMAGES[location] || PACKAGE_TIER_IMAGES['default'];
+                        // Get static image - Use original location for image lookup if possible, else fallback
+                        // If we are showing 'Dubai' packages for 'Burj Khalifa', we might want Dubai images.
+                        // Or 'Burj Khalifa' images if key exists (it likely doesn't).
+                        const imageLocationKey = PACKAGE_TIER_IMAGES[location] ? location : (currentDest.name || 'default');
+                        const countryImages = PACKAGE_TIER_IMAGES[imageLocationKey] || PACKAGE_TIER_IMAGES['default'];
                         const staticImage = countryImages[category] || countryImages['Basic'];
 
                         return {
                             ...pkg,
-                            image: staticImage // Override image
+                            image: staticImage
                         };
                     });
 
@@ -287,21 +293,31 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
         };
 
         fetchPackages();
-    }, [location]);
+    }, [location, country]);
 
     // Horizontal Scroll Animation (Entry)
     useGSAP(() => {
-        const cards = gsap.utils.toArray(".pkg-carousel-card");
+        if (packages.length === 0) return;
 
-        gsap.from(cards, {
-            x: 100,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-            delay: 0.2
-        });
-    }, { scope: containerRef });
+        const cards = gsap.utils.toArray(".pkg-carousel-card");
+        if (cards.length === 0) return;
+
+        gsap.fromTo(cards,
+            {
+                x: 100,
+                opacity: 0
+            },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out",
+                delay: 0.2,
+                clearProps: "all" // Ensure cleanup after animation
+            }
+        );
+    }, { scope: containerRef, dependencies: [packages] });
 
     // Drag Handlers
     const handleMouseDown = (e) => {

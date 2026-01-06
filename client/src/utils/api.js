@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: '/api', // Proxied by Vite in dev, nginx/serve in prod
+    baseURL: 'https://laymans-server.onrender.com/api',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
