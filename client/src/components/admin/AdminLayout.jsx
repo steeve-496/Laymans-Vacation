@@ -62,7 +62,7 @@ const AdminLayout = () => {
             {/* Sidebar */}
             <aside className={`admin-sidebar ${isSidebarOpen ? 'active' : ''}`}>
                 <div className="admin-sidebar-header">
-                    <h2>LAYERMAN ADMIN</h2>
+                    <h2>THE LAYMANS<br />ADMIN PANEL</h2>
                     <button className="close-sidebar-btn" onClick={() => setIsSidebarOpen(false)}>×</button>
                 </div>
 
