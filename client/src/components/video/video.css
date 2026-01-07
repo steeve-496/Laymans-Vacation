@@ -47,6 +47,7 @@ body {
   gap: 8px;
   width: 100%;
   animation: scrollUp 20s linear infinite;
+  will-change: transform;
 }
 
 .video-column.video-reverse .video-cards {
@@ -65,6 +66,8 @@ body {
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .video-card video,

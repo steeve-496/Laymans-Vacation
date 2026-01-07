@@ -104,6 +104,8 @@
     object-fit: cover;
     display: block;
     will-change: transform;
+    backface-visibility: hidden;
+    /* Prevent flickering */
 }
 
 /* Image 1: Main Large */

@@ -27,6 +27,11 @@ import AuditLogPage from "./components/admin/AuditLogPage";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useParams } from "react-router-dom";
+import Lenis from '@studio-freight/lenis';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Home Page Component
 function HomePage({ appLoaded }) {
@@ -85,12 +90,51 @@ function PackagesPage() {
   );
 }
 
-// Import useParams for PackagesPage
-import { useParams } from "react-router-dom";
+
 
 function App() {
   // Global Preloader State
   const [isLoading, setIsLoading] = useState(true);
+
+  // --- SMOOTH SCROLL (LENIS) INTEGRATION ---
+  useEffect(() => {
+    // 1. Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      smoothTouch: false, // Touch is handled by normalizeScroll below
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    // 2. Sync Lenis with GSAP ScrollTrigger
+    const updateLenis = (time) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(updateLenis);
+
+    gsap.ticker.lagSmoothing(0);
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // 3. Mobile Performance Optimization (GSAP)
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      ScrollTrigger.config({
+        normalizeScroll: { allowNestedScroll: true }, // Fixes mobile jitter
+        ignoreMobileResize: true // Prevents jumping when address bar hides/shows
+      });
+    }
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(updateLenis);
+    };
+  }, []);
 
   useEffect(() => {
     // Simple window load detection
@@ -98,7 +142,7 @@ function App() {
       // Small buffer to ensure everything is settled
       setTimeout(() => {
         setIsLoading(false);
-      }, 800);
+      }, 1000);
     };
 
     if (document.readyState === "complete") {
