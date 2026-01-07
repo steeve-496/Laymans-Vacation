@@ -4,9 +4,6 @@
     position: sticky;
     top: 0;
     z-index: 60;
-    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    /* White text for dark bg */
     font-family: 'Outfit', sans-serif;
     overflow: hidden;
     width: 100%;
@@ -29,11 +26,11 @@
 
 .footer-bg-img {
     width: 100%;
-    height: 140%;
+    height: 100%;
     /* Extra height for parallax movement */
     object-fit: cover;
     position: absolute;
-    top: -20%;
+    top: -30%;
     /* Start higher up */
     left: 0;
     will-change: transform;

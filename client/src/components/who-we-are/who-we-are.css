@@ -1,205 +1,193 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Fjalla+One&family=Inter:wght@300;400;500&display=swap");
-@import url("https://api.fontshare.com/v2/css?f[]=rajdhani@500,600,700&display=swap");
+/* =========================================
+   WHO WE ARE - 3D SPLIT LAYOUT
+   ========================================= */
 
 .wwa-section {
     position: relative;
     width: 100%;
-    min-height: auto;
-    /* Remove 100vh to avoid gap */
-    padding: clamp(60px, 10vh, 120px) 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5;
-    /* Light background */
-    color: #333;
-    /* Dark text */
+    padding: 60px 0;
+    background-color: var(--color-off-white);
     overflow: hidden;
     z-index: 10;
 }
 
-.wwa-container {
-    width: 100%;
-    max-width: clamp(800px, 90vw, 1400px);
-    display: flex;
-    flex-direction: column;
-    gap: clamp(40px, 8vh, 80px);
-}
-
-/* Title Styling */
-.wwa-title-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.wwa-title-line {
-    overflow: hidden;
-    /* Mask for reveal animation */
-    display: block;
-}
-
-.wwa-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 8vw, 8rem);
-    color: #333;
-    /* Dark text */
-    margin: 0;
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    transform: translateY(100%);
-    font-weight: 700;
-    /* Initial state for animation */
-    display: block;
-}
-
-/* Content Styling */
-.wwa-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    max-width: 800px;
-}
-
-.wwa-content {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    line-height: 1.6;
-    color: #444;
-    /* Dark grey text */
-    font-weight: 300;
-}
-
-.wwa-content p {
-    margin-bottom: 2rem;
-    opacity: 0;
-    /* Initial state for animation */
-    transform: translateY(20px);
-}
-
-.wwa-highlight-text {
-    color: #000;
-    font-weight: 500;
-}
-
-.wwa-btn {
-    padding: 15px 40px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50px;
-    cursor: pointer;
-    font-family: "Fjalla One", sans-serif;
-    font-size: 1.2rem;
-    color: #333;
+.wwa-layout-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    gap: 80px;
 }
 
-.wwa-btn:hover {
-    background: white;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.wwa-scroll-top-btn {
-    width: 40px;
-    height: 40px;
-    background: #333;
-    /* Dark button for light theme */
-    border-radius: 50%;
+/* --- VISUAL SIDE (3D LOGO) --- */
+.wwa-visual-side {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
+    /* 3D Perspective */
+    perspective: 1200px;
 }
 
+.wwa-3d-scene {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wwa-logo-wrapper {
+    position: relative;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wwa-3d-logo {
+    width: 220px;
+    height: auto;
+    display: block;
+    /* Adds a bit of depth feeling via filter */
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+}
+
+.wwa-logo-shadow {
+    position: absolute;
+    bottom: -60px;
+    width: 120px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    /* Keep shadow static or link to floating? 
+       Actually, if it's outside the rotation wrapper, it looks like a floor shadow.
+    */
+    transform: translateZ(-50px);
+}
+
+/* --- TEXT SIDE --- */
+.wwa-text-side {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.wwa-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.wwa-title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.wwa-title {
+    font-family: var(--font-heading, serif);
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    color: var(--color-black);
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.wwa-content {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 650px;
+}
+
+.wwa-content p {
+    margin-bottom: 24px;
+}
+
+.wwa-highlight-text {
+    color: var(--color-black);
+    font-weight: 600;
+}
+
+/* --- BUTTON --- */
+.wwa-btn {
+    margin-top: 10px;
+    padding: 16px 40px;
+    background: var(--color-black);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-primary, sans-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.wwa-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    padding-right: 50px;
+    /* Slight expansion effect */
+}
+
+.wwa-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.wwa-btn:hover svg {
+    transform: translateX(5px);
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
 @media (max-width: 968px) {
-    .wwa-section {
-        padding: 60px 20px;
+    .wwa-layout-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 60px;
+        padding-top: 40px;
+    }
+
+    .wwa-text-side {
+        align-items: center;
     }
 
     .wwa-content {
         font-size: 1.1rem;
     }
+
+    .wwa-3d-scene {
+        width: 250px;
+        height: 250px;
+    }
+
+    .wwa-3d-logo {
+        width: 180px;
+    }
 }
 
 @media (max-width: 768px) {
     .wwa-section {
-        padding: 50px 24px;
-        background: linear-gradient(180deg, #f5f5f5 0%, #fff 100%);
-    }
-
-    .wwa-container {
-        gap: 32px;
-        margin-right: 50px;
-    }
-
-    /* Title - centered on mobile */
-    .wwa-title-container {
-        align-items: center;
-        text-align: center;
+        padding: 80px 0;
     }
 
     .wwa-title {
-        font-size: 2.5rem;
-        letter-spacing: 3px;
-        transform: none;
-    }
-
-    /* Content */
-    .wwa-content-wrapper {
-        gap: 28px;
-        max-width: 100%;
-    }
-
-    .wwa-content {
-        font-size: 1rem;
-        text-align: justify;
-    }
-
-    .wwa-content p {
-        margin-bottom: 1.5rem;
-        opacity: 1;
-        transform: none;
-    }
-
-    .wwa-highlight-text {
-        color: #1a5b78;
-        font-weight: 600;
-    }
-
-    /* Full-width button */
-    .wwa-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 16px 32px;
-        font-size: 1rem;
-        background: #1a5b78;
-        color: #fff;
-        border: none;
-        opacity: 1;
-        transform: none;
-        box-shadow: 0 8px 30px rgba(26, 91, 120, 0.2);
-    }
-
-    .wwa-btn:active {
-        transform: scale(0.98);
-        background: #155a75;
-    }
-
-    .wwa-scroll-top-btn {
-        display: none;
+        font-size: 3rem;
     }
 }

@@ -1,257 +1,176 @@
-@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
-@import url("https://api.fontshare.com/v2/css?f[]=bebas-neue@400&display=swap");
+/* =========================================
+   WHY US - PINNED SCROLL LAYOUT
+   ========================================= */
 
 .wu-section {
-    padding: clamp(40px, 8vh, 100px) 5%;
-    background-color: #fff;
     position: relative;
-    z-index: 10;
-    font-family: "Fjalla One", sans-serif;
+    background-color: #fff;
+    /* Main container doesn't need padding/overflow for this layout type usually, 
+       but we want it to flow with document */
+    width: 100%;
+}
+
+.wu-layout {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    width: 100%;
     min-height: 100vh;
 }
 
-.wu-grid {
-    width: 100%;
-    max-width: 90vw;
-    /* Fluid max-width */
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: clamp(20px, 4vw, 40px);
-    align-items: stretch;
+/* --- LEFT COLUMN (PINNED) --- */
+.wu-col-left {
+    width: 50%;
+    height: 100vh;
+    flex-shrink: 0;
+    /* Logic: This is pinned by GSAP in JS, 
+       but we set base styles here. */
+    overflow: hidden;
+    position: relative;
 }
 
-
-.wu-visual {
-    border-radius: clamp(20px, 4vw, 40px);
-    position: relative;
-    min-height: clamp(300px, 50vh, 700px);
-    /* Fluid height */
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+.wu-visual-container {
+    width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .wu-visual-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Will be scaled by GSAP */
+}
+
+.wu-overlay-text {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 60px;
+    left: 60px;
+    z-index: 2;
+    color: #fff;
+    mix-blend-mode: difference;
+    /* Stylish contrast */
+    opacity: 0.9;
 }
 
-.wu-visual-overlays {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-}
-
-/* Right Column - Info */
-.wu-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.wu-header {
-    border-radius: 30px;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.wu-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-weight: 700;
-    font-size: clamp(4rem, 5vw, 6rem);
+.wu-overlay-text h2 {
+    font-family: var(--font-heading, serif);
+    font-size: clamp(3rem, 5vw, 5rem);
     margin: 0;
-    color: #333;
+    line-height: 1;
     text-transform: uppercase;
-    line-height: 1.2;
 }
 
-.wu-details {
-    border-radius: 30px;
-    padding: 50px;
-    flex-grow: 1;
-    /* Fill remaining height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* --- RIGHT COLUMN (SCROLLING) --- */
+.wu-col-right {
+    width: 50%;
+    background-color: #fff;
+    /* Allow regular flow */
+    position: relative;
 }
 
-.wu-features-list {
+.wu-content-wrapper {
+    padding: 120px 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.wu-header-mobile {
+    display: none;
+    /* Desktop header is in overlay or skipped */
+}
+
+/* --- CARDS LIST --- */
+.wu-cards-list {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    width: 100%;
+    gap: 8vh;
+    /* Large gap for scroll feeling */
 }
 
-.wu-feature-item {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+.wu-card {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    /* Logic: GSAP animates opacity/y */
 }
 
-.wu-feature-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.wu-feature-item-title {
+.wu-card-number {
+    font-family: var(--font-heading, serif);
     font-size: 1.5rem;
-    color: #1a5b78;
-    margin-bottom: 5px;
-    font-family: "Fjalla One", sans-serif;
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
 }
 
-.wu-feature-item-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.5;
+.wu-card-content {
+    flex: 1;
+}
+
+.wu-card-title {
+    font-family: var(--font-heading, serif);
+    font-size: 2rem;
+    margin: 0 0 16px 0;
+    color: var(--color-black);
+}
+
+.wu-card-desc {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
+
+/* =========================================
+   MOBILE / TABLET (< 968px)
+   ========================================= */
 @media (max-width: 968px) {
-    .wu-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .wu-visual {
-        min-height: 300px;
-        order: -1;
-    }
-
-    .wu-section {
-        padding: 60px 5%;
-    }
-}
-
-@media (max-width: 768px) {
-    .wu-section {
-        padding: 60px 0;
-        background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
+    .wu-layout {
+        flex-direction: column;
+        display: block;
+        /* Normal block flow */
         min-height: auto;
-        overflow: visible;
     }
 
-    .wu-grid {
-        gap: 24px;
-        max-width: 100%;
+    .wu-col-left {
         width: 100%;
+        height: 50vh;
+        /* Half screen image header */
+        position: relative;
+        /* Disable GSAP pin effect via media query logic in JS */
     }
 
-    /* Visual section - full width, shorter */
-    .wu-visual {
-        min-height: 220px;
-        border-radius: 0;
-        margin: 0;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    .wu-overlay-text {
+        bottom: 30px;
+        left: 20px;
     }
 
-    .wu-visual-img {
-        object-position: center 30%;
+    .wu-overlay-text h2 {
+        font-size: 3rem;
     }
 
-    /* Header styling */
-    .wu-header {
-        padding: 24px 20px 16px;
-        border-radius: 0;
-    }
-
-    .wu-title {
-        font-size: 2rem;
-        line-height: 1.1;
-        text-align: center;
-    }
-
-    /* Features container - remove flex centering for scroll */
-    .wu-details {
+    .wu-col-right {
+        width: 100%;
         padding: 0;
-        border-radius: 0;
-        display: block;
-        width: 100%;
-        overflow: visible;
     }
 
-    /* HORIZONTAL SCROLL CONTAINER - FIXED with max-width constraint */
-    .wu-features-list {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: 16px;
-        padding: 16px 20px 24px;
-        margin: 0;
-        width: 100%;
-        max-width: 100vw;
-        overflow-x: auto;
-        overflow-y: visible;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        box-sizing: border-box;
+    .wu-content-wrapper {
+        padding: 60px 20px;
     }
 
-    .wu-features-list::-webkit-scrollbar {
-        display: none;
+    .wu-cards-list {
+        gap: 40px;
     }
 
-    /* FEATURE CARDS - fixed width for scrolling */
-    .wu-feature-item {
-        flex: 0 0 280px;
-        width: 280px;
-        min-width: 280px;
-        max-width: 280px;
-        padding: 24px;
-        scroll-snap-align: start;
-        background: #fff;
-        border-radius: 20px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-        border-bottom: none;
+    .wu-card {
+        padding: 20px 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    .wu-feature-item:first-child {
-        margin-left: 0;
-    }
-
-    .wu-feature-item:last-child {
-        margin-right: 20px;
-        border-bottom: none;
-        padding-bottom: 24px;
-    }
-
-    .wu-feature-item-title {
-        font-size: 1.1rem;
-        color: #1a5b78;
-        margin-bottom: 10px;
-        border-left: 3px solid #d4af37;
-        padding-left: 12px;
-    }
-
-    .wu-feature-item-desc {
-        font-size: 0.9rem;
-        color: #555;
-        line-height: 1.6;
-    }
-
-    /* Swipe indicator */
-    .wu-details::after {
-        content: '← Swipe →';
-        display: block;
-        text-align: center;
-        font-size: 0.75rem;
-        color: rgba(0, 0, 0, 0.3);
-        letter-spacing: 1px;
-        padding: 8px 0 16px;
+    .wu-card-title {
+        font-size: 1.5rem;
     }
 }

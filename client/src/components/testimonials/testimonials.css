@@ -1,305 +1,250 @@
-.testi-section {
+/* =========================================
+   PREMIUM INFINITE MARQUEE (Light Theme)
+   ========================================= */
+
+.marquee-section {
     position: relative;
-    padding: 100px 5vw;
-    background-color: #f5f5f5;
-    /* Very light subtle gray/paper tone */
+    padding: 100px 0;
+    overflow: hidden;
+    background-color: var(--color-off-white);
+    /* Matches site bg */
+    min-height: auto;
+    display: flex;
+    align-items: center;
+}
+
+/* Decoration: Subtle warm light or gradient */
+/* Decoration: World Map Background */
+.marquee-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.15;
+    /* Increased opacity slightly for visibility */
+    pointer-events: none;
     overflow: hidden;
 }
 
-.testi-header {
-    text-align: center;
-    margin-bottom: 80px;
-}
-
-.testi-tag {
-    display: inline-block;
-    padding: 8px 16px;
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    color: var(--color-text-secondary);
-}
-
-.testi-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    color: var(--color-black);
-    margin: 0 0 20px;
-    font-family: var(--font-heading);
-    line-height: 1.1;
-}
-
-.testi-subtitle {
-    font-size: 1.1rem;
-    color: var(--color-text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* GRID LAYOUT */
-.testi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* POSTCARD STYLE */
-.testi-postcard-wrapper {
-    perspective: 1000px;
-    transition: transform 0.3s ease;
-}
-
-/* Random rotations for "Scattered" look */
-.testi-postcard-wrapper:nth-child(odd) {
-    transform: rotate(-2deg);
-}
-
-.testi-postcard-wrapper:nth-child(even) {
-    transform: rotate(2deg);
-}
-
-.testi-postcard-wrapper:nth-child(3n) {
-    transform: rotate(1deg) translateY(20px);
-}
-
-/* Hover: Straighten up */
-.testi-postcard-wrapper:hover {
-    transform: rotate(0deg) scale(1.05) translateY(-10px);
-    z-index: 10;
-}
-
-.testi-postcard {
-    background: #fff;
-    padding: 30px;
-    border-radius: 2px;
-    /* Rigid postcard corners */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    /* Soft lift */
-    position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    transition: box-shadow 0.3s ease;
-}
-
-.testi-postcard-wrapper:hover .testi-postcard {
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-}
-
-/* STAMP MARK */
-.testi-stamp-mark {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 60px;
-    height: 70px;
-    background: #f0f0f0;
-    padding: 5px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-    transform: rotate(5deg);
-    border: 1px dashed #ccc;
-    /* Perforated edge look */
-}
-
-.testi-stamp-img {
+.marquee-bg-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.8;
+    filter: grayscale(100%) opacity(0.8);
+    /* Grayscale for subtlety */
 }
 
-/* CONTENT */
-.testi-quote-icon {
+.marquee-content-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+/* --- HEADER --- */
+.marquee-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 0 20px;
+}
+
+.marquee-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.marquee-title {
+    font-family: var(--font-heading, serif);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--color-black);
+    margin: 0;
+    line-height: 1.1;
+}
+
+/* --- SCROLLER --- */
+.marquee-track-container {
+    width: 100%;
+    /* Fade mask for smooth edges */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 40px;
+    width: max-content;
+    animation: marquee-scroll 60s linear infinite;
+    padding: 20px 0 100px 0;
+    /* Space for shadows/hover */
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-33.333% - 13.33px));
+    }
+}
+
+/* --- CARD DESIGN --- */
+.marquee-card {
+    width: 400px;
+    flex-shrink: 0;
+    cursor: default;
+    transition: transform 0.3s ease;
+}
+
+.marquee-card:hover {
+    transform: translateY(-8px);
+}
+
+.marquee-card-glass {
+    position: relative;
+    background: #ffffff;
+    /* Clean white card */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Hover effect on card */
+.marquee-card:hover .marquee-card-glass {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.marquee-quote-icon {
     font-size: 4rem;
-    color: #e0e0e0;
     font-family: serif;
+    color: #f0f0f0;
+    /* Very subtle grey */
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: -10px;
 }
 
-.testi-review-text {
+.marquee-review {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: #444;
+    color: var(--color-text-primary);
     margin-bottom: 30px;
-    font-family: inherit;
-    /* Inherit global font, maybe Serif if available */
     position: relative;
-    z-index: 2;
 }
 
-/* USER PROFILE */
-.testi-user-profile {
+.marquee-divider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.marquee-profile {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-top: auto;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
+    gap: 16px;
+    z-index: 2;
+    position: relative;
 }
 
-.testi-user-avatar {
+.marquee-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.testi-user-info {
+.marquee-info {
     display: flex;
     flex-direction: column;
 }
 
-.testi-user-name {
+.marquee-name {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--color-black);
     margin: 0;
 }
 
-.testi-user-location {
+.marquee-location {
     font-size: 0.8rem;
     color: var(--color-text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-.testi-stars {
-    color: #FFD700;
-    font-size: 0.9rem;
-    margin-top: 2px;
+/* Decoration */
+.marquee-watermark {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 150px;
+    height: 150px;
+    opacity: 0.50;
+    transform: rotate(10deg);
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* MOBILE */
+.marquee-watermark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: none;
+    /* Original colors or grayscale */
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
 @media (max-width: 768px) {
-    .testi-section {
-        padding: 60px 0;
-        background: linear-gradient(180deg, #f5f5f5 0%, #ececec 100%);
+    .marquee-section {
+        padding: 40px 0;
+        /* Reduced top/bottom padding */
     }
 
-    .testi-header {
-        padding: 0 20px;
-        margin-bottom: 40px;
-    }
-
-    .testi-title {
+    .marquee-title {
         font-size: 2rem;
     }
 
-    .testi-subtitle {
-        font-size: 1rem;
+    .marquee-track {
+        /* Reduce gap on mobile for tighter scroll */
+        gap: 20px;
+        padding-bottom: 40px;
+        /* Less space needed for shadow on mobile */
     }
 
-    /* Horizontal scroll carousel */
-    .testi-grid {
-        display: flex;
-        flex-direction: row;
-        gap: 16px;
-        padding: 0 20px 20px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        max-width: none;
+    .marquee-card {
+        width: 280px;
+        /* Slightly narrower to show more cards/hint at scroll */
     }
 
-    .testi-grid::-webkit-scrollbar {
-        display: none;
+    .marquee-card-glass {
+        padding: 30px 20px;
+        /* Tighter internal padding */
     }
 
-    .testi-postcard-wrapper {
-        flex-shrink: 0;
-        width: 85vw;
-        max-width: 320px;
-        scroll-snap-align: center;
-        transform: none !important;
-        /* Remove rotation */
-    }
-
-    .testi-postcard-wrapper:nth-child(n) {
-        transform: none;
-        margin-bottom: 0;
-    }
-
-    .testi-postcard-wrapper:hover {
-        transform: none;
-        z-index: auto;
-    }
-
-    .testi-postcard {
-        padding: 24px;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        min-height: 280px;
-    }
-
-    .testi-postcard-wrapper:hover .testi-postcard {
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Stamp repositioned */
-    .testi-stamp-mark {
-        top: 15px;
-        right: 15px;
-        width: 50px;
-        height: 60px;
-        transform: rotate(3deg);
-    }
-
-    .testi-quote-icon {
-        font-size: 3rem;
-        color: rgba(212, 175, 55, 0.3);
-    }
-
-    .testi-review-text {
-        font-size: 1rem;
+    .marquee-review {
+        font-size: 0.9rem;
         margin-bottom: 20px;
-        line-height: 1.6;
     }
 
-    .testi-user-profile {
-        gap: 12px;
-        padding-top: 16px;
-    }
-
-    .testi-user-avatar {
-        width: 45px;
-        height: 45px;
-    }
-
-    .testi-user-name {
-        font-size: 0.95rem;
-    }
-
-    .testi-user-location {
-        font-size: 0.75rem;
-    }
-
-    .testi-stars {
-        font-size: 0.85rem;
-    }
-
-    /* Swipe hint */
-    .testi-section::after {
-        content: '← Swipe for more →';
-        display: block;
-        text-align: center;
-        font-size: 0.75rem;
-        color: rgba(0, 0, 0, 0.3);
-        letter-spacing: 1px;
-        padding: 16px 0 0;
+    .marquee-quote-icon {
+        font-size: 3rem;
     }
 }
