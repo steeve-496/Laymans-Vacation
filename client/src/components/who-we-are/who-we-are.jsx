@@ -3,74 +3,84 @@ import './who-we-are.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getOptimizedUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function WhoWeAre() {
     const containerRef = useRef(null);
-    const logoRef = useRef(null);
 
     useGSAP(() => {
-        // Continuous 3D rotation for the logo icon
-        gsap.to(logoRef.current, {
-            rotationY: 360,
-            duration: 12,
-            repeat: -1,
-            ease: "none"
-        });
-
-        // Floating effect
-        gsap.to(logoRef.current, {
-            y: -20,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
         const titles = containerRef.current.querySelectorAll('.wwa-title');
         const content = containerRef.current.querySelectorAll('.wwa-content p');
         const btn = containerRef.current.querySelector('.wwa-btn');
 
-        const tl = gsap.timeline({
+        // --- TEXT ANIMATION (ONE-TIME REVEAL) ---
+        gsap.timeline({
             scrollTrigger: {
                 trigger: containerRef.current,
-                start: "top 80%",
-                end: "bottom 80%",
-                scrub: 1, // Smooth scrub
+                start: "top 55%",
+            }
+        })
+            .fromTo(titles,
+                { y: 80, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power4.out" }
+            )
+            .fromTo(content,
+                { y: 40, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" },
+                "-=0.6"
+            )
+            .fromTo(btn,
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
+                "-=0.4"
+            );
+
+        // --- COLLAGE REVEAL (FAST SCRUB) ---
+        const revealTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top bottom",
+                end: "top 60%", // Reaches full opacity/scale by 60% of viewport
+                scrub: 1
             }
         });
 
-        // Staggered reveal for Title and Content
-        tl.fromTo(titles,
-            { y: 100, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.2, ease: "power2.out" }
-        )
-            .fromTo(content,
-                { y: 50, opacity: 0 },
-                { y: 0, opacity: 1, stagger: 0.1, ease: "power2.out" },
-                "<0.2"
-            )
-            .fromTo(btn,
-                { scale: 0.9, opacity: 0 },
-                { scale: 1, opacity: 1, ease: "back.out(1.7)" },
-                "<0.3"
-            );
-
-        // Subtle parallax/slide for the logo side
-        gsap.fromTo(".wwa-visual-side",
-            { x: 100, opacity: 0 },
-            {
-                x: 0,
-                opacity: 1,
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 80%",
-                    end: "top 20%",
-                    scrub: 1.5
-                }
-            }
+        revealTl.fromTo(".wwa-collage-item",
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, stagger: 0.1, ease: "power2.out" }
         );
+
+        // --- COLLAGE PARALLAX (FULL SECTION SCRUB) ---
+        const parallaxTrigger = {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5
+        };
+
+        gsap.to(".wwa-img-1", {
+            yPercent: -15,
+            scrollTrigger: parallaxTrigger
+        });
+
+        gsap.to(".wwa-img-2", {
+            yPercent: -40,
+            scrollTrigger: parallaxTrigger
+        });
+
+        gsap.to(".wwa-img-3", {
+            yPercent: -70,
+            scrollTrigger: parallaxTrigger
+        });
+
+        // Ensure everything is calculated correctly after images potentially load
+        const refreshTimer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 1000);
+
+        return () => clearTimeout(refreshTimer);
 
     }, { scope: containerRef });
 
@@ -108,18 +118,35 @@ export default function WhoWeAre() {
                     </div>
                 </div>
 
-                {/* Visual Side: 3D Logo */}
+                {/* Visual Side: Parallax Collage */}
                 <div className="wwa-visual-side">
-                    <div className="wwa-3d-scene">
-                        <div className="wwa-logo-wrapper" ref={logoRef}>
+                    <div className="wwa-collage-wrapper">
+
+                        <div className="wwa-collage-item wwa-img-1">
                             <img
-                                src="https://ik.imagekit.io/tsxbvz4jb6/Laymans/logo-m.png"
-                                alt="Layman Logo Icon"
-                                className="wwa-3d-logo"
+                                src={getOptimizedUrl("https://images.unsplash.com/photo-1530789253388-582c481c54b0?q=80&w=800", 800)}
+                                alt="Travel Moments 1"
                             />
-                            {/* Subtle shadow beneath */}
-                            <div className="wwa-logo-shadow"></div>
+                            <div className="wwa-img-label">Global Discovery</div>
                         </div>
+
+                        <div className="wwa-collage-item wwa-img-2">
+                            <img
+                                src={getOptimizedUrl("https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=600", 600)}
+                                alt="Travel Moments 2"
+                            />
+                        </div>
+
+                        <div className="wwa-collage-item wwa-img-3">
+                            <img
+                                src={getOptimizedUrl("https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=500", 500)}
+                                alt="Travel Moments 3"
+                            />
+                        </div>
+
+                        {/* Aesthetic decorative element */}
+                        <div className="wwa-collage-deco"></div>
+
                     </div>
                 </div>
 

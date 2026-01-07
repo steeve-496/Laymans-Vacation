@@ -76,6 +76,20 @@ body {
   display: block;
 }
 
+.bunny-iframe {
+  width: 170% !important;
+  /* Over-scale width significantly */
+  height: 150% !important;
+  /* Over-scale height */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  /* Centering */
+  pointer-events: none;
+  object-fit: cover;
+  border-radius: 0;
+}
+
 /* Animations */
 @keyframes scrollDown {
   0% {

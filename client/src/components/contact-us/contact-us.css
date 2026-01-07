@@ -361,3 +361,64 @@
         display: none;
     }
 }
+
+/* --- FORM STATUS STATES --- */
+
+.cu-status-overlay {
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeInScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cu-status-icon {
+    width: 60px;
+    height: 60px;
+    background: #1a5b78;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 25px rgba(26, 91, 120, 0.2);
+}
+
+.cu-status-overlay h3 {
+    font-family: "varien", serif;
+    font-size: 1.8rem;
+    color: #1a5b78;
+    margin-bottom: 10px;
+}
+
+.cu-status-overlay p {
+    font-family: 'Inter', sans-serif;
+    color: #555;
+    font-size: 1rem;
+}
+
+.cu-submit-btn.sending {
+    opacity: 0.7;
+    cursor: wait;
+    background: #eee;
+}
+
+.cu-error-text {
+    color: #d90429;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

@@ -1,11 +1,11 @@
 /* =========================================
-   WHO WE ARE - 3D SPLIT LAYOUT
+   WHO WE ARE - STAGGERED PARALLAX COLLAGE
    ========================================= */
 
 .wwa-section {
     position: relative;
     width: 100%;
-    padding: 60px 0;
+    padding: 100px 0;
     background-color: var(--color-off-white);
     overflow: hidden;
     z-index: 10;
@@ -20,56 +20,9 @@
     gap: 80px;
 }
 
-/* --- VISUAL SIDE (3D LOGO) --- */
-.wwa-visual-side {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* 3D Perspective */
-    perspective: 1200px;
-}
-
-.wwa-3d-scene {
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.wwa-logo-wrapper {
-    position: relative;
-    transform-style: preserve-3d;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.wwa-3d-logo {
-    width: 220px;
-    height: auto;
-    display: block;
-    /* Adds a bit of depth feeling via filter */
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-}
-
-.wwa-logo-shadow {
-    position: absolute;
-    bottom: -60px;
-    width: 120px;
-    height: 20px;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-    border-radius: 50%;
-    /* Keep shadow static or link to floating? 
-       Actually, if it's outside the rotation wrapper, it looks like a floor shadow.
-    */
-    transform: translateZ(-50px);
-}
-
 /* --- TEXT SIDE --- */
 .wwa-text-side {
-    flex: 1.2;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -119,6 +72,92 @@
     font-weight: 600;
 }
 
+/* --- VISUAL SIDE (COLLAGE) --- */
+.wwa-visual-side {
+    flex: 1.2;
+    position: relative;
+    height: 700px;
+    /* Essential for absolute collage children */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wwa-collage-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
+
+.wwa-collage-item {
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    background-color: #eee;
+    will-change: transform;
+}
+
+.wwa-collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+}
+
+/* Image 1: Main Large */
+.wwa-img-1 {
+    width: 70%;
+    height: 450px;
+    top: 50px;
+    left: 0;
+    z-index: 1;
+}
+
+/* Image 2: Vertical Overlap */
+.wwa-img-2 {
+    width: 45%;
+    height: 400px;
+    top: 250px;
+    right: 0;
+    z-index: 3;
+    border: 10px solid #fff;
+}
+
+/* Image 3: Accent Square */
+.wwa-img-3 {
+    width: 30%;
+    aspect-ratio: 1;
+    top: 100px;
+    right: 15%;
+    z-index: 2;
+    border: 8px solid #fff;
+}
+
+.wwa-img-label {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: #fff;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.wwa-collage-deco {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    top: -20px;
+    left: -20px;
+    z-index: 0;
+}
+
 /* --- BUTTON --- */
 .wwa-btn {
     margin-top: 10px;
@@ -135,14 +174,12 @@
     align-items: center;
     gap: 12px;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .wwa-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-    padding-right: 50px;
-    /* Slight expansion effect */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: #111;
 }
 
 .wwa-btn svg {
@@ -161,33 +198,57 @@
         flex-direction: column;
         text-align: center;
         gap: 60px;
-        padding-top: 40px;
     }
 
     .wwa-text-side {
         align-items: center;
     }
 
-    .wwa-content {
-        font-size: 1.1rem;
+    .wwa-visual-side {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
     }
 
-    .wwa-3d-scene {
-        width: 250px;
-        height: 250px;
+    .wwa-collage-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+        height: auto;
     }
 
-    .wwa-3d-logo {
-        width: 180px;
+    .wwa-collage-item {
+        position: relative !important;
+        width: 90% !important;
+        height: auto !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 0 auto;
+        border: none !important;
+        aspect-ratio: 16/9;
+        transform: none !important;
+        /* Disable parallax on mobile for better perf */
+    }
+
+    .wwa-img-3 {
+        display: none;
+        /* Hide smallest on mobile for cleaner look */
     }
 }
 
 @media (max-width: 768px) {
     .wwa-section {
-        padding: 80px 0;
+        padding: 60px 0;
     }
 
     .wwa-title {
         font-size: 3rem;
+    }
+
+    .wwa-btn {
+        width: 100%;
+        justify-content: center;
     }
 }

@@ -23,14 +23,49 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
     setIsVisible(true);
   }, [appLoaded]);
 
+  const isIframe = src.includes("iframe.mediadelivery.net");
+
+  // Format embed URL for background playback if it's a Bunny Stream iframe
+  // Switched from /play/ to /embed/ for better integration
+  // Using controls=0 and other UI disabling flags for a clean background look
+  const sourceUrl = src.replace("/play/", "/embed/");
+  const params = [
+    "autoplay=true",
+    "loop=true",
+    "muted=true",
+    "preload=true",
+    "responsive=true",
+    "controls=false",       // Standard parameter
+    "showControls=false",    // Alternative parameter
+    "qualityControl=false",  // Disable quality selector
+    "speedControl=false",    // Disable speed selector
+    "thumbnail=false",       // Disable initial poster image
+    "showThumbnail=false"    // Alternative flag for some versions
+  ].join("&");
+
+  const embedUrl = isIframe
+    ? `${sourceUrl}${sourceUrl.includes('?') ? '&' : '?'}${params}`
+    : optimizeUrl(src);
+
   return (
-    <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%' }}>
+    <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
       {isVisible && (
-        <video
-          src={optimizeUrl(src)}
-          {...props}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        isIframe ? (
+          <iframe
+            src={embedUrl}
+            loading="lazy"
+            className="bunny-iframe"
+            style={{ border: 'none', position: 'absolute', zIndex: 1 }}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <video
+            src={optimizeUrl(src)}
+            {...props}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )
       )}
     </div>
   );
@@ -45,17 +80,17 @@ export default function Video({ appLoaded }) {
   const mainCardRef = useRef(null);
 
   const videos = [
-    "https://iframe.mediadelivery.net/play/574864/45662b92-f9d6-4dd6-a97c-60b2ed54e1bd",
-    "/videos/bali.mp4",
-    "/videos/bhutan.mp4",
-    "/videos/dubai.mp4",
-    "/videos/kazaksthan.mp4",
-    "/videos/malaysia.mp4",
-    "/videos/singapore.mp4",
-    "https://iframe.mediadelivery.net/play/574864/61a7e7e9-a874-40e5-ac99-666cf96e8140",
-    "/videos/srilanka.mp4",
-    "/videos/thailand.mp4",
-    "/videos/veitnam.mp4",
+    "https://iframe.mediadelivery.net/play/575492/d7ed5708-180c-4942-b247-6b1174b24fa5",
+    "https://iframe.mediadelivery.net/play/575492/85e799c4-034d-42fd-bfdc-2c9449c2646e",
+    "https://iframe.mediadelivery.net/play/575492/549e7b8f-7a71-4e4f-8b7c-7f6e94c68817",
+    "https://iframe.mediadelivery.net/play/575492/b445d666-59ab-4ab6-91f0-31ef4b2cdb4c",
+    "https://iframe.mediadelivery.net/play/575492/bab0fae3-0b37-411e-9269-9a92bb31a742",
+    "https://iframe.mediadelivery.net/play/575492/42937a11-63f8-4664-8dea-caf2ddd5b1ec",
+    "https://iframe.mediadelivery.net/play/575492/3a6aa9f1-7cdb-4d94-8e9e-097cdccabf60",
+    "https://iframe.mediadelivery.net/play/575492/56962acc-bb8d-430f-addd-1d86170a9b90",
+    "https://iframe.mediadelivery.net/play/575492/397afbbe-747d-474a-93fd-0e4184f89a29",
+    "https://iframe.mediadelivery.net/play/575492/135107c7-7b8c-45d7-8483-0ddc1dce7f8a",
+    "https://iframe.mediadelivery.net/play/575492/4649eef9-75e0-4acb-b377-824428c15539",
   ];
 
   const col1 = videos.filter((_, i) => i % 3 === 0);
