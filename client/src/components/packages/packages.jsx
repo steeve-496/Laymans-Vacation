@@ -440,7 +440,7 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                                 <div className="pkg-details-box">
                                     <div className="pkg-details-header">
                                         <span>{pkg.duration}</span>
-                                        <span className="price">{pkg.price}</span>
+                                        <span className="pkg-price">{pkg.price}</span>
                                     </div>
                                     <h3>{pkg.title}</h3>
                                     <p>{pkg.description}</p>

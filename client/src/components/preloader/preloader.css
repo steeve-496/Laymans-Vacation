@@ -133,13 +133,13 @@
     }
 
     /* ===== DESTINATION DOTS ===== */
-    .destination-dots {
+    .pre-destination-dots {
         position: absolute;
         inset: 0;
         pointer-events: none;
     }
 
-    .dot {
+    .pre-dot {
         position: absolute;
         width: 8px;
         height: 8px;
@@ -148,7 +148,7 @@
         animation: dotPulse 2s ease-in-out infinite;
     }
 
-    .dot::after {
+    .pre-dot::after {
         content: '';
         position: absolute;
         inset: -4px;
@@ -157,31 +157,31 @@
         animation: dotRing 2s ease-out infinite;
     }
 
-    .dot-1 {
+    .pre-dot.dot-1 {
         top: 25%;
         left: 15%;
         animation-delay: 0s;
     }
 
-    .dot-2 {
+    .pre-dot.dot-2 {
         top: 35%;
         left: 75%;
         animation-delay: 0.3s;
     }
 
-    .dot-3 {
+    .pre-dot.dot-3 {
         top: 55%;
         left: 25%;
         animation-delay: 0.6s;
     }
 
-    .dot-4 {
+    .pre-dot.dot-4 {
         top: 45%;
         left: 60%;
         animation-delay: 0.9s;
     }
 
-    .dot-5 {
+    .pre-dot.dot-5 {
         top: 70%;
         left: 80%;
         animation-delay: 1.2s;
@@ -214,7 +214,7 @@
     }
 
     /* ===== FLIGHT PATH SVG ===== */
-    .flight-path {
+    .pre-flight-path {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -227,12 +227,12 @@
         /* Allow plane to fly slightly out if needed */
     }
 
-    .path-line {
+    .pre-path-line {
         stroke-dasharray: 8, 8;
         animation: dashMove 20s linear infinite;
     }
 
-    .path-glow {
+    .pre-path-glow {
         stroke-dasharray: 400;
         stroke-dashoffset: 400;
         animation: pathDraw 2s ease-out forwards;
@@ -260,7 +260,7 @@
     }
 
     /* ===== AIRPLANE ===== */
-    .airplane-group {
+    .pre-airplane-group {
         /* CSS Motion Path */
         offset-path: path("M 30,150 Q 80,80 150,100 T 270,50");
         offset-distance: 0%;
@@ -305,14 +305,14 @@
     }
 
     /* Animation classes for alternating effect */
-    .preloader-logo-placeholder.fade-in,
-    .mobile-loading-info.fade-in {
+    .preloader-logo-placeholder.pre-fade-in,
+    .mobile-loading-info.pre-fade-in {
         opacity: 1;
         pointer-events: auto;
     }
 
-    .preloader-logo-placeholder.fade-out,
-    .mobile-loading-info.fade-out {
+    .preloader-logo-placeholder.pre-fade-out,
+    .mobile-loading-info.pre-fade-out {
         opacity: 0;
         pointer-events: none;
     }
@@ -350,7 +350,7 @@
         max-width: 200px;
     }
 
-    .loading-text {
+    .pre-loading-text {
         font-family: 'Inter', sans-serif;
         font-size: 0.9rem;
         font-weight: 500;
@@ -373,7 +373,7 @@
         }
     }
 
-    .loading-progress {
+    .pre-loading-progress {
         width: 100%;
         height: 3px;
         background: rgba(255, 255, 255, 0.1);
@@ -381,7 +381,7 @@
         overflow: hidden;
     }
 
-    .progress-bar {
+    .pre-progress-bar {
         height: 100%;
         width: 0%;
         background: linear-gradient(90deg, #d4af37, #f5d76e, #d4af37);

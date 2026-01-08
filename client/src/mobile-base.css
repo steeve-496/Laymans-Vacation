@@ -41,7 +41,7 @@
 
     /* Smooth Scrolling */
     html {
-        scroll-behavior: smooth;
+        /* scroll-behavior: smooth; REMOVING to prevent conflict with Lenis/Input Focus */
         -webkit-overflow-scrolling: touch;
     }
 

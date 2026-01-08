@@ -75,19 +75,19 @@ const Preloader = ({ isLoading }) => {
             {/* Mobile: World Map Reveal */}
             <div className="mobile-preloader-content">
                 {/* Destination Dots */}
-                <div className="destination-dots">
-                    <span className="dot dot-1"></span>
-                    <span className="dot dot-2"></span>
-                    <span className="dot dot-3"></span>
-                    <span className="dot dot-4"></span>
-                    <span className="dot dot-5"></span>
+                <div className="pre-destination-dots">
+                    <span className="pre-dot dot-1"></span>
+                    <span className="pre-dot dot-2"></span>
+                    <span className="pre-dot dot-3"></span>
+                    <span className="pre-dot dot-4"></span>
+                    <span className="pre-dot dot-5"></span>
                 </div>
 
                 {/* Flight Path */}
                 {/* Flight Path SVG with Nested Airplane */}
-                <svg className="flight-path" viewBox="0 0 300 200">
+                <svg className="pre-flight-path" viewBox="0 0 300 200">
                     <path
-                        className="path-line"
+                        className="pre-path-line"
                         d="M 30,150 Q 80,80 150,100 T 270,50"
                         fill="none"
                         stroke="rgba(212, 175, 55, 0.4)"
@@ -95,7 +95,7 @@ const Preloader = ({ isLoading }) => {
                         strokeDasharray="8,8"
                     />
                     <path
-                        className="path-glow"
+                        className="pre-path-glow"
                         d="M 30,150 Q 80,80 150,100 T 270,50"
                         fill="none"
                         stroke="rgba(212, 175, 55, 0.8)"
@@ -104,7 +104,7 @@ const Preloader = ({ isLoading }) => {
                     />
 
                     {/* Plane Group - Animated via CSS Motion Path */}
-                    <g className="airplane-group">
+                    <g className="pre-airplane-group">
                         <path
                             fill="currentColor"
                             d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
@@ -115,10 +115,10 @@ const Preloader = ({ isLoading }) => {
             </div>
 
             {/* Mobile: Loading Text & Progress */}
-            <div className="mobile-loading-info fade-in">
-                <p className="loading-text">{loadingText}...</p>
-                <div className="loading-progress">
-                    <div className="progress-bar"></div>
+            <div className="mobile-loading-info pre-fade-in">
+                <p className="pre-loading-text">{loadingText}...</p>
+                <div className="pre-loading-progress">
+                    <div className="pre-progress-bar"></div>
                 </div>
             </div>
         </div>

@@ -1,14 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Inter:wght@300;400;500;600&display=swap");
 
-@font-face {
-    font-family: "varien";
-    src: url("https://res.cloudinary.com/divwmzd8g/raw/upload/v1765447881/Varien_uzkzrl.otf");
+.cu-title {
+    font-family: "Fjalla One", serif;
+    font-size: clamp(1.9rem, 3vw, 2.2rem);
+    margin: 0 0 20px 0;
+    color: #fff;
+    line-height: 1.1;
 }
 
 .cu-section {
     position: relative;
     padding: 50px 5% 100px;
-    /* Extra bottom padding to prevent footer overlap */
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Robust dynamic height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,7 +88,7 @@
 }
 
 .cu-title {
-    font-family: "varien", serif;
+    font-family: "Fjalla One", serif;
     font-size: clamp(1.9rem, 3vw, 2.2rem);
     margin: 0 0 20px 0;
     color: #fff;
@@ -234,8 +239,13 @@
 
 @media (max-width: 768px) {
     .cu-section {
-        padding: 40px 16px 100px;
+        padding: 50px 16px 100px;
+        /* Reduced top padding */
         background: linear-gradient(180deg, #f5f5f5 0%, #eee 100%);
+        align-items: flex-start;
+        min-height: 100vh;
+        /* Static height fixes keyboard jump */
+        /* Stop re-centering on keyboard focus */
     }
 
     .cu-container {
@@ -385,7 +395,7 @@
 }
 
 .cu-status-overlay h3 {
-    font-family: "varien", serif;
+    font-family: "Fjalla One", serif;
     font-size: 1.8rem;
     color: #1a5b78;
     margin-bottom: 10px;

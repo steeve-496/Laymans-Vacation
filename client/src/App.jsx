@@ -98,7 +98,7 @@ function App() {
 
   // --- SMOOTH SCROLL (LENIS) INTEGRATION ---
   useEffect(() => {
-    // 1. Initialize Lenis
+    // 1. Initialize Lenis (Enabled for Mobile & Desktop as requested)
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -106,7 +106,7 @@ function App() {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      smoothTouch: false, // Touch is handled by normalizeScroll below
+      smoothTouch: true, // Requested by user: Enable smooth touch scroll
       touchMultiplier: 2,
       infinite: false,
     });
@@ -121,12 +121,12 @@ function App() {
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    // 3. Mobile Performance Optimization (GSAP)
+    // 3. Mobile Configuration
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
       ScrollTrigger.config({
-        normalizeScroll: { allowNestedScroll: true }, // Fixes mobile jitter
-        ignoreMobileResize: true // Prevents jumping when address bar hides/shows
+        normalizeScroll: false, // Keep disabled to prevent native conflict
+        ignoreMobileResize: true // Critical for keyboard stability
       });
     }
 

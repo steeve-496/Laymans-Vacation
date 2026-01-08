@@ -85,14 +85,46 @@ const Destinations = forwardRef((props, ref) => {
     // New state for category selection view
     const [showCategoryView, setShowCategoryView] = useState(true);
 
-    // Handle category selection
+    // Handle category selection with Pillar Expansion
     const handleCategorySelect = (category) => {
-        setMobileTab(category);
-        setShowCategoryView(false);
+        if (!isMobile) return;
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                setMobileTab(category);
+                setShowCategoryView(false);
+            }
+        });
+
+        const isInt = category === 'international';
+
+        // The Expansion Sequence
+        tl.to(".pillar-axis", { opacity: 0, duration: 0.3 })
+            .to(".pillar-floating-nav", { opacity: 0, y: -20, duration: 0.4 }, "<")
+            .to(`.pillar-side.${isInt ? 'domestic' : 'international'}`, {
+                flex: 0,
+                width: "0%",
+                opacity: 0,
+                duration: 1,
+                ease: "expo.inOut"
+            })
+            .to(`.pillar-side.${isInt ? 'international' : 'domestic'}`, {
+                flex: "1 0 100%",
+                duration: 1,
+                ease: "expo.inOut"
+            }, "<")
+            .to(".pillar-content", {
+                opacity: 0,
+                duration: 0.3
+            }, "-=0.2");
     };
 
     // Handle back to categories
     const handleBackToCategories = () => {
+        // iOS/Safari Reset: Explicitly reset pillar props before transition
+        gsap.set(".pillar-side", { clearProps: "all" });
+        gsap.set([".pillar-axis", ".pillar-floating-nav", ".pillar-content"], { clearProps: "all" });
+
         setShowCategoryView(true);
     };
 
@@ -235,51 +267,46 @@ const Destinations = forwardRef((props, ref) => {
         }
     }, [cardVisible]);
 
-    /* ================== MOBILE ANIMATIONS ================== */
+    /* ================== MOBILE PILLAR RADIANCE ================== */
     useGSAP(() => {
-        if (!isMobile) return;
-
-        // Cleanup previous animations if any (auto-handled by useGSAP scope revert, but good to be explicit with contexts if needed)
+        if (!isMobile || !internalSectionRef.current) return;
 
         if (showCategoryView) {
-            // CATEGORY VIEW ANIMATION
-            // Use ScrollTrigger so it animates when user scrolls down to it
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: ".mobile-layout-container",
-                    start: "top 85%", // Animate when top of container hits 85% of viewport
-                    toggleActions: "play none none reverse" // Re-animate on scroll back? Or just play? 'play none none reverse' allows re-entry
-                }
-            });
+            // PILLAR ENTRANCE
+            const tl = gsap.timeline();
 
-            tl.fromTo(".mobile-dest-header",
-                { y: -30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+            tl.fromTo(".pillar-side",
+                { flex: 0, opacity: 0 },
+                { flex: 1, opacity: 1, duration: 1.4, stagger: 0.1, ease: "expo.out" }
             )
-                .fromTo(".category-card",
-                    { y: 50, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" },
-                    "-=0.5"
+                .fromTo(".pillar-axis",
+                    { scaleY: 0, opacity: 0 },
+                    { scaleY: 1, opacity: 1, duration: 1.2, ease: "power4.out" },
+                    "-=1"
+                )
+                .fromTo(".pillar-content",
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power3.out" },
+                    "-=0.6"
+                )
+                .fromTo(".pillar-floating-nav",
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+                    "-=0.4"
                 );
 
         } else {
-            // CAROUSEL VIEW ANIMATION
-            // Immediate animation since we are already in the section
+            // CAROUSEL ENTRANCE
             const tl = gsap.timeline();
 
-            tl.fromTo(".mobile-dest-nav-header",
-                { opacity: 0, x: -20 },
-                { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
+            tl.fromTo(".dest-mobile-nav-header",
+                { y: -20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
             )
                 .fromTo(".mobile-dest-card",
-                    { x: 100, opacity: 0 },
-                    { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+                    { x: 50, opacity: 0, scale: 0.9 },
+                    { x: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.1, ease: "back.out(1.2)" },
                     "-=0.3"
-                )
-                .fromTo(".mobile-swipe-hint",
-                    { opacity: 0, y: 10 },
-                    { opacity: 1, y: 0, duration: 0.5, delay: 0.5 },
-                    "<"
                 );
         }
 
@@ -479,74 +506,80 @@ const Destinations = forwardRef((props, ref) => {
     return (
         <section
             id="destinations"
-            className={`destinations-section ${isMobile ? 'mobile-view' : ''}`}
+            className={`destinations-section ${isMobile ? 'dest-mobile-view' : ''}`}
             ref={internalSectionRef}
         >
             {
                 isMobile ? (
                     /* ================= MOBILE LAYOUT ================= */
-                    <div className="mobile-layout-container">
+                    <div className="dest-mobile-layout-container">
                         {showCategoryView ? (
                             /* ===== CATEGORY SELECTION VIEW ===== */
                             <>
-                                {/* Header */}
-                                <div className="mobile-dest-header">
-                                    <span className="mobile-dest-tag">Your Journey Awaits</span>
-                                    <h2 className="mobile-dest-title">Where Would You Like To Go?</h2>
-                                </div>
-
-                                {/* Category Cards */}
-                                <div className="mobile-category-cards">
-                                    {/* International Card */}
+                                {/* Radical Vertical Pillars Gateway */}
+                                <div className="mobile-pillars-gateway">
+                                    {/* International Pillar */}
                                     <div
-                                        className="category-card international"
+                                        className="pillar-side international"
                                         onClick={() => handleCategorySelect('international')}
                                     >
-                                        <div className="category-card-bg">
+                                        <div className="pillar-bg-wrapper">
                                             <img
-                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 600)}
-                                                alt="International"
-                                                loading="lazy"
+                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 1200)}
+                                                alt="BEYOND"
+                                                className="pillar-img"
                                             />
-                                            <div className="category-overlay"></div>
+                                            <div className="pillar-overlay"></div>
                                         </div>
-                                        <div className="category-card-content">
-                                            <span className="category-icon">🌏</span>
-                                            <h3>International</h3>
-                                            <p>{international.length} Destinations</p>
-                                            <div className="category-explore">
-                                                <span>Explore</span>
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                                </svg>
+                                        <div className="pillar-content">
+                                            <div className="vertical-title-wrap">
+                                                <h2 className="pillar-title">BEYOND</h2>
+                                                <span className="pillar-subtitle">WORLDWIDE</span>
+                                            </div>
+                                            <div className="pillar-reach-cta">
+                                                <span className="cta-dot"></span>
+                                                <span className="cta-text">EXPAND REALM</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Domestic Card */}
+                                    {/* Domestic Pillar */}
                                     <div
-                                        className="category-card domestic"
+                                        className="pillar-side domestic"
                                         onClick={() => handleCategorySelect('domestic')}
                                     >
-                                        <div className="category-card-bg">
+                                        <div className="pillar-bg-wrapper">
                                             <img
-                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 600)}
-                                                alt="Domestic"
-                                                loading="lazy"
+                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 1200)}
+                                                alt="WITHIN"
+                                                className="pillar-img"
                                             />
-                                            <div className="category-overlay"></div>
+                                            <div className="pillar-overlay"></div>
                                         </div>
-                                        <div className="category-card-content">
-                                            <span className="category-icon">🇮🇳</span>
-                                            <h3>Domestic</h3>
-                                            <p>{domestic.length} Hidden Gems</p>
-                                            <div className="category-explore">
-                                                <span>Explore</span>
-                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                                </svg>
+                                        <div className="pillar-content">
+                                            <div className="vertical-title-wrap">
+                                                <h2 className="pillar-title">WITHIN</h2>
+                                                <span className="pillar-subtitle">DOMESTIC</span>
+                                            </div>
+                                            <div className="pillar-reach-cta">
+                                                <span className="cta-dot"></span>
+                                                <span className="cta-text">EXPAND REALM</span>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    {/* Center Axis (Sensory) */}
+                                    <div className="pillar-axis">
+                                        <div className="axis-line"></div>
+                                        <div className="axis-indicator">
+                                            <div className="indicator-scroll"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Architectural Header */}
+                                    <div className="pillar-floating-nav">
+                                        <span className="pillar-nav-tag">DESTINATIONS</span>
+                                        <div className="pillar-nav-line"></div>
                                     </div>
                                 </div>
                             </>
@@ -554,20 +587,20 @@ const Destinations = forwardRef((props, ref) => {
                             /* ===== DESTINATION CAROUSEL VIEW ===== */
                             <>
                                 {/* Back Header */}
-                                <div className="mobile-dest-nav-header">
-                                    <button className="back-btn" onClick={handleBackToCategories}>
+                                <div className="dest-mobile-nav-header">
+                                    <button className="dest-back-btn" onClick={handleBackToCategories}>
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M19 12H5M12 19l-7-7 7-7" />
                                         </svg>
                                         <span>Back</span>
                                     </button>
-                                    <h3 className="nav-title">{mobileTab === 'international' ? 'International' : 'Domestic'}</h3>
-                                    <span className="nav-count">{currentList.length} Places</span>
+                                    <h3 className="dest-nav-title">{mobileTab === 'international' ? 'International' : 'Domestic'}</h3>
+                                    <span className="dest-nav-count">{currentList.length} Places</span>
                                 </div>
 
                                 {/* Destination Carousel */}
-                                <div className="mobile-carousel-wrapper">
-                                    <div className="mobile-carousel">
+                                <div className="dest-mobile-carousel-wrapper">
+                                    <div className="dest-mobile-carousel" data-lenis-prevent>
                                         {currentList.map((d, index) => (
                                             <div
                                                 key={d.name}
@@ -591,15 +624,15 @@ const Destinations = forwardRef((props, ref) => {
                                                     <p>{d.description}</p>
 
                                                     {/* Package Quick Info */}
-                                                    <div className="package-quick-info">
-                                                        <div className="info-item">
+                                                    <div className="dest-package-quick-info">
+                                                        <div className="dest-info-item">
                                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                                 <circle cx="12" cy="12" r="10" />
                                                                 <polyline points="12,6 12,12 16,14" />
                                                             </svg>
                                                             <span>{mobileTab === 'international' ? '4-7 Days' : '2-4 Days'}</span>
                                                         </div>
-                                                        <div className="info-item">
+                                                        <div className="dest-info-item">
                                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                                 <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
                                                             </svg>
@@ -621,7 +654,7 @@ const Destinations = forwardRef((props, ref) => {
                                 </div>
 
                                 {/* Swipe Hint */}
-                                <div className="mobile-swipe-hint">
+                                <div className="dest-mobile-swipe-hint">
                                     <span>← Swipe to explore →</span>
                                 </div>
                             </>
@@ -631,7 +664,7 @@ const Destinations = forwardRef((props, ref) => {
                     /* ================= DESKTOP LAYOUT ================= */
                     <>
                         {/* LEFT PANEL */}
-                        <aside className={`dest-panel left ${cardVisible ? 'faded' : ''}`}>
+                        <aside className={`dest-panel left ${cardVisible ? 'dest-faded' : ''}`}>
                             <div className="dest-panel-header">
                                 <span className="dest-panel-tag">Explore</span>
                                 <h4 className="dest-panel-title">International</h4>
@@ -651,7 +684,7 @@ const Destinations = forwardRef((props, ref) => {
                         </aside>
 
                         {/* RIGHT PANEL */}
-                        <aside className={`dest-panel right ${cardVisible ? 'faded' : ''}`}>
+                        <aside className={`dest-panel right ${cardVisible ? 'dest-faded' : ''}`}>
                             <div className="dest-panel-header">
                                 <span className="dest-panel-tag">Discover</span>
                                 <h4 className="dest-panel-title">Domestic</h4>
@@ -668,7 +701,7 @@ const Destinations = forwardRef((props, ref) => {
                         </aside>
 
                         {/* GLOBE */}
-                        <div className={`dest-globe-wrap ${cardVisible ? 'dimmed' : ''}`} ref={containerRef}>
+                        <div className={`dest-globe-wrap ${cardVisible ? 'dest-dimmed' : ''}`} ref={containerRef}>
                             <Stars />
                             <Suspense fallback={<div className="dest-globe-loader">Loading Globe...</div>}>
                                 <Globe

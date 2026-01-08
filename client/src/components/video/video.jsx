@@ -16,31 +16,47 @@ const optimizeUrl = (url) => {
 
 const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
   const videoRef = useRef(null);
+  const [isInView, setIsInView] = useState(eager);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!appLoaded) return;
+    if (eager || !videoRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    );
+
+    observer.observe(videoRef.current);
+    return () => observer.disconnect();
+  }, [eager]);
+
+  useEffect(() => {
+    if (!appLoaded || !isInView) return;
     setIsVisible(true);
-  }, [appLoaded]);
+  }, [appLoaded, isInView]);
 
   const isIframe = src.includes("iframe.mediadelivery.net");
 
-  // Format embed URL for background playback if it's a Bunny Stream iframe
-  // Switched from /play/ to /embed/ for better integration
-  // Using controls=0 and other UI disabling flags for a clean background look
   const sourceUrl = src.replace("/play/", "/embed/");
   const params = [
     "autoplay=true",
     "loop=true",
     "muted=true",
     "preload=true",
-    "responsive=true",
-    "controls=false",       // Standard parameter
-    "showControls=false",    // Alternative parameter
-    "qualityControl=false",  // Disable quality selector
-    "speedControl=false",    // Disable speed selector
-    "thumbnail=false",       // Disable initial poster image
-    "showThumbnail=false"    // Alternative flag for some versions
+    "responsive=false",
+    "controls=false",
+    "showControls=false",
+    "qualityControl=false",
+    "speedControl=false",
+    "playsinline=true",
+    "thumbnail=false"
   ].join("&");
 
   const embedUrl = isIframe
@@ -48,22 +64,36 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
     : optimizeUrl(src);
 
   return (
-    <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+    <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#000' }}>
       {isVisible && (
         isIframe ? (
           <iframe
             src={embedUrl}
             loading="lazy"
+            onLoad={() => setIsLoaded(true)}
             className="bunny-iframe"
-            style={{ border: 'none', position: 'absolute', zIndex: 1 }}
-            allow="autoplay; fullscreen; picture-in-picture"
+            style={{
+              border: 'none',
+              position: 'absolute',
+              zIndex: 1,
+              opacity: isLoaded ? 1 : 0,
+              transition: 'opacity 0.6s ease-in-out'
+            }}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
           />
         ) : (
           <video
             src={optimizeUrl(src)}
             {...props}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            onLoadedData={() => setIsLoaded(true)}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: isLoaded ? 1 : 0,
+              transition: 'opacity 0.6s ease-in-out'
+            }}
           />
         )
       )}

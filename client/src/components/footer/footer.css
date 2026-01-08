@@ -213,10 +213,13 @@
 @media (max-width: 600px) {
     .footer-section {
         min-height: auto;
+        position: relative;
+        /* Disable sticky overlay on mobile */
+        z-index: 10;
     }
 
     .footer-content-wrapper {
-        padding: 80px 24px 40px;
+        padding: 150px 24px 40px;
         top: 0;
     }
 
@@ -296,8 +299,8 @@
 
     /* Background adjustments */
     .footer-bg-img {
-        height: 120%;
-        top: -10%;
+        height: 100%;
+        top: -20%;
     }
 
     .footer-overlay {

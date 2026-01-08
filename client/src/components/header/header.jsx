@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -12,6 +12,32 @@ function Header() {
   const [openMenu, setOpenMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const sidebarTL = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (id) => {
+    setOpenMenu(false);
+
+    if (id === "home") {
+      if (location.pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        navigate("/");
+      }
+      return;
+    }
+
+    if (location.pathname === "/") {
+      const element = document.getElementById(id);
+      if (element) {
+        // Use Lenis if available globally or native smooth scroll
+        // Since Lenis is on window usually, or we can just scrollIntoView
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      navigate(`/#${id}`);
+    }
+  };
 
   // Check for mobile viewport
   useGSAP(() => {
@@ -86,14 +112,21 @@ function Header() {
         gsap.set(".header-hamburger-wrapper", { opacity: 1, pointerEvents: "all" });
 
         // Ensure nav is visible initially
-        gsap.set(".header-nav", { y: 0 });
+        gsap.set(".header-nav", { y: 0, zIndex: "var(--z-sticky)" });
 
-        // Mobile: Show/Hide based on scroll
+        // Mobile: Show/Hide based on scroll direction (Standard Smart Header)
         ScrollTrigger.create({
           trigger: "body",
-          start: "100 top", // Start after scrolling 100px
-          onEnter: () => gsap.to(".header-nav", { y: "-100%", duration: 0.3, ease: "power2.inOut", zIndex: "0" }), // Hide
-          onLeaveBack: () => gsap.to(".header-nav", { y: 0, duration: 0.3, ease: "power2.inOut", zIndex: "var(--z-sticky)" }), // Show
+          start: "100 top",
+          onUpdate: (self) => {
+            if (self.direction === 1) {
+              // Scrolling down
+              gsap.to(".header-nav", { y: -100, opacity: 0, duration: 0.4, ease: "power2.inOut" });
+            } else {
+              // Scrolling up
+              gsap.to(".header-nav", { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" });
+            }
+          }
         });
       }
     });
@@ -192,25 +225,25 @@ function Header() {
       < div className="header-kinetic-menu" >
         <div className="header-menu-content">
           <ul className="header-links">
-            <li className="header-link" onClick={() => setOpenMenu(false)}>
+            <li className="header-link" onClick={() => handleNavClick("home")}>
               <span className="header-link-number">01</span>
-              <Link to="/">Home</Link>
+              <span>Home</span>
             </li>
-            <li className="header-link" onClick={() => setOpenMenu(false)}>
+            <li className="header-link" onClick={() => handleNavClick("destinations")}>
               <span className="header-link-number">02</span>
-              <Link to="/destinations">Destinations</Link>
+              <span>Destinations</span>
             </li>
-            <li className="header-link" onClick={() => setOpenMenu(false)}>
+            <li className="header-link" onClick={() => handleNavClick("destinations")}> {/* Packages -> Destinations for now */}
               <span className="header-link-number">03</span>
-              <Link to="/packages">Packages</Link>
+              <span>Packages</span>
             </li>
-            <li className="header-link" onClick={() => setOpenMenu(false)}>
+            <li className="header-link" onClick={() => handleNavClick("why-us")}>
               <span className="header-link-number">04</span>
-              <Link to="/why-us">Why Us</Link>
+              <span>Why Us</span>
             </li>
-            <li className="header-link" onClick={() => setOpenMenu(false)}>
+            <li className="header-link" onClick={() => handleNavClick("contact")}>
               <span className="header-link-number">05</span>
-              <Link to="/contact">Contact</Link>
+              <span>Contact</span>
             </li>
           </ul>
           <div className="header-footer header-link">

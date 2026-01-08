@@ -67,38 +67,54 @@ export default function ContactUs() {
     };
 
     useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 85%",
-                end: "center center",
-                scrub: 1,
-            }
+        const mm = gsap.matchMedia();
+
+        // Desktop: Run animations
+        mm.add("(min-width: 769px)", () => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 85%",
+                    end: "center center",
+                    scrub: 1,
+                }
+            });
+
+            tl.fromTo('.cu-container',
+                { y: 60, opacity: 0, scale: 0.95 },
+                { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }
+            )
+                .fromTo(['.cu-title', '.cu-text', '.cu-detail-item'],
+                    { x: -30, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out" },
+                    "-=0.5"
+                )
+                .fromTo(['.cu-form-group', '.cu-submit-btn'],
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out" },
+                    "-=0.8"
+                );
+
+            gsap.to('.cu-decor', {
+                y: -20,
+                x: 10,
+                rotation: 5,
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
         });
 
-        tl.fromTo('.cu-container',
-            { y: 60, opacity: 0, scale: 0.95 },
-            { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }
-        )
-            .fromTo(['.cu-title', '.cu-text', '.cu-detail-item'],
-                { x: -30, opacity: 0 },
-                { x: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out" },
-                "-=0.5"
-            )
-            .fromTo(['.cu-form-group', '.cu-submit-btn'],
-                { y: 20, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out" },
-                "-=0.8"
-            );
-
-        gsap.to('.cu-decor', {
-            y: -20,
-            x: 10,
-            rotation: 5,
-            duration: 4,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
+        // Mobile: No animation, ensure visibility
+        mm.add("(max-width: 768px)", () => {
+            gsap.set(['.cu-container', '.cu-title', '.cu-text', '.cu-detail-item', '.cu-form-group', '.cu-submit-btn'], {
+                opacity: 1,
+                y: 0,
+                x: 0,
+                scale: 1,
+                clearProps: "all"
+            });
         });
 
     }, { scope: sectionRef });

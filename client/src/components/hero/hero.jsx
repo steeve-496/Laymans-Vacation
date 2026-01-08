@@ -2,12 +2,11 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import "./hero.css";
 import BlurText from "../BlurText.jsx";
+import { getOptimizedUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
+import "./hero.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
-import { getOptimizedUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
 
 
 function Hero() {
@@ -25,51 +24,54 @@ function Hero() {
   };
 
   useGSAP(() => {
-    const ctx = gsap.context(() => {
-      const entryTl = gsap.timeline();
-      entryTl.fromTo(".hero-subtitle", {
+    const entryTl = gsap.timeline();
+    entryTl.fromTo(".hero-subtitle", {
+      y: 30,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.5 // Moved delay here to keep timing
+    })
+      .fromTo(".hero-btn", {
         y: 30,
         opacity: 0
       }, {
         y: 0,
         opacity: 1,
         duration: 1,
-        ease: "power3.out",
-        delay: 0.5 // Moved delay here to keep timing
-      })
-        .fromTo(".hero-btn", {
-          y: 30,
-          opacity: 0
-        }, {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out"
-        }, "-=0.8");
+        ease: "power3.out"
+      }, "-=0.8");
 
-      const mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 769px)", () => {
-        // Desktop Animation
-        gsap.to(".hero-bg-image", {
-          zIndex: 999,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "10% top",
-            toggleActions: "play none none reverse",
-          }
-        });
+    mm.add({
+      isDesktop: "(min-width: 769px)",
+      isMobile: "(max-width: 768px)"
+    }, (context) => {
+      const { isDesktop } = context.conditions;
 
-        gsap.fromTo(
-          ".hero-bg-image img",
+      // Shared visibility logic: Promote image layer on scroll
+      gsap.to(".hero-bg-image", {
+        zIndex: 999,
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "15% top",
+          toggleActions: "play none none reverse",
+        }
+      });
+
+      // DISTINCT PHYSICS: Tailored for each viewport
+      if (isDesktop) {
+        // Desktop: Deep architectural lift
+        gsap.fromTo(".hero-bg-image img",
+          { scale: 1, y: 0 },
           {
-            scale: 1,
-            y: 0
-          },
-          {
-            y: -200,
-            scale: 2,
+            y: -220,
+            scale: 1.8,
             ease: "none",
             scrollTrigger: {
               trigger: heroRef.current,
@@ -78,34 +80,30 @@ function Hero() {
               scrub: true,
               pin: true,
               pinSpacing: false,
-            },
+            }
           }
         );
-      });
-
-      mm.add("(max-width: 768px)", () => {
-        // Mobile Animation - subtle fade and scale down (Curtain Effect)
-        // Hero stays pinned at bottom layer, Video slides over it
-
-        gsap.to(".hero-bg-image", {
-          opacity: 0.5,
-          scale: 0.95,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-            pin: true,
-            pinSpacing: false,
+      } else {
+        // Mobile: High-immersion zoom & drift
+        gsap.fromTo(".hero-bg-image img",
+          { scale: 1, y: 0, },
+          {
+            y: -180, // Dynamic lift to cross the text line
+            scale: 2.8,
+            ease: "power1.inOut",
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+              pin: true,
+              pinSpacing: false,
+            }
           }
-        });
-      });
-
+        );
+      }
     });
-
-    return () => ctx.revert();
-  }, []);
+  }, { scope: heroRef });
 
 
   const handleAnimationComplete = () => {
