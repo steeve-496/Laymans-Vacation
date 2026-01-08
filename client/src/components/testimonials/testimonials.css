@@ -225,8 +225,22 @@
     .marquee-track {
         /* Reduce gap on mobile for tighter scroll */
         gap: 20px;
-        padding-bottom: 40px;
+        padding-bottom: 100px;
         /* Less space needed for shadow on mobile */
+    }
+
+    .marquee-bg-img {
+        opacity: 0.35;
+        /* Much more visible on mobile */
+    }
+
+    .marquee-bg-img img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+        filter: grayscale(50%) opacity(0.9);
+        /* Less grayscale, more opacity */
     }
 
     .marquee-card {

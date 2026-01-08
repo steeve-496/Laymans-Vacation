@@ -1,0 +1,28 @@
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 14 visible out of 14 active destinations.
+[REQUEST] GET /api/inquiries
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+[REQUEST] OPTIONS /api/inquiries
+[REQUEST] POST /api/inquiries
+----- [Email Service] Sending via Resend API to: adisonetheking@gmail.com -----
+[ERROR] Resend API Error: {
+  statusCode: 403,
+  name: 'validation_error',
+  message: 'You can only send testing emails to your own email address (steevebinubaby496@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.'
+}
+[ERROR] Resend Failed. Falling back to Nodemailer... Error: You can only send testing emails to your own email address (steevebinubaby496@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+    at sendEmail (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\services\email.service.js:19:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async createInquiry (C:\Users\Steeve_Binu\Desktop\LAYMANS VACATION\Layman\server\controllers\inquiry.controller.js:47:13)
+Message sent: <264657c5-bfef-69e0-e491-9bced3f1fbcf@gmail.com>
+Inquiry email sent for: verified@example.com
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000

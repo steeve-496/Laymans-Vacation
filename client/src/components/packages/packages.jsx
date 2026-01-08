@@ -9,40 +9,132 @@ import api from "../../utils/api";
 
 
 import { PACKAGE_TIER_IMAGES } from "../../data/packageImages";
-const ContactForm = ({ onClose }) => {
+const ContactForm = ({ onClose, packageTitle }) => {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        adults: 1,
+        children: 0,
+        travelDate: ""
+    });
+    const [submitting, setSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        try {
+            await api.post("/inquiries", {
+                ...formData,
+                packageTitle
+            });
+            setSubmitted(true);
+            setTimeout(() => {
+                onClose();
+            }, 2000);
+        } catch (error) {
+            console.error("Submission failed:", error);
+            alert("Failed to submit inquiry. Please try again.");
+            setSubmitting(false);
+        }
+    };
+
+    if (submitted) {
+        return (
+            <div className="pkg-form-overlay">
+                <div className="pkg-contact-form">
+                    <div className="pkg-success-icon">✓</div>
+                    <h3>Thank You!</h3>
+                    <p>Your inquiry for <strong>{packageTitle}</strong> has been received. We'll get back to you shortly.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="pkg-form-overlay">
             <div className="pkg-contact-form">
-                <button className="pkg-close-form-btn" onClick={onClose}>
+                <button className="pkg-close-form-btn" onClick={onClose} disabled={submitting}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
                 <h3>Unlock Your Journey</h3>
                 <p>Enter your details to view the full itinerary and get exclusive offers.</p>
-                <form onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+                <form onSubmit={handleSubmit}>
                     <div className="pkg-form-group">
-                        <input type="text" placeholder="Your Name" required />
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Your Name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="pkg-form-group">
-                        <input type="email" placeholder="Email Address" required />
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email Address"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="pkg-form-group">
-                        <input type="tel" placeholder="Phone Number" required />
+                        <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Phone Number"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="pkg-form-row">
                         <div className="pkg-form-group">
-                            <input type="number" placeholder="Adults" min="1" required />
+                            <input
+                                type="number"
+                                name="adults"
+                                placeholder="Adults"
+                                min="1"
+                                value={formData.adults}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
                         <div className="pkg-form-group">
-                            <input type="number" placeholder="Children" min="0" />
+                            <input
+                                type="number"
+                                name="children"
+                                placeholder="Children"
+                                min="0"
+                                value={formData.children}
+                                onChange={handleChange}
+                            />
                             <span className="pkg-info-text">Under 5 years free</span>
                         </div>
                     </div>
                     <div className="pkg-form-group">
-                        <input type="date" placeholder="Day of Journey" required />
+                        <input
+                            type="date"
+                            name="travelDate"
+                            placeholder="Day of Journey"
+                            value={formData.travelDate}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
-                    <button type="submit" className="pkg-submit-btn">View Itinerary</button>
+                    <button type="submit" className="pkg-submit-btn" disabled={submitting}>
+                        {submitting ? "Processing..." : "View Itinerary"}
+                    </button>
                 </form>
             </div>
         </div>
@@ -191,7 +283,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
             </div>
 
             {isFormVisible && (
-                <ContactForm onClose={() => setIsFormVisible(false)} />
+                <ContactForm onClose={() => setIsFormVisible(false)} packageTitle={pkg.title} />
             )}
         </div>,
         document.body
@@ -222,39 +314,24 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
     useEffect(() => {
         const fetchPackages = async () => {
             if (!location) return;
+            setLoading(true);
             try {
-                // Fetch all packages and filter locally (or could fetch by destinationId if available)
-                // Since we only have location name here, we will fetch key "destinations" -> find id -> fetch packages
-                // OR simpler: fetch all packages and filter by title/logic.
-                // BEST: Fetch all, filter by matching destination name (or pass dest ID)
-                // For now, let's assume we can fetch all and filter by `location` string in title?
-                // Actually, the SEED data linked packages to Destination ID.
-                // Frontend only knows location NAME here.
-                // We should probably fetch the destination first to get ID, then packages.
-                // OR: just fetch all packages and filter where title includes location or destination.name matches.
+                // Parallel fetch destinations and all packages
+                const [destRes, pkgRes] = await Promise.all([
+                    api.get('/destinations'),
+                    api.get('/packages')
+                ]);
 
-                // Let's rely on retrieving the destination by name to get its ID, then filter packages.
-                // Optimized approach: API endpoint to get packages by destination name?
-                // Let's stick to client-side filter for speed if dataset is small.
-
-                // Fetch Destinations to map name -> ID
-                const destRes = await api.get('/destinations');
                 let currentDest = destRes.data.find(d => d.name === location);
 
-                // Fallback: If location destination not found, try country destination
                 if (!currentDest && country && location !== country) {
-                    console.log(`Destination '${location}' not found, falling back to '${country}'`);
                     currentDest = destRes.data.find(d => d.name === country);
                 }
 
                 if (currentDest) {
-                    const pkgRes = await api.get('/packages');
                     const filteredPkgs = pkgRes.data
                         .filter(p => p.destinationId === currentDest.id)
-                        .sort((a, b) => a.order - b.order); // Sort by order
-
-                    // If we fell back to country, we might want to filter further (optional)? 
-                    // For now, just showing country packages is better than nothing.
+                        .sort((a, b) => a.order - b.order);
 
                     const processedPkgs = filteredPkgs.map(pkg => {
                         let category = pkg.category;
@@ -266,12 +343,13 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                         }
                         if (!category) category = 'Basic';
 
-                        // Get static image - Use original location for image lookup if possible, else fallback
-                        // If we are showing 'Dubai' packages for 'Burj Khalifa', we might want Dubai images.
-                        // Or 'Burj Khalifa' images if key exists (it likely doesn't).
                         const imageLocationKey = PACKAGE_TIER_IMAGES[location] ? location : (currentDest.name || 'default');
                         const countryImages = PACKAGE_TIER_IMAGES[imageLocationKey] || PACKAGE_TIER_IMAGES['default'];
                         const staticImage = countryImages[category] || countryImages['Basic'];
+
+                        // Preload image
+                        const img = new Image();
+                        img.src = getOptimizedUrl(staticImage, 1200);
 
                         return {
                             ...pkg,
@@ -284,7 +362,6 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                     console.warn("Destination not found for packages:", location);
                     setPackages([]);
                 }
-
             } catch (error) {
                 console.error("Failed to fetch packages:", error);
             } finally {
@@ -396,6 +473,30 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
         setSelectedPackage(null);
         setOriginRect(null);
     };
+
+    if (loading) {
+        return (
+            <section className="pkg-section pkg-skeleton">
+                <div className="pkg-backdrop-blur"></div>
+                <div className="pkg-carousel-container">
+                    <div className="pkg-carousel-track">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="pkg-carousel-card skeleton-card">
+                                <div className="pkg-card-image-wrapper skeleton-pulse" />
+                                <div className="pkg-card-content-top">
+                                    <div className="skeleton-line label" />
+                                    <div className="skeleton-line title" />
+                                </div>
+                                <div className="pkg-card-content-bottom">
+                                    <div className="pkg-details-box skeleton-pulse" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     const activePackage = packages[activeIndex];
 

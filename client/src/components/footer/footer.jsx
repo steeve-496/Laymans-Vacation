@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './footer.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -11,6 +11,29 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Footer() {
     const footerRef = useRef(null);
     const bgRef = useRef(null);
+    const textRef = useRef(null);
+    const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+    const tripWords = ['Adventure?', 'Vacation?', 'Journey?', 'Escape?', 'Getaway?', 'Trip?'];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            gsap.to(textRef.current, {
+                opacity: 0,
+                y: -20,
+                duration: 0.5,
+                onComplete: () => {
+                    setCurrentWordIndex((prev) => (prev + 1) % tripWords.length);
+                    gsap.fromTo(textRef.current,
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, duration: 0.5 }
+                    );
+                }
+            });
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     useGSAP(() => {
         // Parallax Background Effect
@@ -59,7 +82,7 @@ export default function Footer() {
                 <div className="footer-container">
                     {/* CTA Header */}
                     <div className="footer-cta">
-                        <h2>Ready for your next <span className="highlight-text-footer">Adventure?</span></h2>
+                        <h2>Ready for your next <span className="highlight-text-footer" ref={textRef}>{tripWords[currentWordIndex]}</span></h2>
                         <p>Explore the world with Layman.</p>
                     </div>
 

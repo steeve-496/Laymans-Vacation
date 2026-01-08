@@ -99,6 +99,7 @@ const packageRoutes = require('./routes/package.routes');
 const contentRoutes = require('./routes/content.routes');
 const stateExplorerRoutes = require('./routes/stateExplorer.routes');
 const auditRoutes = require('./routes/audit.routes'); // Added import for audit routes
+const inquiryRoutes = require('./routes/inquiry.routes');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
@@ -107,6 +108,7 @@ app.use('/api/packages', packageRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/state-explorer', stateExplorerRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);

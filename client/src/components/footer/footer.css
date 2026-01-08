@@ -85,6 +85,8 @@
 .highlight-text-footer {
     color: #FFD700;
     font-style: italic;
+    display: inline-block;
+    min-width: 250px; /* Approximate width of the longest word to prevent layout shifting */
 }
 
 .footer-content {

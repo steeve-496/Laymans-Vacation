@@ -87,3 +87,14 @@ model SectionContent {
   image       String?
   details     Json?
 }
+model Inquiry {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String
+  phone        String
+  adults       Int
+  children     Int
+  travelDate   DateTime
+  packageTitle String
+  createdAt    DateTime @default(now())
+}

@@ -29,23 +29,32 @@ const StateExplorer = () => {
 
     useEffect(() => {
         const fetchStates = async () => {
+            setLoading(true);
             try {
-                // Fetch destination by name to get ID
-                const destRes = await api.get('/destinations');
+                // Parallel fetch destinations and all state explorers
+                const [destRes, stateRes] = await Promise.all([
+                    api.get('/destinations'),
+                    api.get('/state-explorer')
+                ]);
+
                 const currentDest = destRes.data.find(d => d.name === selectedCountry);
 
                 if (currentDest) {
-                    const stateRes = await api.get('/state-explorer');
-                    // Filter by matching destinationId (assumes backend returns all or specialized endpoint)
                     const filteredStates = stateRes.data
                         .filter(s => s.destinationId === currentDest.id)
                         .sort((a, b) => a.order - b.order);
 
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);
+
+                        // Preload first few images
+                        filteredStates.slice(0, 3).forEach(state => {
+                            const img = new Image();
+                            img.src = getOptimizedUrl(state.image, 1920);
+                            const imgCard = new Image();
+                            imgCard.src = getOptimizedUrl(state.image, 1200);
+                        });
                     } else {
-                        // Fallback or empty? If empty, maybe show nothing or redirect.
-                        // For now we assume seed data exists for "countries" in list.
                         console.warn(`No states found for ${selectedCountry}`);
                         setStates([]);
                     }
@@ -61,6 +70,21 @@ const StateExplorer = () => {
         };
         fetchStates();
     }, [selectedCountry]);
+
+    // Preload adjacent images when activeIndex changes
+    useEffect(() => {
+        if (states.length > 0) {
+            const nextIdx = (activeIndex + 1) % states.length;
+            const prevIdx = (activeIndex - 1 + states.length) % states.length;
+
+            [nextIdx, prevIdx].forEach(idx => {
+                const img = new Image();
+                img.src = getOptimizedUrl(states[idx].image, 1920);
+                const imgCard = new Image();
+                imgCard.src = getOptimizedUrl(states[idx].image, 1200);
+            });
+        }
+    }, [activeIndex, states]);
 
 
 
@@ -469,7 +493,24 @@ const StateExplorer = () => {
     // Use state names for the slider labels instead of numbers
     const scaleLabels = states.map(state => state.name);
 
-    if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>Loading Explorer...</div>;
+    if (loading) {
+        return (
+            <section className="se-section se-skeleton">
+                <div className="se-bg-image skeleton-pulse" />
+                <div className="se-content">
+                    <div className="se-card skeleton-card">
+                        <div className="se-card-image skeleton-pulse" />
+                        <div className="se-card-content">
+                            <div className="skeleton-line title" />
+                            <div className="skeleton-line" />
+                            <div className="skeleton-line" />
+                            <div className="skeleton-btn" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
     if (states.length === 0) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>No content available for {selectedCountry}.</div>;
     if (!currentState) return null;
 
