@@ -215,9 +215,8 @@ function Header() {
         </div>
 
         <ul className="header-nav-list">
-          <li>Home</li>
           <li>Upcoming Departures</li>
-          <li>Why Us</li>
+          <li><a href="#wu-section">Why Us</a></li>
           <li><a href="#who-we-are">About Us</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul >

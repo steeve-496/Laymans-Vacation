@@ -1,0 +1,281 @@
+/* =========================================
+   SCATTERED CLOUD TESTIMONIALS (Unique Classes)
+   ========================================= */
+
+.sc-testimonials-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 0;
+}
+
+.sc-testimonials-content {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 800px;
+    /* Canvas for cloud */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- CENTER HEADER --- */
+.sc-header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 60px;
+    border-radius: 30px;
+}
+
+.sc-title {
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.sc-subtitle {
+    font-size: 2rem;
+    color: #64748b;
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+}
+
+/* --- CLOUD CARDS --- */
+.sc-testimonials-cloud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* 1. Wrapper handles POSITION + SCROLL ENTRY/EXIT */
+/* 1. Wrapper handles POSITION + SCROLL ENTRY/EXIT */
+.sc-card-wrapper {
+    position: absolute;
+    /* Positioning */
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.sc-card-wrapper.in-view {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sc-header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 60px;
+    border-radius: 30px;
+    /* Removed container animation to animate children instead */
+}
+
+/* Staggered Text Animation */
+.sc-title,
+.sc-subtitle {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.sc-header.in-view .sc-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sc-header.in-view .sc-subtitle {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+    /* Stagger effect */
+}
+
+/* 2. Inner Card handles DESIGN + FLOATING + HOVER */
+.sc-card {
+    width: 100%;
+    max-width: clamp(280px, 20vw, 350px);
+    /* Responsive Width */
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    pointer-events: auto;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    /* Floating Animation */
+    animation: float 6s ease-in-out infinite;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Stagger Floating */
+.sc-pos-0 .sc-card {
+    animation-delay: 0s;
+}
+
+.sc-pos-1 .sc-card {
+    animation-delay: 1s;
+}
+
+.sc-pos-2 .sc-card {
+    animation-delay: 2s;
+}
+
+.sc-pos-3 .sc-card {
+    animation-delay: 1.5s;
+}
+
+.sc-pos-4 .sc-card {
+    animation-delay: 0.5s;
+}
+
+.sc-pos-5 .sc-card {
+    animation-delay: 2.5s;
+}
+
+.sc-card:hover {
+    transform: scale(1.05);
+    z-index: 20;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+    background-color: #fdfdfd;
+}
+
+/* --- KEYFRAMES --- */
+
+/* Bobbing Float */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.sc-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sc-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sc-info h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.sc-info span {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.sc-rating {
+    color: #fbbf24;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.sc-review {
+    font-size: 0.95rem;
+    font-family: "Poppins", sans-serif;
+    line-height: 1.6;
+    color: #334155;
+    margin: 0;
+}
+
+
+/* =========================================
+   MOBILE (< 968px)
+   ========================================= */
+@media (max-width: 968px) {
+    .sc-testimonials-section {
+        min-height: auto;
+        padding: 80px 0;
+        height: auto;
+    }
+
+    .sc-testimonials-content {
+        flex-direction: column;
+        height: auto;
+        gap: 60px;
+        padding: 0 20px;
+    }
+
+    .sc-header {
+        padding: 0;
+    }
+
+    .sc-title {
+        font-size: 3rem;
+    }
+
+    .sc-testimonials-cloud {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        /* Space between cards */
+        align-items: center;
+        padding-bottom: 50px;
+    }
+
+    /* FIX: Target wrapper to reset inline styles */
+    .sc-card-wrapper {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        transform: none !important;
+        /* Reset initial scale/opacity if needed, or keep scroll reveal */
+        opacity: 1;
+        /* Ensure visible */
+    }
+
+    .sc-card {
+        width: 100%;
+        max-width: 100%;
+        /* Full width on mobile */
+        animation: none;
+        /* Disable float on mobile if desired, or keep it */
+    }
+}

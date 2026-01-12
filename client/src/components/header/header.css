@@ -3,7 +3,7 @@
 .header-nav {
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 91%;
   height: 10vh;
   display: flex;
   align-items: center;
@@ -14,10 +14,8 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 30px 4.5% 15px 4.5%;
-  /* Added top padding */
   border-radius: 10px;
   z-index: var(--z-sticky);
-  /* transition: 0.3s ease;  Removed to prevent conflict with GSAP transform */
   transition: background 0.3s, padding 0.3s, height 0.3s, backdrop-filter 0.3s;
   font-family: "Fjalla One", sans-serif;
 }
@@ -32,7 +30,6 @@
   overflow: hidden;
   display: flex;
   gap: 70px;
-  margin-left: 20%;
   transition: opacity 0.3s;
 }
 

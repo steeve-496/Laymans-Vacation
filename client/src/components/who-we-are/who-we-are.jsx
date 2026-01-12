@@ -19,27 +19,26 @@ export default function WhoWeAre() {
         }, (context) => {
             const { isMobile } = context.conditions;
 
-            const titles = containerRef.current.querySelectorAll('.wwa-title');
-            const content = containerRef.current.querySelectorAll('.wwa-content p');
-            const btn = containerRef.current.querySelector('.wwa-btn');
-
             // --- TEXT ANIMATION ---
-            gsap.timeline({
+            // Use simple string selectors which useGSAP scopes automatically
+            const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: isMobile ? "top 80%" : "top 55%",
+                    start: "top 75%", // More reliable trigger point
+                    toggleActions: "play none none reverse"
                 }
-            })
-                .fromTo(titles,
-                    { y: 50, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power4.out" }
-                )
-                .fromTo(content,
+            });
+
+            tl.fromTo('.wwa-title',
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power4.out" }
+            )
+                .fromTo('.wwa-content p',
                     { y: 30, opacity: 0 },
                     { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" },
                     "-=0.6"
                 )
-                .fromTo(btn,
+                .fromTo('.wwa-btn',
                     { scale: 0.9, opacity: 0 },
                     { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
                     "-=0.4"
@@ -47,44 +46,55 @@ export default function WhoWeAre() {
 
             // --- COLLAGE REVEAL ---
             gsap.fromTo(".wwa-collage-item",
-                { opacity: 0, scale: 0.9, y: 30 },
+                { opacity: 0, scale: 0.9, y: 50 },
                 {
                     opacity: 1,
                     scale: 1,
                     y: 0,
-                    stagger: 0.15,
-                    duration: 1.2,
+                    stagger: 0.1,
+                    duration: 1,
                     ease: "power2.out",
                     scrollTrigger: {
                         trigger: ".wwa-visual-side",
-                        start: "top 85%",
+                        start: "top 80%",
                         toggleActions: "play none none reverse"
                     }
                 }
             );
 
-            // --- COLLAGE PARALLAX (Subtle on Mobile) ---
-            const parallaxTrigger = {
-                trigger: containerRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1.5
-            };
+            // --- COLLAGE PARALLAX (Image moving INSIDE container) ---
+            // Use gsap.utils.toArray to ensure we get the elements within scope
+            const images = gsap.utils.toArray('.wwa-collage-item img', containerRef.current);
 
-            gsap.to(".wwa-img-1", {
-                yPercent: isMobile ? -5 : -15,
-                scrollTrigger: parallaxTrigger
+            images.forEach((img) => {
+                gsap.fromTo(img,
+                    { yPercent: -10 },
+                    {
+                        yPercent: 10,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: img.parentElement,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true, // true = 0.5s lag smoothing
+                        }
+                    }
+                );
             });
 
-            gsap.to(".wwa-img-2", {
-                yPercent: isMobile ? -15 : -40,
-                scrollTrigger: parallaxTrigger
-            });
-
-            gsap.to(".wwa-img-3", {
-                yPercent: isMobile ? -25 : -70,
-                scrollTrigger: parallaxTrigger
-            });
+            // Optional: Subtle float for the overlapping image container
+            if (!isMobile) {
+                gsap.to(".wwa-img-2", {
+                    yPercent: -15,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".wwa-visual-side",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    }
+                });
+            }
         });
 
         // Continuous floating animation
@@ -124,16 +134,6 @@ export default function WhoWeAre() {
                         <p>
                             From the misty hills of Kerala to the vibrant streets of Azerbaijan, we curate experiences that are authentic, immersive, and tailored just for you. Our mission is to make the world accessible to everyone, one unforgettable story at a time.
                         </p>
-
-                        <div className="wwa-actions">
-                            <button className="wwa-btn">
-                                <span>LEARN OUR STORY</span>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
                 </div>
 
@@ -170,6 +170,6 @@ export default function WhoWeAre() {
                 </div>
 
             </div>
-        </section>
+        </section >
     );
 }
