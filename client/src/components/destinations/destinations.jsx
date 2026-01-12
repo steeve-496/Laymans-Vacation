@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, forwardRef, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
-const Globe = React.lazy(() => import("react-globe.gl"));
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,19 +9,16 @@ import "./destinations.css";
 import { getOptimizedUrl } from "../../utils/imageOptimizer";
 import api from "../../utils/api";
 
+const Globe = React.lazy(() => import("react-globe.gl"));
+
 gsap.registerPlugin(ScrollTrigger);
-// ... existing code ...
-
-
-
-
-
 
 const DEFAULT_VIEW = { altitude: 2.5 };
 
 const Destinations = forwardRef((props, ref) => {
     const navigate = useNavigate();
     const globeRef = useRef(null);
+    const selectionTimeline = useRef(null);
 
     // State for dynamic data
     const [international, setInternational] = useState([]);
@@ -48,13 +44,7 @@ const Destinations = forwardRef((props, ref) => {
         };
         fetchData();
     }, []);
-    // Use the forwarded ref if provided, otherwise internal fallback (though usually parent will provide ref)
-    // To handle both, we can use useImperativeHandle or just direct ref assignment if valid.
-    // Simplest for animation: Ref can be attached to the section.
 
-    // We need to merge internal ref usage (if any) with forwarded ref.
-    // However, the original code used `sectionRef` internally for ScrollTrigger.
-    // We should expose that element.
     const internalSectionRef = useRef(null);
 
     // Merge refs
@@ -84,52 +74,51 @@ const Destinations = forwardRef((props, ref) => {
 
     // New state for category selection view
     const [showCategoryView, setShowCategoryView] = useState(true);
+    // View State for Glass Slider: 'international' | 'stacked' | 'domestic'
+    const [viewState, setViewState] = useState('stacked');
 
-    // Handle category selection with Pillar Expansion
     const handleCategorySelect = (category) => {
         if (!isMobile) return;
-
-        const tl = gsap.timeline({
-            onComplete: () => {
-                setMobileTab(category);
-                setShowCategoryView(false);
-            }
-        });
-
-        const isInt = category === 'international';
-
-        // The Expansion Sequence
-        tl.to(".pillar-axis", { opacity: 0, duration: 0.3 })
-            .to(".pillar-floating-nav", { opacity: 0, y: -20, duration: 0.4 }, "<")
-            .to(`.pillar-side.${isInt ? 'domestic' : 'international'}`, {
-                flex: 0,
-                width: "0%",
-                opacity: 0,
-                duration: 1,
-                ease: "expo.inOut"
-            })
-            .to(`.pillar-side.${isInt ? 'international' : 'domestic'}`, {
-                flex: "1 0 100%",
-                duration: 1,
-                ease: "expo.inOut"
-            }, "<")
-            .to(".pillar-content", {
-                opacity: 0,
-                duration: 0.3
-            }, "-=0.2");
+        setMobileTab(category);
+        setShowCategoryView(false);
     };
 
     // Handle back to categories
+    // Handle back to categories
     const handleBackToCategories = () => {
-        // iOS/Safari Reset: Explicitly reset pillar props before transition
-        gsap.set(".pillar-side", { clearProps: "all" });
-        gsap.set([".pillar-axis", ".pillar-floating-nav", ".pillar-content"], { clearProps: "all" });
-
         setShowCategoryView(true);
     };
 
     // Get Active List based on Mobile Tab
     const currentList = mobileTab === "international" ? international : domestic;
+
+    /* ================== CAROUSEL DOTS LOGIC ================== */
+    const [activeCardIndex, setActiveCardIndex] = useState(0);
+    const mobileCarouselRef = useRef(null);
+
+    const handleCarouselScroll = () => {
+        if (mobileCarouselRef.current) {
+            const scrollLeft = mobileCarouselRef.current.scrollLeft;
+            // Center point logic
+            const center = scrollLeft + (mobileCarouselRef.current.offsetWidth / 2);
+
+            // Find which card is closest to center
+            const index = Math.round(scrollLeft / (mobileCarouselRef.current.children[0].offsetWidth + 20)); // 20 is gap
+            // Clamp index
+            const safeIndex = Math.min(Math.max(0, index), currentList.length - 1);
+            setActiveCardIndex(safeIndex);
+        }
+    };
+
+    const scrollToCard = (index) => {
+        if (mobileCarouselRef.current) {
+            const card = mobileCarouselRef.current.children[index];
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                setActiveCardIndex(index);
+            }
+        }
+    };
 
     /* ================== PLACE SELECT ================== */
     const handleSelect = (place) => {
@@ -272,29 +261,8 @@ const Destinations = forwardRef((props, ref) => {
         if (!isMobile || !internalSectionRef.current) return;
 
         if (showCategoryView) {
-            // PILLAR ENTRANCE
-            const tl = gsap.timeline();
-
-            tl.fromTo(".pillar-side",
-                { flex: 0, opacity: 0 },
-                { flex: 1, opacity: 1, duration: 1.4, stagger: 0.1, ease: "expo.out" }
-            )
-                .fromTo(".pillar-axis",
-                    { scaleY: 0, opacity: 0 },
-                    { scaleY: 1, opacity: 1, duration: 1.2, ease: "power4.out" },
-                    "-=1"
-                )
-                .fromTo(".pillar-content",
-                    { opacity: 0, y: 40 },
-                    { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power3.out" },
-                    "-=0.6"
-                )
-                .fromTo(".pillar-floating-nav",
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-                    "-=0.4"
-                );
-
+            // Stack Entrance (Optional - presently just mounts)
+            // Could add stack specific entry here if needed
         } else {
             // CAROUSEL ENTRANCE
             const tl = gsap.timeline();
@@ -356,7 +324,7 @@ const Destinations = forwardRef((props, ref) => {
             });
 
             tl.fromTo(".dest-panel.left",
-                { x: -120, opacity: 0 },
+                { x: -120, opacity: 1 },
                 {
                     x: 0,
                     opacity: 1,
@@ -365,7 +333,7 @@ const Destinations = forwardRef((props, ref) => {
                 }
             )
                 .fromTo(".dest-panel.right",
-                    { x: 120, opacity: 0 },
+                    { x: 120, opacity: 1 },
                     {
                         x: 0,
                         opacity: 1,
@@ -374,9 +342,8 @@ const Destinations = forwardRef((props, ref) => {
                     }, "<");
         });
 
-        // Mobile - No pinning, no entry animations
+        // Mobile - No ScrollTrigger
         mm.add("(max-width: 768px)", () => {
-            // Ensure no ScrollTrigger effects on mobile
             ScrollTrigger.getAll().forEach(st => {
                 if (st.trigger === internalSectionRef.current) {
                     st.kill();
@@ -391,28 +358,19 @@ const Destinations = forwardRef((props, ref) => {
     /* ================== ARROW COMPONENT ================== */
     const ConnectionArrow = ({ width, height }) => {
         // Dynamic coordinates to prevent distortion
-        const startX = width * 0.25; // Center of Globe area (Globe is moved to left 25%)
+        const startX = width * 0.25; // Center of Globe area
         const startY = height * 0.5;
 
-        // Card Position Calculation:
-        // Overlay padding-right is 15% (on desktop).
-        // Card has margin-right: 150px (NEW).
-        // Card width is 320px.
         const cardWidth = 320;
         const marginRight = 150;
         const paddingRight = 0.15 * width;
 
-        // Calculate Right Edge of Card Container relative to screen right
-        // ScreenWidth - Padding - Margin - CardWidth
-        // We add overlap (+20) to land on the card
         const endX = (width - paddingRight - marginRight - cardWidth) + 20;
         const endY = height * 0.5;
 
-        // Control point for the curve (arc up)
         const controlX = (startX + endX) / 2;
         const controlY = startY - (height * 0.2); // Arc height
 
-        // Calculate arrowhead angle
         const dx = endX - controlX;
         const dy = endY - controlY;
         const angle = Math.atan2(dy, dx) * (180 / Math.PI);
@@ -438,14 +396,8 @@ const Destinations = forwardRef((props, ref) => {
         );
     };
 
-    /* ================== ANIMATION REFS ================== */
-    const selectionTimeline = useRef(null);
-
-
-
     /* ================== NAVIGATE TO EXPLORER ================== */
     const handleExploreClick = () => {
-        // Navigate to state explorer page using React Router
         if (activePlace) {
             navigate(`/explore/${encodeURIComponent(activePlace.name)}`);
         }
@@ -516,152 +468,240 @@ const Destinations = forwardRef((props, ref) => {
                         {showCategoryView ? (
                             /* ===== CATEGORY SELECTION VIEW ===== */
                             <>
-                                {/* Radical Vertical Pillars Gateway */}
-                                <div className="mobile-pillars-gateway">
-                                    {/* International Pillar */}
-                                    <div
-                                        className="pillar-side international"
-                                        onClick={() => handleCategorySelect('international')}
-                                    >
-                                        <div className="pillar-bg-wrapper">
-                                            <img
-                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 1200)}
-                                                alt="BEYOND"
-                                                className="pillar-img"
-                                            />
-                                            <div className="pillar-overlay"></div>
-                                        </div>
-                                        <div className="pillar-content">
-                                            <div className="vertical-title-wrap">
-                                                <h2 className="pillar-title">BEYOND</h2>
-                                                <span className="pillar-subtitle">WORLDWIDE</span>
-                                            </div>
-                                            <div className="pillar-reach-cta">
-                                                <span className="cta-dot"></span>
-                                                <span className="cta-text">EXPAND REALM</span>
+                                {/* ===== CATEGORY SELECTION VIEW (SLIDER CONTROLLED) ===== */}
+                                <div className="category-selection-view">
+                                    {/* Header */}
+                                    <div className="cat-header">
+                                        <h1 className="cat-title">Explore new horizons</h1>
+
+                                        {/* Marquee Ticker */}
+                                        <div className="cat-marquee-container">
+                                            <div className="cat-marquee-content">
+                                                {[...international, ...domestic].map(d => d.name).concat([...international, ...domestic].map(d => d.name)).map((name, i) => (
+                                                    <span key={i} className="cat-marquee-item">{name}</span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Domestic Pillar */}
-                                    <div
-                                        className="pillar-side domestic"
-                                        onClick={() => handleCategorySelect('domestic')}
-                                    >
-                                        <div className="pillar-bg-wrapper">
-                                            <img
-                                                src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 1200)}
-                                                alt="WITHIN"
-                                                className="pillar-img"
-                                            />
-                                            <div className="pillar-overlay"></div>
-                                        </div>
-                                        <div className="pillar-content">
-                                            <div className="vertical-title-wrap">
-                                                <h2 className="pillar-title">WITHIN</h2>
-                                                <span className="pillar-subtitle">DOMESTIC</span>
+                                    {/* Main Stack Container */}
+                                    <div className={`cat-stack-container view-${viewState}`}>
+                                        {/* International Card */}
+                                        <div
+                                            className="cat-stack-card card-int"
+                                            onClick={() => {
+                                                if (viewState === 'international') handleCategorySelect('international');
+                                                else setViewState('international');
+                                            }}
+                                        >
+                                            <div className="cat-card-image">
+                                                <img
+                                                    src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 800)}
+                                                    alt="International"
+                                                />
+                                                <div className="cat-card-overlay"></div>
                                             </div>
-                                            <div className="pillar-reach-cta">
-                                                <span className="cta-dot"></span>
-                                                <span className="cta-text">EXPAND REALM</span>
+                                            <div className="cat-card-content">
+                                                <span className="cat-card-label">BEYOND BORDERS</span>
+                                                <h2 className="cat-card-title">International</h2>
+                                                <div className="cat-card-btn">Explore</div>
+                                            </div>
+                                        </div>
+
+                                        {/* Domestic Card */}
+                                        <div
+                                            className="cat-stack-card card-dom"
+                                            onClick={() => {
+                                                if (viewState === 'domestic') handleCategorySelect('domestic');
+                                                else setViewState('domestic');
+                                            }}
+                                        >
+                                            <div className="cat-card-image">
+                                                <img
+                                                    src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 800)}
+                                                    alt="Domestic"
+                                                />
+                                                <div className="cat-card-overlay"></div>
+                                            </div>
+                                            <div className="cat-card-content">
+                                                <span className="cat-card-label">WITHIN BORDERS</span>
+                                                <h2 className="cat-card-title">Domestic</h2>
+                                                <div className="cat-card-btn">Explore</div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Center Axis (Sensory) */}
-                                    <div className="pillar-axis">
-                                        <div className="axis-line"></div>
-                                        <div className="axis-indicator">
-                                            <div className="indicator-scroll"></div>
-                                        </div>
-                                    </div>
+                                    {/* Glassmorphism Bottom Slider */}
+                                    <div className="glass-control-wrapper">
+                                        <div className="glass-slider-track">
+                                            {/* Background Active Indicator (The "Thumb" or Highlight) */}
+                                            <div className={`slider-active-indicator pos-${viewState}`}></div>
 
-                                    {/* Architectural Header */}
-                                    <div className="pillar-floating-nav">
-                                        <span className="pillar-nav-tag">DESTINATIONS</span>
-                                        <div className="pillar-nav-line"></div>
+                                            {/* Clickable Zones */}
+                                            <div
+                                                className={`slider-zone left ${viewState === 'international' ? 'active' : ''}`}
+                                                onClick={() => setViewState('international')}
+                                            >
+                                                {/* Globe Icon */}
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <circle cx="12" cy="12" r="10" />
+                                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                                </svg>
+                                            </div>
+
+                                            <div
+                                                className={`slider-zone center ${viewState === 'stacked' ? 'active' : ''}`}
+                                                onClick={() => setViewState('stacked')}
+                                            >
+                                                {/* Plane Icon */}
+                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: 'rotate(-45deg)' }}>
+                                                    <path d="M22 2L11 13" />
+                                                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                                                </svg>
+                                            </div>
+
+                                            <div
+                                                className={`slider-zone right ${viewState === 'domestic' ? 'active' : ''}`}
+                                                onClick={() => setViewState('domestic')}
+                                            >
+                                                {/* India Map Mask */}
+                                                <div className="india-icon-mask"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </>
                         ) : (
                             /* ===== DESTINATION CAROUSEL VIEW ===== */
                             <>
-                                {/* Back Header */}
-                                <div className="dest-mobile-nav-header">
-                                    <button className="dest-back-btn" onClick={handleBackToCategories}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M19 12H5M12 19l-7-7 7-7" />
-                                        </svg>
-                                        <span>Back</span>
-                                    </button>
-                                    <h3 className="dest-nav-title">{mobileTab === 'international' ? 'International' : 'Domestic'}</h3>
-                                    <span className="dest-nav-count">{currentList.length} Places</span>
-                                </div>
-
-                                {/* Destination Carousel */}
-                                <div className="dest-mobile-carousel-wrapper">
-                                    <div className="dest-mobile-carousel" data-lenis-prevent>
-                                        {currentList.map((d, index) => (
-                                            <div
-                                                key={d.name}
-                                                className="mobile-dest-card"
-                                                onClick={() => navigate(`/explore/${encodeURIComponent(d.name)}`)}
+                                {/* ===== DESTINATION CAROUSEL VIEW (EXPLORE STYLE) ===== */}
+                                <div className="explore-view-container">
+                                    {/* Header */}
+                                    <div className="explore-header-area">
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <h1 className="explore-title">Explore</h1>
+                                            {/* Hidden Back Trigger for usability */}
+                                            <button
+                                                onClick={handleBackToCategories}
+                                                style={{ background: 'none', border: 'none', padding: '10px', fontSize: '1.5rem', color: '#1e293b' }}
                                             >
-                                                {/* Card Image */}
-                                                <div className="mobile-card-image">
-                                                    <img
-                                                        src={getOptimizedUrl(d.image, 600)}
-                                                        alt={d.name}
-                                                        loading="lazy"
-                                                    />
-                                                    <div className="mobile-card-gradient"></div>
-                                                    {d.badge && <span className="mobile-card-badge">{d.badge}</span>}
-                                                </div>
+                                                ✕
+                                            </button>
+                                        </div>
 
-                                                {/* Card Content */}
-                                                <div className="mobile-card-content">
-                                                    <h3>{d.name}</h3>
-                                                    <p>{d.description}</p>
-
-                                                    {/* Package Quick Info */}
-                                                    <div className="dest-package-quick-info">
-                                                        <div className="dest-info-item">
-                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <circle cx="12" cy="12" r="10" />
-                                                                <polyline points="12,6 12,12 16,14" />
-                                                            </svg>
-                                                            <span>{mobileTab === 'international' ? '4-7 Days' : '2-4 Days'}</span>
-                                                        </div>
-                                                        <div className="dest-info-item">
-                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
-                                                            </svg>
-                                                            <span>{mobileTab === 'international' ? 'Flight Incl.' : 'Customizable'}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Explore Button */}
-                                                    <div className="mobile-card-explore">
-                                                        <span>View Packages</span>
-                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                            <path d="M5 12h14M12 5l7 7-7 7" />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
+                                        <div className="explore-dots">
+                                            {currentList.map((_, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className={`explore-dot ${activeCardIndex === idx ? 'active' : ''}`}
+                                                    onClick={() => scrollToCard(idx)}
+                                                ></div>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Swipe Hint */}
-                                <div className="dest-mobile-swipe-hint">
-                                    <span>← Swipe to explore →</span>
+                                    {/* Cards Carousel */}
+                                    <div className="dest-mobile-carousel-wrapper explore-mode">
+                                        <div
+                                            className="dest-mobile-carousel explore-mode-list"
+                                            data-lenis-prevent
+                                            ref={mobileCarouselRef}
+                                            onScroll={handleCarouselScroll}
+                                        >
+                                            {currentList.map((d, index) => (
+                                                <div
+                                                    key={d.name}
+                                                    className="explore-card"
+                                                    onClick={() => navigate(`/explore/${encodeURIComponent(d.name)}`)}
+                                                >
+                                                    <div className="explore-card-image">
+                                                        <img
+                                                            src={getOptimizedUrl(d.image, 600)}
+                                                            alt={d.name}
+                                                            loading="lazy"
+                                                        />
+                                                        <div className="explore-card-gradient"></div>
+                                                    </div>
+
+                                                    {/* Badge at Top Right */}
+                                                    {d.badge && <span className="explore-card-badge-top-right">{d.badge}</span>}
+
+                                                    {/* Title & Description */}
+                                                    <div className="explore-card-content-top">
+                                                        <h2 className="explore-card-title">{d.name}</h2>
+                                                        <p className="explore-card-subtitle">
+                                                            {d.description ? (d.description.length > 35 ? d.description.substring(0, 35) + "..." : d.description) : "Explore"}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Map Background & Animation */}
+                                    <div className="explore-map-bg">
+                                        <svg className="explore-route-svg" viewBox="0 0 375 500" preserveAspectRatio="xMidYMax slice">
+                                            {/* Map Roads (Background) */}
+                                            <path
+                                                d="M-50,400 L100,350 L200,450 L350,400 L450,450"
+                                                stroke="#cbd5e1"
+                                                strokeWidth="8"
+                                                fill="none"
+                                                opacity="0.5"
+                                            />
+                                            <path
+                                                d="M50,550 L100,350 L50,150 L200,50"
+                                                stroke="#cbd5e1"
+                                                strokeWidth="8"
+                                                fill="none"
+                                                opacity="0.5"
+                                            />
+                                            <path
+                                                d="M300,550 L350,400 L250,250 L400,100"
+                                                stroke="#cbd5e1"
+                                                strokeWidth="8"
+                                                fill="none"
+                                                opacity="0.5"
+                                            />
+
+                                            {/* Animated Route */}
+                                            <path
+                                                className="explore-route-path"
+                                                d="M50,500 C100,480 80,420 120,380 S200,400 240,350 S300,300 320,280"
+                                                stroke="#0ea5e9"
+                                                strokeWidth="6"
+                                                fill="none"
+                                                strokeLinecap="round"
+                                            />
+
+                                            {/* Start Point */}
+                                            <circle cx="50" cy="500" r="8" fill="#0ea5e9" stroke="#fff" strokeWidth="3" />
+
+                                            {/* End Point Ripple */}
+                                            <circle cx="320" cy="280" r="12" fill="rgba(14, 165, 233, 0.2)" />
+                                            <circle cx="320" cy="280" r="6" fill="#0ea5e9" stroke="#fff" strokeWidth="2" />
+
+                                            {/* "Start" Label/Button Mockup from Image */}
+                                            <g transform="translate(40, 440)">
+                                                <rect x="0" y="0" width="100" height="36" rx="18" fill="#0ea5e9" filter="drop-shadow(0 4px 6px rgba(14, 165, 233, 0.4))" />
+                                                <path d="M25 18 L35 12 L35 24 Z" fill="#fff" transform="translate(-10, 0) scale(0.8) translate(10, 5)" />
+                                                <text x="45" y="23" fill="#fff" fontFamily="Inter" fontWeight="700" fontSize="14">Start</text>
+                                            </g>
+
+                                            {/* Location Label Mockup */}
+                                            <g transform="translate(240, 320)">
+                                                <text x="0" y="0" fill="#64748b" fontFamily="Inter" fontSize="10" fontWeight="500">Your location</text>
+                                                <text x="0" y="14" fill="#1e293b" fontFamily="Inter" fontSize="14" fontWeight="700">Emilia Inn</text>
+                                            </g>
+                                        </svg>
+                                    </div>
                                 </div>
                             </>
                         )}
                     </div>
                 ) : (
-                    /* ================= DESKTOP LAYOUT ================= */
+                    /* ================= DESKTOP LAYOUT (UPDATED) ================= */
                     <>
                         {/* LEFT PANEL */}
                         <aside className={`dest-panel left ${cardVisible ? 'dest-faded' : ''}`}>
@@ -670,14 +710,13 @@ const Destinations = forwardRef((props, ref) => {
                                 <h4 className="dest-panel-title">International</h4>
                             </div>
 
-                            <ul className="dest-panel-list">
+                            <ul className="dest-panel-list" data-lenis-prevent>
                                 {international.map(d => (
                                     <li key={d.name} onClick={() => handleSelect(d)}>
                                         <div className="dest-li-content">
                                             <span className="dest-country-name">{d.name}</span>
                                             {d.badge && <span className="dest-badge">{d.badge}</span>}
                                         </div>
-                                        <span className="dest-arrow">→</span>
                                     </li>
                                 ))}
                             </ul>
@@ -690,11 +729,12 @@ const Destinations = forwardRef((props, ref) => {
                                 <h4 className="dest-panel-title">Domestic</h4>
                             </div>
 
-                            <ul className="dest-panel-list">
+                            <ul className="dest-panel-list" data-lenis-prevent>
                                 {domestic.map(d => (
                                     <li key={d.name} onClick={() => handleSelect(d)}>
-                                        <span className="dest-country-name">{d.name}</span>
-                                        <span className="dest-arrow">→</span>
+                                        <div className="dest-li-content">
+                                            <span className="dest-country-name">{d.name}</span>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

@@ -9,7 +9,7 @@ import Destinations from "./components/destinations/destinations";
 import StateExplorer from "./components/state-explorer/state-explorer";
 import Packages from "./components/packages/packages";
 import WhyUs from "./components/why-us/why-us";
-import Testimonials from "./components/testimonials/testimonials";
+// import Testimonials from "./components/testimonials/testimonials";
 import Footer from "./components/footer/footer";
 import ContactUs from "./components/contact-us/contact-us";
 import WhoWeAre from "./components/who-we-are/who-we-are";
@@ -64,7 +64,7 @@ function HomePage({ appLoaded }) {
       <VideoSection appLoaded={appLoaded} />
       <Destinations ref={destinationsRef} />
       <WhyUs />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <WhoWeAre />
       <ContactUs />
       <Footer />

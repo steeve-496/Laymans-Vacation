@@ -38,9 +38,9 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
   }, [eager]);
 
   useEffect(() => {
-    if (!appLoaded || !isInView) return;
+    if (!isInView) return;
     setIsVisible(true);
-  }, [appLoaded, isInView]);
+  }, [isInView]);
 
   const isIframe = src.includes("iframe.mediadelivery.net");
 
@@ -76,8 +76,7 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
               border: 'none',
               position: 'absolute',
               zIndex: 1,
-              opacity: isLoaded ? 1 : 0,
-              transition: 'opacity 0.6s ease-in-out'
+              opacity: 1,
             }}
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
@@ -91,8 +90,7 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              opacity: isLoaded ? 1 : 0,
-              transition: 'opacity 0.6s ease-in-out'
+              opacity: 1,
             }}
           />
         )

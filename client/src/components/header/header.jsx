@@ -119,12 +119,23 @@ function Header() {
           trigger: "body",
           start: "100 top",
           onUpdate: (self) => {
-            if (self.direction === 1) {
-              // Scrolling down
-              gsap.to(".header-nav", { y: -100, opacity: 0, duration: 0.4, ease: "power2.inOut" });
+            // Logic: Logo visible ONLY in Hero Section (approx top 100vh)
+            // Hamburger always visible (handled by CSS sticky/fixed)
+
+            if (window.scrollY > window.innerHeight - 100) {
+              // Left Hero Section -> Hide Logo
+              gsap.to(".header-logo", {
+                opacity: 0,
+                pointerEvents: "none",
+                duration: 0.3
+              });
             } else {
-              // Scrolling up
-              gsap.to(".header-nav", { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" });
+              // In Hero Section -> Show Logo
+              gsap.to(".header-logo", {
+                opacity: 1,
+                pointerEvents: "all",
+                duration: 0.3
+              });
             }
           }
         });

@@ -77,7 +77,6 @@ const sendEmail = async (options) => {
         console.log('Message sent: %s', info.messageId);
     } catch (error) {
         console.error("Nodemailer Send Error:", error);
-        // Fallback for dev/debug: Log content so admin can manually reset if email fails
         console.log("---------------- [Email Failed - Manual Fallback] ----------------");
         console.log(`To: ${options.email}`);
         console.log(`Subject: ${options.subject}`);
