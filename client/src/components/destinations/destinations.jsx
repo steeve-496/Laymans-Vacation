@@ -555,7 +555,7 @@ const Destinations = forwardRef((props, ref) => {
                                                 onClick={() => setViewState('stacked')}
                                             >
                                                 {/* Plane Icon */}
-                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: 'rotate(-45deg)' }}>
+                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                     <path d="M22 2L11 13" />
                                                     <path d="M22 2l-7 20-4-9-9-4 20-7z" />
                                                 </svg>
@@ -682,17 +682,9 @@ const Destinations = forwardRef((props, ref) => {
                                             <circle cx="320" cy="280" r="12" fill="rgba(14, 165, 233, 0.2)" />
                                             <circle cx="320" cy="280" r="6" fill="#0ea5e9" stroke="#fff" strokeWidth="2" />
 
-                                            {/* "Start" Label/Button Mockup from Image */}
-                                            <g transform="translate(40, 440)">
-                                                <rect x="0" y="0" width="100" height="36" rx="18" fill="#0ea5e9" filter="drop-shadow(0 4px 6px rgba(14, 165, 233, 0.4))" />
-                                                <path d="M25 18 L35 12 L35 24 Z" fill="#fff" transform="translate(-10, 0) scale(0.8) translate(10, 5)" />
-                                                <text x="45" y="23" fill="#fff" fontFamily="Inter" fontWeight="700" fontSize="14">Start</text>
-                                            </g>
-
                                             {/* Location Label Mockup */}
                                             <g transform="translate(240, 320)">
                                                 <text x="0" y="0" fill="#64748b" fontFamily="Inter" fontSize="10" fontWeight="500">Your location</text>
-                                                <text x="0" y="14" fill="#1e293b" fontFamily="Inter" fontSize="14" fontWeight="700">Emilia Inn</text>
                                             </g>
                                         </svg>
                                     </div>

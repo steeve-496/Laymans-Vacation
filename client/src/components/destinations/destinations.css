@@ -651,7 +651,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.45);
 }
 
 .explore-card-badge-top-right {
@@ -671,11 +671,15 @@
 /* Content Layout */
 .explore-card-content-top {
     position: absolute;
-    bottom: 30px;
-    left: 24px;
-    right: 24px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 20;
-    text-align: left;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .explore-card-title {
@@ -710,7 +714,6 @@
 /* Header Area */
 .cat-header {
     padding-top: 60px;
-    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -765,17 +768,20 @@
 .cat-stack-container {
     flex: 1;
     position: relative;
-    padding: 24px;
+    padding: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     perspective: 1000px;
+    padding-bottom: 60px;
 }
 
 .cat-stack-card {
     position: absolute;
-    width: 85%;
-    max-width: 340px;
+    width: 80%;
+    max-width: 320px;
+    height: 100%;
+    max-height: 420px;
     aspect-ratio: 3/4;
     border-radius: 32px;
     background: #fff;
@@ -816,12 +822,12 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    padding: 30px;
+    width: 50%;
+    padding: 40px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
 }
 
 .cat-card-label {
@@ -853,13 +859,14 @@
 
 /* Stack Logic Classes */
 .cat-stack-container.view-stacked .card-int {
-    transform: translateY(-15px) scale(0.95);
+    transform: translateX(0px) translateY(-30px) rotate(-10deg) scale(0.92);
     z-index: 1;
-    filter: brightness(0.7);
+    filter: brightness(0.85);
+    /* Slightly brighter */
 }
 
 .cat-stack-container.view-stacked .card-dom {
-    transform: translateY(15px) scale(1);
+    transform: translateX(10px) translateY(5px) rotate(4deg) scale(1);
     z-index: 2;
 }
 
@@ -888,7 +895,7 @@
 /* Glass Control Slider */
 .glass-control-wrapper {
     position: absolute;
-    bottom: 30px;
+    bottom: 10px;
     left: 0;
     width: 100%;
     display: flex;
@@ -908,15 +915,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px;
+    padding: 5px;
 }
 
 .slider-active-indicator {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 68px;
-    height: 56px;
+    top: 12%;
+    left: 6%;
+    width: 60px;
+    height: 55px;
     background: #fff;
     border-radius: 32px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -926,16 +933,15 @@
 
 /* Indicator Positions */
 .slider-active-indicator.pos-international {
-    transform: translateX(0);
+    transform: translateX(2px);
 }
 
 .slider-active-indicator.pos-stacked {
     transform: translateX(72px);
-    /* Approx math */
 }
 
 .slider-active-indicator.pos-domestic {
-    transform: translateX(144px);
+    transform: translateX(142px);
 }
 
 .slider-zone {
@@ -951,14 +957,26 @@
     transition: color 0.3s;
 }
 
+/* Default Plane Rotation */
+.slider-zone.center svg {
+    transform: rotate(-45deg);
+    transition: transform 0.4s ease;
+}
+
 .slider-zone.active {
-    color: #0f172a;
+    color: #e11d48;
+    transform: scale(1.1);
+}
+
+/* Straighten Plane when Active */
+.slider-zone.center.active svg {
+    transform: rotate(0deg);
 }
 
 /* India Icon Mask */
 .india-icon-mask {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background-color: currentColor;
     -webkit-mask: url('/assets/in.svg') no-repeat center;
     mask: url('/assets/in.svg') no-repeat center;
