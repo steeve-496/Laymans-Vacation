@@ -5,8 +5,13 @@ const prisma = require('../prismaClient');
 // @access  Public
 const getPackages = async (req, res) => {
     try {
+        const where = { deletedAt: null };
+        if (req.query.destinationId) {
+            where.destinationId = req.query.destinationId;
+        }
+
         const packages = await prisma.package.findMany({
-            where: { deletedAt: null },
+            where,
             orderBy: { order: 'asc' },
         });
         res.json(packages);

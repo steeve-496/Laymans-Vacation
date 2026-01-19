@@ -37,18 +37,17 @@ const StateExplorer = () => {
         const fetchStates = async () => {
             setLoading(true);
             try {
-                // Parallel fetch destinations and all state explorers using Cached API
-                const [destRes, stateRes] = await Promise.all([
-                    api.getCached('/destinations'),
-                    api.getCached('/state-explorer')
-                ]);
-
+                // 1. Fetch Destinations first (Cached)
+                const destRes = await api.getCached('/destinations');
                 const currentDest = destRes.data.find(d => d.name === selectedCountry);
 
                 if (currentDest) {
-                    const filteredStates = stateRes.data
-                        .filter(s => s.destinationId === currentDest.id)
-                        .sort((a, b) => a.order - b.order);
+                    // 2. Fetch State Explorer data filtered by destinationId (Cached)
+                    const stateRes = await api.getCached('/state-explorer', {
+                        params: { destinationId: currentDest.id }
+                    });
+
+                    const filteredStates = stateRes.data.sort((a, b) => a.order - b.order);
 
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);

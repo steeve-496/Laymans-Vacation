@@ -5,8 +5,13 @@ const prisma = require('../prismaClient');
 // @access  Public
 const getStateExplorers = async (req, res) => {
     try {
+        const where = { deletedAt: null };
+        if (req.query.destinationId) {
+            where.destinationId = req.query.destinationId;
+        }
+
         const states = await prisma.stateExplorer.findMany({
-            where: { deletedAt: null },
+            where,
             orderBy: { id: 'asc' },
             include: { destination: true }
         });

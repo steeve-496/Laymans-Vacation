@@ -369,22 +369,22 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
             if (!location) return;
             setLoading(true);
             try {
-                // Parallel fetch destinations and all packages using Cached API
-                const [destRes, pkgRes] = await Promise.all([
-                    api.getCached('/destinations'),
-                    api.getCached('/packages')
-                ]);
+                // 1. Fetch Destinations first to get the ID (Cached)
+                const destRes = await api.getCached('/destinations');
 
                 let currentDest = destRes.data.find(d => d.name === location);
-
                 if (!currentDest && country && location !== country) {
                     currentDest = destRes.data.find(d => d.name === country);
                 }
 
                 if (currentDest) {
-                    const filteredPkgs = pkgRes.data
-                        .filter(p => p.destinationId === currentDest.id)
-                        .sort((a, b) => a.order - b.order);
+                    // 2. Fetch Packages filtered by destinationId (Cached)
+                    const pkgRes = await api.getCached('/packages', {
+                        params: { destinationId: currentDest.id }
+                    });
+
+                    // Server now filters, so allow all returned (just sort)
+                    const filteredPkgs = pkgRes.data.sort((a, b) => a.order - b.order);
 
                     const processedPkgs = filteredPkgs.map(pkg => {
                         let category = pkg.category;
@@ -399,10 +399,6 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                         const imageLocationKey = PACKAGE_TIER_IMAGES[location] ? location : (currentDest.name || 'default');
                         const countryImages = PACKAGE_TIER_IMAGES[imageLocationKey] || PACKAGE_TIER_IMAGES['default'];
                         const staticImage = countryImages[category] || countryImages['Basic'];
-
-                        // Preload image
-                        const img = new Image();
-                        img.src = getOptimizedUrl(staticImage, 1200);
 
                         return {
                             ...pkg,
