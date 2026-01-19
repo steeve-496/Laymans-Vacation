@@ -42,12 +42,13 @@ const StateExplorer = () => {
                 const currentDest = destRes.data.find(d => d.name === selectedCountry);
 
                 if (currentDest) {
-                    // 2. Fetch State Explorer data filtered by destinationId (Cached)
-                    const stateRes = await api.getCached('/state-explorer', {
-                        params: { destinationId: currentDest.id }
-                    });
+                    // 2. Fetch ALL State Explorer data from cache (instant)
+                    const stateRes = await api.getCached('/state-explorer');
 
-                    const filteredStates = stateRes.data.sort((a, b) => a.order - b.order);
+                    // Client-side filtering
+                    const filteredStates = stateRes.data
+                        .filter(s => s.destinationId === currentDest.id)
+                        .sort((a, b) => a.order - b.order);
 
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);

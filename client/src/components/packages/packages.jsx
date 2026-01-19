@@ -378,13 +378,13 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                 }
 
                 if (currentDest) {
-                    // 2. Fetch Packages filtered by destinationId (Cached)
-                    const pkgRes = await api.getCached('/packages', {
-                        params: { destinationId: currentDest.id }
-                    });
+                    // 2. Fetch ALL Packages from cache (instant)
+                    const pkgRes = await api.getCached('/packages');
 
-                    // Server now filters, so allow all returned (just sort)
-                    const filteredPkgs = pkgRes.data.sort((a, b) => a.order - b.order);
+                    // Client-side filtering
+                    const filteredPkgs = pkgRes.data
+                        .filter(p => p.destinationId === currentDest.id)
+                        .sort((a, b) => a.order - b.order);
 
                     const processedPkgs = filteredPkgs.map(pkg => {
                         let category = pkg.category;

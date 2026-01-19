@@ -139,11 +139,27 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // Global Data Prefetch (Cache Warming)
+    const prefetchAllData = async () => {
+      try {
+        await Promise.all([
+          api.getCached('/destinations'),
+          api.getCached('/packages'),       // Usage without params = fetch all
+          api.getCached('/state-explorer')  // Usage without params = fetch all
+        ]);
+        console.log("Global data pre-fetched and cached.");
+      } catch (error) {
+        console.warn("Global prefetch failed (will retry in components):", error);
+      }
+    };
+
     // Simple window load detection
     const handleLoad = () => {
       // Small buffer to ensure everything is settled
       setTimeout(() => {
         setIsLoading(false);
+        // Start prefetching immediately after loading clears (or slightly before if desired)
+        prefetchAllData();
       }, 1000);
     };
 
@@ -156,6 +172,7 @@ function App() {
     // Safety fallback
     const timeout = setTimeout(() => {
       setIsLoading(false);
+      prefetchAllData();
     }, 4500);
 
     return () => {
