@@ -52,18 +52,6 @@ const StateExplorer = () => {
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);
 
-                        // Initial Background Setup
-                        const firstImage = getOptimizedUrl(filteredStates[0].image, 1920);
-                        if (bg1Ref.current) {
-                            bg1Ref.current.style.backgroundImage = `url(${firstImage})`;
-                            bg1Ref.current.style.opacity = 1;
-                            bg1Ref.current.style.zIndex = 2;
-                        }
-                        if (bg2Ref.current) {
-                            bg2Ref.current.style.opacity = 0;
-                            bg2Ref.current.style.zIndex = 1;
-                        }
-
                         // Preload
                         filteredStates.slice(0, 3).forEach(state => {
                             const img = new Image();
@@ -87,6 +75,22 @@ const StateExplorer = () => {
         };
         fetchStates();
     }, [selectedCountry]);
+
+    // Initial Background Setup when data loads
+    useEffect(() => {
+        if (!loading && states.length > 0 && bg1Ref.current && bg2Ref.current) {
+            const firstImage = getOptimizedUrl(states[activeIndex].image, 1920);
+
+            // Set initial state without animation
+            bg1Ref.current.style.backgroundImage = `url(${firstImage})`;
+            bg1Ref.current.style.opacity = 1;
+            bg1Ref.current.style.zIndex = 2;
+
+            bg2Ref.current.style.opacity = 0;
+            bg2Ref.current.style.zIndex = 1;
+            activeBgRef.current = 1;
+        }
+    }, [loading, states]); // Only run when loading finishes and states are populated
 
     // Preload adjacent images
     useEffect(() => {
