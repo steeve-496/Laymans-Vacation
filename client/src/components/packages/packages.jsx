@@ -407,6 +407,21 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
                     });
 
                     setPackages(processedPkgs);
+
+                    // Preload the first image (active one) to avoid pop-in
+                    if (processedPkgs.length > 0) {
+                        const firstImage = processedPkgs[0].image;
+                        const optimizedUrl = getOptimizedUrl(firstImage, 1200);
+
+                        // Wait for image to load or timeout after 2s
+                        await new Promise((resolve) => {
+                            const img = new Image();
+                            img.src = optimizedUrl;
+                            img.onload = resolve;
+                            img.onerror = resolve; // Proceed even if fails
+                            setTimeout(resolve, 2000); // Max wait 2s
+                        });
+                    }
                 } else {
                     console.warn("Destination not found for packages:", location);
                     setPackages([]);

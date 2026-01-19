@@ -52,7 +52,17 @@ const StateExplorer = () => {
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);
 
-                        // Preload
+                        // Preload the first background image to ensure instant appearance
+                        const firstImage = getOptimizedUrl(filteredStates[0].image, 1920);
+                        await new Promise((resolve) => {
+                            const img = new Image();
+                            img.src = firstImage;
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                            setTimeout(resolve, 2000); // Max wait 2s
+                        });
+
+                        // Preload adjacent (optional, non-blocking)
                         filteredStates.slice(0, 3).forEach(state => {
                             const img = new Image();
                             img.src = getOptimizedUrl(state.image, 1920);
