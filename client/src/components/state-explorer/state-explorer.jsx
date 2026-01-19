@@ -21,7 +21,13 @@ const StateExplorer = () => {
     const sliderRef = useRef(null);
     const sliderTrackRef = useRef(null);
     const cardRef = useRef(null);
-    const bgRef = useRef(null);
+
+    // Background Refs
+    const bgContainerRef = useRef(null);
+    const bg1Ref = useRef(null);
+    const bg2Ref = useRef(null);
+    const activeBgRef = useRef(1); // 1 or 2
+
     const isAnimating = useRef(false);
 
     const [states, setStates] = useState([]);
@@ -31,10 +37,10 @@ const StateExplorer = () => {
         const fetchStates = async () => {
             setLoading(true);
             try {
-                // Parallel fetch destinations and all state explorers
+                // Parallel fetch destinations and all state explorers using Cached API
                 const [destRes, stateRes] = await Promise.all([
-                    api.get('/destinations'),
-                    api.get('/state-explorer')
+                    api.getCached('/destinations'),
+                    api.getCached('/state-explorer')
                 ]);
 
                 const currentDest = destRes.data.find(d => d.name === selectedCountry);
@@ -47,7 +53,19 @@ const StateExplorer = () => {
                     if (filteredStates.length > 0) {
                         setStates(filteredStates);
 
-                        // Preload first few images
+                        // Initial Background Setup
+                        const firstImage = getOptimizedUrl(filteredStates[0].image, 1920);
+                        if (bg1Ref.current) {
+                            bg1Ref.current.style.backgroundImage = `url(${firstImage})`;
+                            bg1Ref.current.style.opacity = 1;
+                            bg1Ref.current.style.zIndex = 2;
+                        }
+                        if (bg2Ref.current) {
+                            bg2Ref.current.style.opacity = 0;
+                            bg2Ref.current.style.zIndex = 1;
+                        }
+
+                        // Preload
                         filteredStates.slice(0, 3).forEach(state => {
                             const img = new Image();
                             img.src = getOptimizedUrl(state.image, 1920);
@@ -71,7 +89,7 @@ const StateExplorer = () => {
         fetchStates();
     }, [selectedCountry]);
 
-    // Preload adjacent images when activeIndex changes
+    // Preload adjacent images
     useEffect(() => {
         if (states.length > 0) {
             const nextIdx = (activeIndex + 1) % states.length;
@@ -86,40 +104,56 @@ const StateExplorer = () => {
         }
     }, [activeIndex, states]);
 
-
-
-
     const totalStates = states.length;
     const currentState = states[activeIndex];
 
-    // Handle back navigation - go to destinations section instantly
     const handleBack = () => {
         navigate("/?instant=true#destinations");
     };
 
-    // Handle explore click - navigate to packages
     const handleExplore = () => {
-        // Use the state name explicitly to find its packages
         navigate(`/packages/${selectedCountry}/${currentState.name}`);
     };
 
-    // Change state with smooth animation
     const changeState = useCallback((newIndex, direction = 1) => {
         if (newIndex < 0 || newIndex >= totalStates || newIndex === activeIndex || isAnimating.current) return;
 
         isAnimating.current = true;
+
+        // Mobile Check
+        const isMobile = window.innerWidth <= 992;
         const slideDirection = direction > 0 ? -1 : 1;
 
-        // Check if mobile (screen width <= 992px)
-        const isMobile = window.innerWidth <= 992;
+        // --- Background Transition Logic ---
+        const nextState = states[newIndex];
+        const nextImage = getOptimizedUrl(nextState.image, 1920);
 
-        // Create timeline for smooth transitions with default smooth settings
+        // Identify which BG is active and which is next
+        const currentBg = activeBgRef.current === 1 ? bg1Ref.current : bg2Ref.current;
+        const nextBg = activeBgRef.current === 1 ? bg2Ref.current : bg1Ref.current;
+
+        // Set next image
+        nextBg.style.backgroundImage = `url(${nextImage})`;
+        nextBg.style.zIndex = 10; // Bring to front
+        currentBg.style.zIndex = 5; // Send to back relative to next
+
+        // -----------------------------------
+
         const tl = gsap.timeline({
             defaults: { ease: "expo.out" },
             onComplete: () => {
                 isAnimating.current = false;
+                activeBgRef.current = activeBgRef.current === 1 ? 2 : 1; // Swap active ref
+                // Cleanup: Hide the old background completely after transition
+                gsap.set(currentBg, { opacity: 0 });
             }
         });
+
+        // Background Crossfade
+        tl.fromTo(nextBg,
+            { opacity: 0, scale: 1.1 },
+            { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }
+            , 0);
 
         if (isMobile) {
             tl.to(cardRef.current, {
@@ -131,24 +165,11 @@ const StateExplorer = () => {
                 ease: "power2.inOut",
                 transformPerspective: 1000,
                 transformOrigin: "center center"
-            });
-
-            tl.to(bgRef.current, {
-                opacity: 0,
-                scale: 1.08,
-                filter: "blur(8px)",
-                duration: 0.4,
-                ease: "power2.inOut"
-            }, "-=0.4");
+            }, 0);
 
             tl.call(() => {
                 setActiveIndex(newIndex);
-            }, null, "-=0.1");
-            tl.fromTo(bgRef.current,
-                { opacity: 0, scale: 1.12, filter: "blur(10px)" },
-                { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" },
-                "-=0.1"
-            );
+            }, null, 0.4);
 
             // Card smooth flip in
             tl.fromTo(cardRef.current,
@@ -168,48 +189,29 @@ const StateExplorer = () => {
                     transformPerspective: 1000,
                     transformOrigin: "center center"
                 },
-                "-=0.6"
+                0.5
             );
         } else {
-            // Desktop: Smooth crossfade with slide
-
-            // Card fade out with subtle slide
+            // Desktop Transitions
             tl.to(cardRef.current, {
                 opacity: 0,
                 x: slideDirection * 60,
                 scale: 0.96,
                 duration: 0.5,
                 ease: "circ.inOut"
-            });
+            }, 0);
 
-            // Background crossfade - starts earlier for overlap
-            tl.to(bgRef.current, {
-                opacity: 0,
-                scale: 1.06,
-                duration: 0.4,
-                ease: "circ.inOut"
-            }, "-=0.4");
-
-            // Update state
             tl.call(() => {
                 setActiveIndex(newIndex);
-            }, null, "-=0.1");
+            }, null, 0.4);
 
-            // Background fade in smoothly
-            tl.fromTo(bgRef.current,
-                { opacity: 0, scale: 1.08 },
-                { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" },
-                "-=0.1"
-            );
-
-            // Card slide in smoothly
             tl.fromTo(cardRef.current,
                 { opacity: 0, x: -slideDirection * 60, scale: 0.96 },
                 { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: "expo.out" },
-                "-=0.6"
+                0.5
             );
 
-            // Update slider position with smooth animation
+            // Update slider position
             if (sliderRef.current && sliderTrackRef.current) {
                 const trackHeight = sliderTrackRef.current.offsetHeight;
                 const maxY = trackHeight - 60;
@@ -222,29 +224,26 @@ const StateExplorer = () => {
                 });
             }
         }
-    }, [activeIndex, totalStates]);
+    }, [activeIndex, totalStates, states]);
 
-    // Handle wheel event for lens-only navigation
+    // Handle wheel event
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
         let wheelTimeout = null;
         let accumulatedDelta = 0;
-        const threshold = 30; // Lower threshold for faster response
+        const threshold = 30;
         let lastTriggerTime = 0;
-        const cooldown = 400; // Cooldown between state changes to prevent rapid switching
+        const cooldown = 400;
 
         const handleWheel = (e) => {
             e.preventDefault();
-
             const now = Date.now();
             accumulatedDelta += e.deltaY;
 
-            // Clear any pending timeout
             if (wheelTimeout) clearTimeout(wheelTimeout);
 
-            // Check if enough delta accumulated and cooldown passed
             if (Math.abs(accumulatedDelta) > threshold && (now - lastTriggerTime) > cooldown) {
                 const direction = accumulatedDelta > 0 ? 1 : -1;
                 const newIndex = activeIndex + direction;
@@ -255,7 +254,6 @@ const StateExplorer = () => {
                 }
                 accumulatedDelta = 0;
             } else {
-                // Reset accumulated delta after small delay if no action taken
                 wheelTimeout = setTimeout(() => {
                     accumulatedDelta = 0;
                 }, 150);
@@ -263,7 +261,6 @@ const StateExplorer = () => {
         };
 
         section.addEventListener('wheel', handleWheel, { passive: false });
-
         return () => {
             section.removeEventListener('wheel', handleWheel);
             if (wheelTimeout) clearTimeout(wheelTimeout);
@@ -286,56 +283,35 @@ const StateExplorer = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [activeIndex, changeState]);
 
-    // Touch swipe support for mobile
+    // Touch swipe
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
         let touchStartX = 0;
         let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-        const minSwipeDistance = 50;
 
         const handleTouchStart = (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
         };
 
-        const handleTouchMove = (e) => {
-            // Prevent default scrolling behavior
-            e.preventDefault();
-        };
+        const handleTouchMove = (e) => e.preventDefault();
 
         const handleTouchEnd = (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
+            const minSwipeDistance = 50;
 
-            // Check if horizontal or vertical swipe is more prominent
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                // Horizontal swipe
                 if (Math.abs(deltaX) > minSwipeDistance) {
-                    if (deltaX < 0) {
-                        // Swipe left - next state
-                        changeState(activeIndex + 1, 1);
-                    } else {
-                        // Swipe right - previous state
-                        changeState(activeIndex - 1, -1);
-                    }
+                    changeState(activeIndex + (deltaX < 0 ? 1 : -1), deltaX < 0 ? 1 : -1);
                 }
             } else {
-                // Vertical swipe
                 if (Math.abs(deltaY) > minSwipeDistance) {
-                    if (deltaY < 0) {
-                        // Swipe up - next state
-                        changeState(activeIndex + 1, 1);
-                    } else {
-                        // Swipe down - previous state
-                        changeState(activeIndex - 1, -1);
-                    }
+                    changeState(activeIndex + (deltaY < 0 ? 1 : -1), deltaY < 0 ? 1 : -1);
                 }
             }
         };
@@ -351,7 +327,7 @@ const StateExplorer = () => {
         };
     }, [activeIndex, changeState]);
 
-    // GSAP Draggable for lens slider
+    // Draggable
     useGSAP(() => {
         if (loading || states.length === 0 || !sliderRef.current || !sliderTrackRef.current || totalStates <= 1) return;
 
@@ -366,275 +342,132 @@ const StateExplorer = () => {
             snap: {
                 y: (endValue) => {
                     const segmentHeight = maxY / (totalStates - 1);
-                    const snappedIndex = Math.round(endValue / segmentHeight);
-                    return snappedIndex * segmentHeight;
+                    return Math.round(endValue / segmentHeight) * segmentHeight;
                 }
             },
-            onDragStart: function () {
-                gsap.to(this.target, { scale: 1.1, duration: 0.2 });
-            },
             onDrag: function () {
-                // Calculate which state based on drag position
+                gsap.set('.se-track-glow', { y: this.y });
+
+                // Highlight scale number
                 const progress = this.y / maxY;
                 const stateIndex = Math.round(progress * (totalStates - 1));
-
-                // Highlight the scale number
                 document.querySelectorAll('.se-scale-num').forEach((el, idx) => {
-                    if (idx === stateIndex) {
-                        el.classList.add('active');
-                    } else {
-                        el.classList.remove('active');
-                    }
+                    el.classList.toggle('active', idx === stateIndex);
                 });
-
-                // Update track glow position
-                gsap.set('.se-track-glow', { y: this.y });
             },
             onDragEnd: function () {
-                gsap.to(this.target, { scale: 1, duration: 0.2 });
-
                 const progress = this.y / maxY;
                 const newIndex = Math.round(progress * (totalStates - 1));
-
                 if (newIndex !== activeIndex && newIndex >= 0 && newIndex < totalStates) {
-                    const direction = newIndex > activeIndex ? 1 : -1;
-
-                    // Animate card content change
-                    isAnimating.current = true;
-
-                    gsap.to(cardRef.current, {
-                        opacity: 0,
-                        x: -direction * 50,
-                        duration: 0.3,
-                        ease: "power2.in",
-                        onComplete: () => {
-                            setActiveIndex(newIndex);
-                            gsap.fromTo(cardRef.current,
-                                { opacity: 0, x: direction * 50 },
-                                {
-                                    opacity: 1,
-                                    x: 0,
-                                    duration: 0.4,
-                                    ease: "power2.out",
-                                    onComplete: () => {
-                                        isAnimating.current = false;
-                                    }
-                                }
-                            );
-                        }
-                    });
-
-                    gsap.to(bgRef.current, {
-                        opacity: 0,
-                        scale: 1.05,
-                        duration: 0.3,
-                        ease: "power2.in",
-                        onComplete: () => {
-                            gsap.fromTo(bgRef.current,
-                                { opacity: 0, scale: 1.1 },
-                                { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
-                            );
-                        }
-                    });
+                    changeState(newIndex, newIndex > activeIndex ? 1 : -1);
+                } else {
+                    // Snap back visual if no change
+                    const newY = (activeIndex / Math.max(totalStates - 1, 1)) * maxY;
+                    gsap.to(this.target, { y: newY, duration: 0.3 });
                 }
             }
         })[0];
 
-        return () => {
-            if (draggable) draggable.kill();
-        };
+        return () => { if (draggable) draggable.kill(); };
     }, { scope: sectionRef, dependencies: [totalStates, activeIndex] });
 
-    // Click on scale numbers to navigate
     const handleScaleClick = (index) => {
         if (index === activeIndex) return;
-        const direction = index > activeIndex ? 1 : -1;
-        changeState(index, direction);
-
-        // Animate slider to position
-        if (sliderRef.current && sliderTrackRef.current) {
-            const trackHeight = sliderTrackRef.current.offsetHeight;
-            const maxY = trackHeight - 60;
-            const newY = (index / Math.max(totalStates - 1, 1)) * maxY;
-
-            gsap.to(sliderRef.current, {
-                y: newY,
-                duration: 0.5,
-                ease: "power2.out"
-            });
-        }
+        changeState(index, index > activeIndex ? 1 : -1);
     };
 
     // Entry animation
-    // Entry animation
     useGSAP(() => {
         if (loading || states.length === 0 || !cardRef.current) return;
-
         const tl = gsap.timeline();
-
         tl.fromTo(cardRef.current,
             { opacity: 0, x: -100, scale: 0.9 },
             { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: "power3.out" }
         );
-
         tl.fromTo(".se-lens-slider",
             { opacity: 0, x: 100 },
-            { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" },
-            "-=0.4"
-        );
-
-        tl.fromTo(".se-sparkle",
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" },
-            "-=0.2"
+            { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, "-=0.4"
         );
     }, { scope: sectionRef, dependencies: [loading, states.length] });
 
-    // Use state names for the slider labels instead of numbers
     const scaleLabels = states.map(state => state.name);
 
     if (loading) {
         return (
             <section className="se-section se-skeleton">
-                <div className="se-bg-image skeleton-pulse" />
+                <div className="se-bg-container" style={{ backgroundColor: '#111' }} />
                 <div className="se-content">
                     <div className="se-card skeleton-card">
                         <div className="se-card-image skeleton-pulse" />
-                        <div className="se-card-content">
-                            <div className="skeleton-line title" />
-                            <div className="skeleton-line" />
-                            <div className="skeleton-line" />
-                            <div className="skeleton-btn" />
-                        </div>
                     </div>
                 </div>
             </section>
         );
     }
-    if (states.length === 0) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>No content available for {selectedCountry}.</div>;
+
+    if (states.length === 0) return <div>No content</div>;
     if (!currentState) return null;
 
     return (
         <section className="se-section" ref={sectionRef}>
-            {/* Background Image */}
-            <div
-                className="se-bg-image"
-                ref={bgRef}
-                style={{ backgroundImage: `url(${getOptimizedUrl(currentState.image, 1920)})` }}
-            />
+            <div className="se-bg-container" ref={bgContainerRef}>
+                <div className="se-bg-layer" ref={bg1Ref}></div>
+                <div className="se-bg-layer" ref={bg2Ref}></div>
+            </div>
             <div className="se-bg-overlay" />
 
-            {/* Content Container */}
             <div className="se-content">
-                {/* Main Card */}
                 <div className="se-card" ref={cardRef}>
-                    {/* Back Button */}
                     <button className="se-back-btn" onClick={handleBack}>
-                        <span className="se-back-arrow">←</span>
-                        <span>Back</span>
+                        <span className="se-back-arrow">←</span><span>Back</span>
                     </button>
-
-                    {/* Card Image */}
                     <div className="se-card-image">
-                        <img
-                            src={getOptimizedUrl(currentState.image, 1200)}
-                            alt={currentState.name}
-                            loading="lazy"
-                        />
+                        <img src={getOptimizedUrl(currentState.image, 1200)} alt={currentState.name} loading="lazy" />
                         <div className="se-card-gradient" />
                     </div>
-
-                    {/* Card Content */}
                     <div className="se-card-content">
                         <h1 className="se-card-title">{currentState.name.toUpperCase()}</h1>
                         <p className="se-card-description">{currentState.description}</p>
-                        <button className="se-explore-btn" onClick={handleExplore}>
-                            Click to Explore
-                        </button>
+                        <button className="se-explore-btn" onClick={handleExplore}>Click to Explore</button>
                     </div>
                 </div>
 
-                {/* Lens Slider Control */}
                 <div className="se-lens-slider">
-                    {/* Scale Labels - State Names */}
                     <div className="se-scale-numbers">
                         {scaleLabels.map((name, idx) => (
-                            <span
-                                key={idx}
-                                className={`se-scale-num ${idx === activeIndex ? 'active' : ''}`}
-                                onClick={() => handleScaleClick(idx)}
-                                title={name}
-                            >
-                                {name}
-                            </span>
+                            <span key={idx} className={`se-scale-num ${idx === activeIndex ? 'active' : ''}`} onClick={() => handleScaleClick(idx)} title={name}>{name}</span>
                         ))}
                     </div>
-
-                    {/* Slider Track */}
                     <div className="se-slider-track" ref={sliderTrackRef}>
-                        {/* Track Line */}
                         <div className="se-track-line">
-                            {/* Tick marks */}
                             {[...Array(totalStates * 5)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className={`se-tick ${i % 5 === 0 ? 'se-tick-major' : ''}`}
-                                />
+                                <div key={i} className={`se-tick ${i % 5 === 0 ? 'se-tick-major' : ''}`} />
                             ))}
                         </div>
-
-                        {/* Draggable Slider Dial */}
                         <div className="se-slider-dial" ref={sliderRef}>
                             <div className="se-dial-glow" />
                             <div className="se-dial-circle">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M8 3L12 7H4L8 3Z" fill="currentColor" />
-                                    <path d="M8 13L4 9H12L8 13Z" fill="currentColor" />
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3L12 7H4L8 3Z" fill="currentColor" /><path d="M8 13L4 9H12L8 13Z" fill="currentColor" /></svg>
                             </div>
                         </div>
-
-                        {/* Glow effect on track */}
                         <div className="se-track-glow" />
                     </div>
-
-                    {/* Current Value Display */}
                     <div className="se-current-value">
                         <span className="se-value-number">{activeIndex + 1}</span>
                         <span className="se-value-label">of {totalStates}</span>
                     </div>
                 </div>
 
-                {/* Mobile Dots Navigation */}
                 <div className="se-mobile-dots">
                     {states.map((_, idx) => (
-                        <button
-                            key={idx}
-                            className={`se-mobile-dot ${idx === activeIndex ? 'active' : ''}`}
-                            onClick={() => handleScaleClick(idx)}
-                            aria-label={`Go to ${states[idx].name}`}
-                        />
+                        <button key={idx} className={`se-mobile-dot ${idx === activeIndex ? 'active' : ''}`} onClick={() => handleScaleClick(idx)} aria-label={`Go to ${states[idx].name}`} />
                     ))}
                 </div>
 
-                {/* Mobile Counter */}
-                <div className="se-mobile-counter">
-                    <span className="current">{activeIndex + 1}</span> / {totalStates}
-                </div>
-
-                {/* Sparkle decoration */}
+                <div className="se-mobile-counter"><span className="current">{activeIndex + 1}</span> / {totalStates}</div>
                 <div className="se-sparkle">✦</div>
-
-                {/* Swipe Indicator for Mobile */}
-                <div className="se-swipe-indicator">
-                    <span className="se-swipe-arrow left">← Swipe</span>
-                    <span className="se-swipe-arrow right">Swipe →</span>
-                </div>
-
-                {/* Navigation Hint */}
-                <div className="se-nav-hint">
-                    <span>Use scroll or drag the lens</span>
-                </div>
+                <div className="se-swipe-indicator"><span className="se-swipe-arrow left">← Swipe</span><span className="se-swipe-arrow right">Swipe →</span></div>
+                <div className="se-nav-hint"><span>Use scroll or drag the lens</span></div>
             </div>
         </section>
     );

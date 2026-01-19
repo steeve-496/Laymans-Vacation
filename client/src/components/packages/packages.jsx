@@ -369,10 +369,10 @@ const Packages = forwardRef(({ location, country, onBack }, ref) => {
             if (!location) return;
             setLoading(true);
             try {
-                // Parallel fetch destinations and all packages
+                // Parallel fetch destinations and all packages using Cached API
                 const [destRes, pkgRes] = await Promise.all([
-                    api.get('/destinations'),
-                    api.get('/packages')
+                    api.getCached('/destinations'),
+                    api.getCached('/packages')
                 ]);
 
                 let currentDest = destRes.data.find(d => d.name === location);

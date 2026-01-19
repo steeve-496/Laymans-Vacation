@@ -479,3 +479,8 @@ Public: Found 11 visible out of 11 active destinations.
 [REQUEST] GET /api/destinations
 Getting Public Destinations...
 Public: Found 11 visible out of 11 active destinations.
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
