@@ -40,3 +40,355 @@ Public: Found 1 visible out of 14 active destinations.
 [REQUEST] GET /favicon.ico
 Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
 Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 0 visible out of 0 active destinations.
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/auth/login
+[REQUEST] POST /api/auth/login
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[REQUEST] OPTIONS /api/auth/login
+[REQUEST] POST /api/auth/login
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] OPTIONS /api/audit
+[REQUEST] OPTIONS /api/audit
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/audit
+[REQUEST] GET /api/audit
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 0 destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Destination Count: 11
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Admin Count: 3
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Admin Count: 3
+[STARTUP] Destination Count: 11
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/state-explorer
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Admin Count: 3
+[STARTUP] Destination Count: 11
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Admin Count: 3
+[STARTUP] Destination Count: 11
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Destination Count: 11
+[STARTUP] Admin Count: 3
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/packages
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[STARTUP] Destination Count: 11
+[STARTUP] Dest Names: [{"name":"Thailand"},{"name":"Malaysia"},{"name":"Singapore"},{"name":"Maldives"},{"name":"Sri Lanka"},{"name":"Bali"},{"name":"Vietnam"},{"name":"China"},{"name":"Bhutan"},{"name":"Cambodia"},{"name":"Nepal"}]
+[STARTUP] Admin Count: 3
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/auth/me
+No token found in request
+[REQUEST] GET /api/auth/me
+No token found in request
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/auth/login
+[REQUEST] POST /api/auth/login
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/auth/me
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/auth/me
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/packages
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.

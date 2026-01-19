@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://laymans-server.onrender.com/api',
+    baseURL: 'http://localhost:5000/api', // Changed to local server
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'

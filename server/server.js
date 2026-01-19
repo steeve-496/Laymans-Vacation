@@ -23,6 +23,7 @@ app.use(cookieParser());
 // Caching Middleware for Public Data
 app.use((req, res, next) => {
     // Cache GET requests for public content for 1 hour (3600s)
+    /*
     if (req.method === 'GET' &&
         (req.url.startsWith('/api/destinations') ||
             req.url.startsWith('/api/packages') ||
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
             res.set('Cache-Control', 'public, max-age=3600');
         }
     }
+    */
     next();
 });
 
@@ -112,4 +114,11 @@ app.use('/api/inquiries', inquiryRoutes);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
+
+    // DIAGNOSTIC: Check DB counts on startup
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+    prisma.admin.count().then(c => console.log(`[STARTUP] Admin Count: ${c}`));
+    prisma.destination.count().then(c => console.log(`[STARTUP] Destination Count: ${c}`));
+    prisma.destination.findMany({ select: { name: true } }).then(d => console.log(`[STARTUP] Dest Names: ${JSON.stringify(d)}`));
 });
