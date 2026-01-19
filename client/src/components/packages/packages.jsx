@@ -262,7 +262,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                     </button>
                 </div>
 
-                <div className="pkg-modal-body">
+                <div className="pkg-modal-body" data-lenis-prevent>
                     <div className="pkg-modal-left">
                         <img
                             src={getOptimizedUrl(pkg.image, 800)}

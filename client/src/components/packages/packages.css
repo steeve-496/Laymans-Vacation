@@ -321,6 +321,16 @@
     gap: 60px;
 }
 
+.pkg-modal-left {
+    width: 100%;
+    /* Sticky positioning for the image */
+    position: sticky;
+    top: 0;
+    align-self: start;
+    /* Prevents grid item from stretching */
+    height: auto;
+}
+
 .pkg-modal-image {
     width: 100%;
     height: 60vh;
