@@ -295,6 +295,34 @@
     letter-spacing: 1px;
 }
 
+.pkg-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pkg-book-now-btn {
+    background: #e11d48;
+    /* Brand highlight color */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+}
+
+.pkg-book-now-btn:hover {
+    background: #be123c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+}
+
 .pkg-close-modal-btn {
     z-index: calc(var(--z-modal) + 1);
     background: none;
@@ -336,6 +364,25 @@
     height: 60vh;
     object-fit: cover;
     border-radius: 12px;
+}
+
+.pkg-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin: 0 0 30px 0;
+    color: #000;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.pkg-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #e11d48;
 }
 
 .pkg-day-list {
@@ -763,9 +810,23 @@
 
     .pkg-modal-header {
         padding: 20px;
-        flex-direction: column;
+        flex-direction: column !important;
+        /* Force column on mobile */
         align-items: flex-start;
         gap: 15px;
+    }
+
+    .pkg-header-actions {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .pkg-book-now-btn {
+        flex: 1;
+        /* Make button full width mostly */
+        text-align: center;
+        padding: 10px 20px;
     }
 
     .pkg-modal-title h2 {

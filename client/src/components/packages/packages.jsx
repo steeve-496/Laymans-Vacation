@@ -247,7 +247,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                         {pkg.details?.itineraryDestinations && (
                             <div className="pkg-itinerary-destinations" style={{
                                 fontSize: '0.9rem',
-                                color: '#eee',
+                                color: '#666',
                                 marginTop: '5px',
                                 fontWeight: 500
                             }}>
@@ -255,11 +255,16 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                             </div>
                         )}
                     </div>
-                    <button className="pkg-close-modal-btn" onClick={handleClose}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M18 6L6 18M6 6l12 12" />
-                        </svg>
-                    </button>
+                    <div className="pkg-header-actions">
+                        <button className="pkg-book-now-btn" onClick={() => setIsFormVisible(true)}>
+                            Book Now
+                        </button>
+                        <button className="pkg-close-modal-btn" onClick={handleClose}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M18 6L6 18M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="pkg-modal-body" data-lenis-prevent>
@@ -271,6 +276,7 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                         />
                     </div>
                     <div className="pkg-modal-right">
+                        <h3 className="pkg-section-title">Daily Itinerary</h3>
                         <div className="pkg-day-list">
                             {pkg.details?.itinerary && pkg.details.itinerary.map((item, index, arr) => (
                                 <div key={item.day} className="pkg-day-item">
