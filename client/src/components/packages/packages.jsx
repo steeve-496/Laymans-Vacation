@@ -286,9 +286,18 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                                             {/* Activities List */}
                                             {Array.isArray(item.activities) && item.activities.length > 0 ? (
                                                 <ul className="pkg-activity-list">
-                                                    {item.activities.map((act, i) => (
-                                                        <li key={i}>{act}</li>
-                                                    ))}
+                                                    {item.activities.map((act, i) => {
+                                                        const isSub = act.startsWith(' ') || act.startsWith('\t');
+                                                        return (
+                                                            <li
+                                                                key={i}
+                                                                className={isSub ? "pkg-activity-sub" : ""}
+                                                                style={isSub ? { marginLeft: '20px', listStyleType: 'circle' } : {}}
+                                                            >
+                                                                {act.trim()}
+                                                            </li>
+                                                        );
+                                                    })}
                                                 </ul>
                                             ) : (
                                                 <p>{item.description}</p>
