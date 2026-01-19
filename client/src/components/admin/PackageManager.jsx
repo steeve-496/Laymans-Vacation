@@ -188,7 +188,6 @@ const PackageManager = ({ destinationId }) => {
         const newDay = {
             day: currentItinerary.length + 1,
             title: '',
-            title: '',
             activities: [], // Array of strings
             meals: '',     // e.g. "Breakfast, Lunch"
             stay: ''       // e.g. "Hotel in Pattaya"
