@@ -65,7 +65,7 @@ const ContactForm = ({ onClose, packageTitle }) => {
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
-                <h3>Unlock Your Journey</h3>
+                <h3>Unlock {packageTitle}</h3>
                 <p>Enter your details to view the full itinerary and get exclusive offers.</p>
                 <form onSubmit={handleSubmit}>
                     <div className="pkg-form-group">
