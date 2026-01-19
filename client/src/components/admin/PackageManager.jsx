@@ -48,7 +48,7 @@ const PackageManager = ({ destinationId }) => {
         description: '',
         destinationId: '',
         category: '',
-        details: { itinerary: [] }
+        details: { itinerary: [], itineraryDestinations: '' }
     });
     const [modal, setModal] = useState({ isOpen: false, title: '', message: '', onConfirm: null, isDestructive: false });
 
@@ -126,7 +126,15 @@ const PackageManager = ({ destinationId }) => {
             const payload = {
                 ...currentPkg,
                 // Ensure details follows correct structure
-                details: currentPkg.details || { itinerary: [] }
+                details: {
+                    ...currentPkg.details,
+                    itineraryDestinations: currentPkg.details?.itineraryDestinations || '',
+                    itinerary: (currentPkg.details?.itinerary || []).map(day => ({
+                        ...day,
+                        // Ensure activities is an array if someone pasted a string or it's new
+                        activities: Array.isArray(day.activities) ? day.activities : (day.activities ? [day.activities] : [])
+                    }))
+                }
             };
 
             if (currentPkg.id) {
@@ -151,7 +159,7 @@ const PackageManager = ({ destinationId }) => {
             description: '',
             destinationId: destinationId || '',
             category: '',
-            details: { itinerary: [] }
+            details: { itinerary: [], itineraryDestinations: '' }
         });
     };
 
@@ -165,7 +173,11 @@ const PackageManager = ({ destinationId }) => {
         setCurrentPkg({
             ...pkg,
             destinationId: destId,
-            details: details.itinerary ? details : { itinerary: [] }
+            details: {
+                ...details,
+                itinerary: details.itinerary ? details.itinerary : [],
+                itineraryDestinations: details.itineraryDestinations || ''
+            }
         });
         setIsEditing(true);
     };
@@ -176,7 +188,10 @@ const PackageManager = ({ destinationId }) => {
         const newDay = {
             day: currentItinerary.length + 1,
             title: '',
-            description: ''
+            title: '',
+            activities: [], // Array of strings
+            meals: '',     // e.g. "Breakfast, Lunch"
+            stay: ''       // e.g. "Hotel in Pattaya"
         };
         setCurrentPkg({
             ...currentPkg,
@@ -285,6 +300,17 @@ const PackageManager = ({ destinationId }) => {
                             <label>Description</label>
                             <textarea value={currentPkg.description} onChange={e => setCurrentPkg({ ...currentPkg, description: e.target.value })} />
                         </div>
+                        <div className="form-group">
+                            <label>Itinerary Destinations Summary</label>
+                            <input
+                                placeholder="e.g. Pattaya (2 Nights) & Bangkok (2 Nights)"
+                                value={currentPkg.details?.itineraryDestinations || ''}
+                                onChange={e => setCurrentPkg({
+                                    ...currentPkg,
+                                    details: { ...currentPkg.details, itineraryDestinations: e.target.value }
+                                })}
+                            />
+                        </div>
 
                         {/* Itinerary Editor */}
                         <div className="itinerary-editor section-block">
@@ -301,11 +327,30 @@ const PackageManager = ({ destinationId }) => {
                                         onChange={e => updateItineraryDay(index, 'title', e.target.value)}
                                         style={{ marginBottom: 5 }}
                                     />
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 5 }}>
+                                        <input
+                                            placeholder="Meals (e.g. Breakfast, Lunch)"
+                                            value={day.meals || ''}
+                                            onChange={e => updateItineraryDay(index, 'meals', e.target.value)}
+                                            style={{ fontSize: '0.85rem' }}
+                                        />
+                                        <input
+                                            placeholder="Stay (e.g. Hotel in Pattaya)"
+                                            value={day.stay || ''}
+                                            onChange={e => updateItineraryDay(index, 'stay', e.target.value)}
+                                            style={{ fontSize: '0.85rem' }}
+                                        />
+                                    </div>
                                     <textarea
-                                        placeholder="Description of activities..."
-                                        value={day.description}
-                                        onChange={e => updateItineraryDay(index, 'description', e.target.value)}
-                                        rows={2}
+                                        placeholder="Activities (One per line)..."
+                                        value={Array.isArray(day.activities) ? day.activities.join('\n') : (day.description || '')}
+                                        onChange={e => {
+                                            // Split by newline to create array
+                                            const val = e.target.value;
+                                            const lines = val.split('\n'); // Keep empty lines if user is typing
+                                            updateItineraryDay(index, 'activities', lines);
+                                        }}
+                                        rows={4}
                                     />
                                 </div>
                             ))}

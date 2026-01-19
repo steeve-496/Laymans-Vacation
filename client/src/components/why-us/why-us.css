@@ -1,12 +1,6 @@
-/* =========================================
-   WHY US - PINNED SCROLL LAYOUT
-   ========================================= */
-
 .wu-section {
     position: relative;
     background-color: #fff;
-    /* Main container doesn't need padding/overflow for this layout type usually, 
-       but we want it to flow with document */
     width: 100%;
 }
 
@@ -17,14 +11,10 @@
     min-height: 100vh;
 }
 
-/* --- LEFT COLUMN (PINNED) --- */
 .wu-col-left {
     width: 50%;
     height: 100vh;
     flex-shrink: 0;
-    /* Logic: This is pinned by GSAP in JS, 
-       but we set base styles here. */
-    overflow: hidden;
     position: relative;
 }
 
@@ -38,7 +28,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Will be scaled by GSAP */
     will-change: transform;
     backface-visibility: hidden;
 }
@@ -50,7 +39,6 @@
     z-index: 2;
     color: #fff;
     mix-blend-mode: difference;
-    /* Stylish contrast */
     opacity: 0.9;
 }
 
@@ -62,11 +50,9 @@
     text-transform: uppercase;
 }
 
-/* --- RIGHT COLUMN (SCROLLING) --- */
 .wu-col-right {
     width: 50%;
     background-color: #fff;
-    /* Allow regular flow */
     position: relative;
 }
 
@@ -78,15 +64,12 @@
 
 .wu-header-mobile {
     display: none;
-    /* Desktop header is in overlay or skipped */
 }
 
-/* --- CARDS LIST --- */
 .wu-cards-list {
     display: flex;
     flex-direction: column;
     gap: 8vh;
-    /* Large gap for scroll feeling */
 }
 
 .wu-card {
@@ -96,7 +79,6 @@
     padding: 40px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    /* Logic: GSAP animates opacity/y */
     will-change: transform, opacity;
 }
 
@@ -127,23 +109,23 @@
 }
 
 
-/* =========================================
-   MOBILE / TABLET (< 968px)
-   ========================================= */
 @media (max-width: 968px) {
     .wu-layout {
         flex-direction: column;
-        display: block;
-        /* Normal block flow */
+        display: block !important;
         min-height: auto;
+        overflow: visible !important;
     }
 
     .wu-col-left {
         width: 100%;
-        height: 50vh;
-        /* Half screen image header */
-        position: relative;
-        /* Disable GSAP pin effect via media query logic in JS */
+        height: 60vh;
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1;
+        overflow: visible !important;
+        transform: none !important;
     }
 
     .wu-overlay-text {
@@ -158,6 +140,9 @@
     .wu-col-right {
         width: 100%;
         padding: 0;
+        position: relative;
+        z-index: 10;
+        background-color: #fff;
     }
 
     .wu-content-wrapper {

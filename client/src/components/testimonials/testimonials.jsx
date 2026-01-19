@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import "./testimonials.css";
 
 const TESTIMONIALS = [
@@ -63,6 +63,7 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   const containerRef = useRef(null);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -89,7 +90,11 @@ function Testimonials() {
   }, []);
 
   return (
-    <section className="sc-testimonials-section" id="testimonials" ref={containerRef}>
+    <section
+      className={`sc-testimonials-section ${isExpanded ? 'expanded' : 'collapsed'}`}
+      id="testimonials"
+      ref={containerRef}
+    >
       <div className="sc-testimonials-content">
         <div className="sc-header">
           <h2 className="sc-title">TESTIMONIALS</h2>
@@ -126,6 +131,20 @@ function Testimonials() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Mobile Toggle Button */}
+      <div className="sc-mobile-toggle">
+        {!isExpanded && (
+          <div className="sc-gradient-overlay">
+            <button
+              className="sc-see-more-btn"
+              onClick={() => setIsExpanded(true)}
+            >
+              See More Testimonials
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

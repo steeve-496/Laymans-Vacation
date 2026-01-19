@@ -12,6 +12,8 @@
     justify-content: center;
     align-items: center;
     padding: 100px 0;
+    z-index: 20;
+    /* Ensure it sits above previous sticky sections */
 }
 
 .sc-testimonials-content {
@@ -207,7 +209,6 @@
     letter-spacing: 2px;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 .sc-review {
     font-size: 0.95rem;
@@ -221,18 +222,34 @@
 /* =========================================
    MOBILE (< 968px)
    ========================================= */
+
+/* Hidden on desktop */
+.sc-mobile-toggle {
+    display: none;
+}
+
 @media (max-width: 968px) {
     .sc-testimonials-section {
         min-height: auto;
         padding: 80px 0;
+        display: block;
+    }
+
+    .sc-testimonials-section.collapsed {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .sc-testimonials-section.expanded {
         height: auto;
+        overflow: visible;
     }
 
     .sc-testimonials-content {
         flex-direction: column;
         height: auto;
         gap: 60px;
-        padding: 0 20px;
     }
 
     .sc-header {
@@ -241,6 +258,13 @@
 
     .sc-title {
         font-size: 3rem;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .sc-subtitle {
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     .sc-testimonials-cloud {
@@ -272,10 +296,50 @@
     }
 
     .sc-card {
-        width: 100%;
+        width: 80%;
         max-width: 100%;
         /* Full width on mobile */
         animation: none;
         /* Disable float on mobile if desired, or keep it */
+    }
+
+    /* --- MOBILE TOGGLE --- */
+    .sc-mobile-toggle {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 50;
+        pointer-events: none;
+    }
+
+    .sc-gradient-overlay {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff 70%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 40px;
+        pointer-events: auto;
+    }
+
+    .sc-see-more-btn {
+        background-color: #1e293b;
+        color: #ffffff;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .sc-see-more-btn:active {
+        transform: scale(0.96);
     }
 }

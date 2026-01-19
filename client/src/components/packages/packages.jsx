@@ -244,6 +244,16 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                             <span>•</span>
                             <span>{pkg.price}</span>
                         </div>
+                        {pkg.details?.itineraryDestinations && (
+                            <div className="pkg-itinerary-destinations" style={{
+                                fontSize: '0.9rem',
+                                color: '#eee',
+                                marginTop: '5px',
+                                fontWeight: 500
+                            }}>
+                                {pkg.details.itineraryDestinations}
+                            </div>
+                        )}
                     </div>
                     <button className="pkg-close-modal-btn" onClick={handleClose}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -272,7 +282,35 @@ const ItineraryModal = ({ pkg, originRect, onClose, showForm }) => {
                                         <span className="pkg-day-number">Day {item.day}</span>
                                         <div className="pkg-day-content">
                                             <h4>{item.title}</h4>
-                                            <p>{item.description}</p>
+
+                                            {/* Activities List */}
+                                            {Array.isArray(item.activities) && item.activities.length > 0 ? (
+                                                <ul className="pkg-activity-list">
+                                                    {item.activities.map((act, i) => (
+                                                        <li key={i}>{act}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p>{item.description}</p>
+                                            )}
+
+                                            {/* Meals & Stay */}
+                                            {(item.meals || item.stay) && (
+                                                <div className="pkg-day-extras">
+                                                    {item.meals && (
+                                                        <div className="pkg-extra-item">
+                                                            <span className="pkg-extra-icon">🍽️</span>
+                                                            <span>{item.meals}</span>
+                                                        </div>
+                                                    )}
+                                                    {item.stay && (
+                                                        <div className="pkg-extra-item">
+                                                            <span className="pkg-extra-icon">🏨</span>
+                                                            <span>{item.stay}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

@@ -41,25 +41,26 @@ export const PACKAGE_TIER_IMAGES = {
         Adventure: "https://images.pexels.com/photos/16557943/pexels-photo-16557943.jpeg", // Trek/Hills
         Luxury: "https://www.900kandiecopark.com/_next/image?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fglass-mountain.appspot.com%2Fo%2Fimages%252Fbanners%252F6b2039b1-35b9-4c55-a2cb-7a7385c5d973%252Bg.jpg%3Falt%3Dmedia%26token%3D6c21aada-f1e5-498a-8ab3-7df353eae0b4&w=1920&q=75" // Premium pool/villa
     },
-    ///Done Till here
+
     Varkala: {
-        Basic: "https://res.cloudinary.com/divwmzd8g/image/upload/v1765446410/varkala_c8nxll.png",
-        Getaway: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1200&auto=format&fit=crop",
-        Adventure: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
+        Basic: "https://plus.unsplash.com/premium_photo-1664124381915-20e44e2b7f97?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        Getaway: "https://images.pexels.com/photos/27566375/pexels-photo-27566375.jpeg",
+        Adventure: "https://images.pexels.com/photos/5400082/pexels-photo-5400082.jpeg",
         Luxury: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200&auto=format&fit=crop"
     },
     Alleppey: {
-        Basic: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655266/Kerala_xewptj.png",
-        Getaway: "https://images.unsplash.com/photo-1583248369069-9d91f60c0bd9?q=80&w=1200&auto=format&fit=crop",
-        Adventure: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1200&auto=format&fit=crop",
-        Luxury: "https://images.unsplash.com/photo-1501117716987-c8e1ecb210ff?q=80&w=1200&auto=format&fit=crop"
+        Basic: "https://images.pexels.com/photos/19743480/pexels-photo-19743480.jpeg",
+        Getaway: "https://images.pexels.com/photos/35152825/pexels-photo-35152825.jpeg",
+        Adventure: "https://images.unsplash.com/photo-1593417034675-3ed7eda1bee9?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        Luxury: "https://images.unsplash.com/photo-1732974539570-72a6a1dd39e2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     Kazakhstan: {
-        Basic: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655271/Kazakhstan_zdwuir.png",
-        Getaway: "https://images.unsplash.com/photo-1558588942-930faae5a389?q=80&w=1200&auto=format&fit=crop",
-        Adventure: "https://images.unsplash.com/photo-1566315267438-76677f374750?q=80&w=1200&auto=format&fit=crop",
-        Luxury: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200&auto=format&fit=crop"
+        Basic: "https://images.pexels.com/photos/2475719/pexels-photo-2475719.jpeg",
+        Getaway: "https://images.pexels.com/photos/28581848/pexels-photo-28581848.jpeg",
+        Adventure: "https://images.pexels.com/photos/24816087/pexels-photo-24816087.jpeg",
+        Luxury: "https://images.pexels.com/photos/1724228/pexels-photo-1724228.jpeg"
     },
+    ///Done Till here
     Malaysia: {
         Basic: "https://res.cloudinary.com/divwmzd8g/image/upload/v1764655260/Malaysia_f61tdf.png",
         Getaway: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",

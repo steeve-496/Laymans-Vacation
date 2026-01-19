@@ -283,9 +283,9 @@
   }
 
   .header-links {
-    top: 80px;
+    top: 86px;
     position: relative;
-    gap: 24px;
+    gap: 40px;
   }
 
   .header-link {
@@ -293,13 +293,13 @@
   }
 
   .header-link-number {
-    font-size: 0.85rem;
+    font-size: 1.5rem;
     color: rgba(212, 175, 55, 0.6);
   }
 
   .header-link a,
   .header-link span:not(.header-link-number) {
-    font-size: clamp(2rem, 7vw, 2.8rem);
+    font-size: clamp(2.2rem, 5vw, 2.2rem);
     letter-spacing: 2px;
     background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
     -webkit-background-clip: text;
@@ -317,6 +317,8 @@
   .header-footer {
     margin-top: auto;
     padding-top: 30px;
+    padding-bottom: 50px;
+
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
