@@ -28,3 +28,15 @@ Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
 Server running on port 5000
 Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
 Server running on port 5000
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/destination
+Public: Found 1 visible out of 14 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 1 visible out of 14 active destinations.
+[REQUEST] GET /favicon.ico
+Loaded DATABASE_URL: Defined (starts with mongodb+srv://a)
+Server running on port 5000
