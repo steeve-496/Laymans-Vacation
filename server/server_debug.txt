@@ -392,3 +392,90 @@ Public: Found 11 visible out of 11 active destinations.
 [REQUEST] GET /api/destinations
 Getting Public Destinations...
 Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/packages/696db5fdf4f5e067deb271ea
+[REQUEST] PUT /api/packages/696db5fdf4f5e067deb271ea
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/packages
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/packages
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/packages/696db5fdf4f5e067deb271ea
+[REQUEST] PUT /api/packages/696db5fdf4f5e067deb271ea
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] OPTIONS /api/destinations/696db5fbf4f5e067deb271df
+[REQUEST] PUT /api/destinations/696db5fbf4f5e067deb271df
+[REQUEST] OPTIONS /api/destinations/admin/all
+[REQUEST] GET /api/destinations/admin/all
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/packages
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] OPTIONS /api/state-explorer
+[REQUEST] OPTIONS /api/auth/me
+[REQUEST] OPTIONS /api/packages
+[REQUEST] OPTIONS /api/state-explorer
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/auth/me
+[REQUEST] GET /api/destinations/admin/all
+[REQUEST] GET /api/packages
+[REQUEST] GET /api/state-explorer
+Getting Admin Destinations...
+Found 11 destinations
+[REQUEST] OPTIONS /api/destinations
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+[REQUEST] GET /api/state-explorer
+[REQUEST] GET /api/state-explorer
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
+[REQUEST] GET /api/destinations
+Getting Public Destinations...
+Public: Found 11 visible out of 11 active destinations.
