@@ -70,34 +70,12 @@ function Header() {
     ScrollTrigger.matchMedia({
       "(min-width: 769px)": () => {
         gsap.to(".header-nav", {
-          height: "60px",
+          height: "70px",
           padding: "0 4.5%",
-          zIndex: "0",
-          backgroundColor: "transparent", // Fade out background
-          backdropFilter: "blur(0px)", // Remove blur
+          backgroundColor: "rgba(0, 0, 0, 0.6)", // Darker background for contrast
+          backdropFilter: "blur(12px)", // Keep blur
+          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: "body",
-            start: "100 top",
-            end: "300 top",
-            scrub: true,
-          },
-        });
-
-        gsap.to(".header-logo", {
-          opacity: 0,
-          pointerEvents: "none",
-          scrollTrigger: {
-            trigger: "body",
-            start: "100 top",
-            end: "300 top",
-            scrub: true,
-          },
-        });
-
-        gsap.to(".header-nav-list", {
-          opacity: 0,
-          pointerEvents: "none",
           scrollTrigger: {
             trigger: "body",
             start: "100 top",
