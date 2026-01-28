@@ -108,7 +108,7 @@ export default function Video({ appLoaded }) {
   const mainCardRef = useRef(null);
 
   const videos = [
-    "https://iframe.mediadelivery.net/play/575492/d7ed5708-180c-4942-b247-6b1174b24fa5",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/azerbaijan.mp4",
     "https://iframe.mediadelivery.net/play/575492/85e799c4-034d-42fd-bfdc-2c9449c2646e",
     "https://iframe.mediadelivery.net/play/575492/549e7b8f-7a71-4e4f-8b7c-7f6e94c68817",
     "https://iframe.mediadelivery.net/play/575492/b445d666-59ab-4ab6-91f0-31ef4b2cdb4c",
