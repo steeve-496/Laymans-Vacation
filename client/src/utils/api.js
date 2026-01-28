@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://laymans-server.onrender.com/api', // Changed to production server
+    baseURL: 'http://ec2-43-205-228-13.ap-south-1.compute.amazonaws.com/api',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
