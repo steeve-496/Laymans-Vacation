@@ -14,6 +14,7 @@ import Footer from "./components/footer/footer";
 import ContactUs from "./components/contact-us/contact-us";
 import WhoWeAre from "./components/who-we-are/who-we-are";
 import FAQ from "./components/faq/faq";
+import api from "./utils/api";
 
 // Admin Components
 import AdminLogin from "./components/admin/Login";
