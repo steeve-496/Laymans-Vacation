@@ -76,7 +76,8 @@ app.use(cors({
         // Allow localhost and local network IPs
         if (origin.match(/^http:\/\/localhost/) ||
             origin.match(/^http:\/\/127\.0\.0\.1/) ||
-            origin.match(/^http:\/\/192\.168\.\d{1,3}\.\d{1,3}/)) {
+            origin.match(/^http:\/\/192\.168\.\d{1,3}\.\d{1,3}/) ||
+            origin === "http://ec2-43-205-228-13.ap-south-1.compute.amazonaws.com") {
             return callback(null, true);
         }
 

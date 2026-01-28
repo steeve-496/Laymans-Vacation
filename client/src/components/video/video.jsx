@@ -7,13 +7,6 @@ import "./video.css";
 gsap.registerPlugin(ScrollTrigger);
 
 
-const optimizeUrl = (url) => {
-  if (url.includes("cloudinary.com")) {
-    return url.replace("/upload/", "/upload/f_auto,q_auto,w_720/");
-  }
-  return url;
-};
-
 const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
   const videoRef = useRef(null);
   const [isInView, setIsInView] = useState(eager);
@@ -42,58 +35,20 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
     setIsVisible(true);
   }, [isInView]);
 
-  const isIframe = src.includes("iframe.mediadelivery.net");
-
-  const sourceUrl = src.replace("/play/", "/embed/");
-  const params = [
-    "autoplay=true",
-    "loop=true",
-    "muted=true",
-    "preload=true",
-    "responsive=false",
-    "controls=false",
-    "showControls=false",
-    "qualityControl=false",
-    "speedControl=false",
-    "playsinline=true",
-    "thumbnail=false"
-  ].join("&");
-
-  const embedUrl = isIframe
-    ? `${sourceUrl}${sourceUrl.includes('?') ? '&' : '?'}${params}`
-    : optimizeUrl(src);
-
   return (
     <div ref={videoRef} className="video-placeholder" style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#000' }}>
       {isVisible && (
-        isIframe ? (
-          <iframe
-            src={embedUrl}
-            loading="lazy"
-            onLoad={() => setIsLoaded(true)}
-            className="bunny-iframe"
-            style={{
-              border: 'none',
-              position: 'absolute',
-              zIndex: 1,
-              opacity: 1,
-            }}
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
-          />
-        ) : (
-          <video
-            src={optimizeUrl(src)}
-            {...props}
-            onLoadedData={() => setIsLoaded(true)}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              opacity: 1,
-            }}
-          />
-        )
+        <video
+          src={src}
+          {...props}
+          onLoadedData={() => setIsLoaded(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 1,
+          }}
+        />
       )}
     </div>
   );
@@ -109,16 +64,16 @@ export default function Video({ appLoaded }) {
 
   const videos = [
     "https://laymans-video.s3.ap-south-1.amazonaws.com/azerbaijan.mp4",
-    "https://iframe.mediadelivery.net/play/575492/85e799c4-034d-42fd-bfdc-2c9449c2646e",
-    "https://iframe.mediadelivery.net/play/575492/549e7b8f-7a71-4e4f-8b7c-7f6e94c68817",
-    "https://iframe.mediadelivery.net/play/575492/b445d666-59ab-4ab6-91f0-31ef4b2cdb4c",
-    "https://iframe.mediadelivery.net/play/575492/bab0fae3-0b37-411e-9269-9a92bb31a742",
-    "https://iframe.mediadelivery.net/play/575492/42937a11-63f8-4664-8dea-caf2ddd5b1ec",
-    "https://iframe.mediadelivery.net/play/575492/3a6aa9f1-7cdb-4d94-8e9e-097cdccabf60",
-    "https://iframe.mediadelivery.net/play/575492/56962acc-bb8d-430f-addd-1d86170a9b90",
-    "https://iframe.mediadelivery.net/play/575492/397afbbe-747d-474a-93fd-0e4184f89a29",
-    "https://iframe.mediadelivery.net/play/575492/135107c7-7b8c-45d7-8483-0ddc1dce7f8a",
-    "https://iframe.mediadelivery.net/play/575492/4649eef9-75e0-4acb-b377-824428c15539",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/bali.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/bhutan.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/dubai.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/kazaksthan.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/malaysia.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/singapore.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/kerala.mp4", //Kerala
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/srilanka.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/thailand.mp4",
+    "https://laymans-video.s3.ap-south-1.amazonaws.com/veitnam.mp4",
   ];
 
   const col1 = videos.filter((_, i) => i % 3 === 0);
