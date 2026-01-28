@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./header.css";
-import { optimizeCloudinaryUrl } from "../../utils/imageOptimizer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,58 +64,18 @@ function Header() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Shrink navbar on scroll (desktop only)
+  // Hero-Only Header Visibility
   useGSAP(() => {
-    ScrollTrigger.matchMedia({
-      "(min-width: 769px)": () => {
-        gsap.to(".header-nav", {
-          height: "70px",
-          padding: "0 4.5%",
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Darker background for contrast
-          backdropFilter: "blur(12px)", // Keep blur
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "body",
-            start: "100 top",
-            end: "300 top",
-            scrub: true,
-          },
-        });
+    ScrollTrigger.create({
+      trigger: "body",
+      start: "100vh top", // When 100vh of body hits top (scrolled past hero)
+      onEnter: () => {
+        // Scrolled PAST 100vh -> Hide
+        gsap.to(".header-nav", { yPercent: -100, duration: 0.3, ease: "power2.inOut" });
       },
-
-      "(max-width: 768px)": () => {
-        gsap.set(".header-nav-list", { opacity: 0, pointerEvents: "none" });
-        gsap.set(".header-hamburger-wrapper", { opacity: 1, pointerEvents: "all" });
-
-        // Ensure nav is visible initially
-        gsap.set(".header-nav", { y: 0, zIndex: "var(--z-sticky)" });
-
-        // Mobile: Show/Hide based on scroll direction (Standard Smart Header)
-        ScrollTrigger.create({
-          trigger: "body",
-          start: "100 top",
-          onUpdate: (self) => {
-            // Logic: Logo visible ONLY in Hero Section (approx top 100vh)
-            // Hamburger always visible (handled by CSS sticky/fixed)
-
-            if (window.scrollY > window.innerHeight - 100) {
-              // Left Hero Section -> Hide Logo
-              gsap.to(".header-logo", {
-                opacity: 0,
-                pointerEvents: "none",
-                duration: 0.3
-              });
-            } else {
-              // In Hero Section -> Show Logo
-              gsap.to(".header-logo", {
-                opacity: 1,
-                pointerEvents: "all",
-                duration: 0.3
-              });
-            }
-          }
-        });
+      onLeaveBack: () => {
+        // Scrolled BACK into first 100vh -> Show
+        gsap.to(".header-nav", { yPercent: 0, duration: 0.3, ease: "power2.inOut" });
       }
     });
   });
@@ -185,8 +144,8 @@ function Header() {
         <div className="header-logo">
           <img
             src={isMobile
-              ? "https://ik.imagekit.io/tsxbvz4jb6/Laymans/logo-m.png"
-              : "https://ik.imagekit.io/tsxbvz4jb6/Laymans/TheLayman'sVacation.png"
+              ? "https://laymans-image.s3.ap-south-1.amazonaws.com/logo-m.png"
+              : "https://laymans-image.s3.ap-south-1.amazonaws.com/Laymans+Logo+Header.png"
             }
             alt="logo"
           />

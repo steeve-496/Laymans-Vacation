@@ -839,6 +839,18 @@
         padding: 20px;
         grid-template-columns: 1fr;
         gap: 30px;
+        height: auto;
+        /* Allow full height */
+        overflow-y: auto;
+        /* Restore scrolling */
+    }
+
+    .pkg-modal-left {
+        position: relative;
+        /* Disable sticky */
+        top: auto;
+        height: auto;
+        width: 100%;
     }
 
     .pkg-modal-image {

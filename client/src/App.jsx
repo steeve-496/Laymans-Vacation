@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Preloader from "./components/preloader/preloader";
@@ -7,7 +7,10 @@ import Hero from "./components/hero/hero";
 import VideoSection from "./components/video/video";
 import Destinations from "./components/destinations/destinations";
 import StateExplorer from "./components/state-explorer/state-explorer";
-import Packages from "./components/packages/packages";
+// Note: StateExplorer is used in Home? No, it's a route.
+// Wait, I need to check if StateExplorer is used inside HomePage?
+// The file says: <Route path="/explore/:country" element={<StateExplorer />} />
+// It is NOT used in HomePage.
 import WhyUs from "./components/why-us/why-us";
 import Testimonials from "./components/testimonials/testimonials";
 import Footer from "./components/footer/footer";
@@ -16,16 +19,23 @@ import WhoWeAre from "./components/who-we-are/who-we-are";
 import FAQ from "./components/faq/faq";
 import api from "./utils/api";
 
-// Admin Components
-import AdminLogin from "./components/admin/Login";
-import AdminLayout from "./components/admin/AdminLayout";
-import Dashboard from "./components/admin/Dashboard";
-import DestinationManager from "./components/admin/DestinationManager";
-import PackageManager from "./components/admin/PackageManager";
-import StateExplorerManager from "./components/admin/StateExplorerManager";
-import Settings from "./components/admin/Settings";
-import TrashBinPage from "./components/admin/TrashBinPage";
-import AuditLogPage from "./components/admin/AuditLogPage";
+// Lazy Load Pages & Admin
+const Packages = lazy(() => import("./components/packages/packages"));
+// State Explorer is a route, safe to lazy load?
+// Existing import was: import StateExplorer from "./components/state-explorer/state-explorer";
+// Let's lazy load it.
+const StateExplorerLazy = lazy(() => import("./components/state-explorer/state-explorer"));
+
+// Admin Components - Lazy Load
+const AdminLogin = lazy(() => import("./components/admin/Login"));
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const Dashboard = lazy(() => import("./components/admin/Dashboard"));
+const DestinationManager = lazy(() => import("./components/admin/DestinationManager"));
+const PackageManager = lazy(() => import("./components/admin/PackageManager"));
+const StateExplorerManager = lazy(() => import("./components/admin/StateExplorerManager"));
+const Settings = lazy(() => import("./components/admin/Settings"));
+const TrashBinPage = lazy(() => import("./components/admin/TrashBinPage"));
+const AuditLogPage = lazy(() => import("./components/admin/AuditLogPage"));
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -187,23 +197,25 @@ function App() {
       {/* Global Preloader - Shows on every refresh */}
       <Preloader isLoading={isLoading} />
 
-      <Routes>
-        <Route path="/" element={<HomePage appLoaded={!isLoading} />} />
-        <Route path="/explore/:country" element={<StateExplorer />} />
-        <Route path="/packages/:country/:location?" element={<PackagesPage />} />
+      <Suspense fallback={<div style={{ height: '100vh', width: '100vw', background: '#000' }}></div>}>
+        <Routes>
+          <Route path="/" element={<HomePage appLoaded={!isLoading} />} />
+          <Route path="/explore/:country" element={<StateExplorerLazy />} />
+          <Route path="/packages/:country/:location?" element={<PackagesPage />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="destinations" element={<DestinationManager />} />
-          <Route path="packages" element={<PackageManager />} />
-          <Route path="state-explorer" element={<StateExplorerManager />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="trash" element={<TrashBinPage />} />
-          <Route path="activity-logs" element={<AuditLogPage />} />
-        </Route>
-      </Routes>
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="destinations" element={<DestinationManager />} />
+            <Route path="packages" element={<PackageManager />} />
+            <Route path="state-explorer" element={<StateExplorerManager />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="trash" element={<TrashBinPage />} />
+            <Route path="activity-logs" element={<AuditLogPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </div>
   );
 }

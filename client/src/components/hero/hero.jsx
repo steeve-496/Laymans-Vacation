@@ -3,7 +3,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import BlurText from "../BlurText.jsx";
-import { getOptimizedUrl, getResponsiveSrcSet } from "../../utils/imageOptimizer";
 import "./hero.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +12,7 @@ function Hero() {
   const heroRef = useRef(null);
 
 
-  const bgImageUrl = "https://ik.imagekit.io/tsxbvz4jb6/Laymans/background4k.webp";
+  const bgImageUrl = "https://laymans-image.s3.ap-south-1.amazonaws.com/background4k.webp";
 
   const handleExploreClick = () => {
     // Testing native scroll to see if GSAP is the cause of the delay
@@ -114,8 +113,7 @@ function Hero() {
     <section className="hero-section" ref={heroRef} id="hero">
       <div className="hero-bg-image">
         <img
-          src={getOptimizedUrl(bgImageUrl, 1920)}
-          srcSet={getResponsiveSrcSet(bgImageUrl)}
+          src={bgImageUrl}
           sizes="100vw"
           alt="hero background"
           fetchPriority="high"

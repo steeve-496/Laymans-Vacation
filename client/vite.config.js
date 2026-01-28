@@ -28,5 +28,16 @@ export default defineConfig({
     alias: {
       'three': 'three'
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'gsap-vendor': ['gsap', '@gsap/react'],
+          'ui-vendor': ['@studio-freight/lenis']
+        }
+      }
+    }
   }
 })

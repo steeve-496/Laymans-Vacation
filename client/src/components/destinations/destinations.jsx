@@ -496,7 +496,7 @@ const Destinations = forwardRef((props, ref) => {
                                         >
                                             <div className="cat-card-image">
                                                 <img
-                                                    src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/Dubai.webp", 800)}
+                                                    src="https://laymans-image.s3.ap-south-1.amazonaws.com/Dubai.webp"
                                                     alt="International"
                                                 />
                                                 <div className="cat-card-overlay"></div>
@@ -518,7 +518,7 @@ const Destinations = forwardRef((props, ref) => {
                                         >
                                             <div className="cat-card-image">
                                                 <img
-                                                    src={getOptimizedUrl("https://ik.imagekit.io/tsxbvz4jb6/Laymans/munnar.webp", 800)}
+                                                    src="https://laymans-image.s3.ap-south-1.amazonaws.com/munnar.webp"
                                                     alt="Domestic"
                                                 />
                                                 <div className="cat-card-overlay"></div>
