@@ -53,7 +53,33 @@ app.use((req, res, next) => {
 });
 
 // CORS Configuration
-app.use(cors()); // Allow all origins by default
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Allowed Origins
+        const allowedOrigins = [
+            "https://laymansvacation.com",
+            "https://www.laymansvacation.com",
+            "https://laymans-vacation-production.up.railway.app"
+        ];
+
+        // Allow localhost (any port)
+        if (origin.match(/^http:\/\/localhost/) ||
+            origin.match(/^http:\/\/127\.0\.0\.1/) ||
+            allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        console.log(`[CORS] Blocked origin: ${origin}`);
+        return callback(null, false); // Return false instead of blocking error to avoid crashing? Standard is Error.
+        // return callback(new Error('Not allowed by CORS')); 
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+}));
 
 // Routes Placeholder
 app.get('/', (req, res) => {
