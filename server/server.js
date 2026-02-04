@@ -53,12 +53,7 @@ app.use((req, res, next) => {
 });
 
 // CORS Configuration
-app.use(cors({
-    origin: true, // Allow all origins for debugging (Hostinger, etc.)
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors()); // Allow all origins by default
 
 // Routes Placeholder
 app.get('/', (req, res) => {
@@ -83,7 +78,7 @@ app.use('/api/state-explorer', stateExplorerRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 
     // DIAGNOSTIC: Check DB counts on startup
