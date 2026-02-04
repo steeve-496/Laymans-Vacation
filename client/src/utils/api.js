@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://ec2-43-205-228-13.ap-south-1.compute.amazonaws.com/api',
+    baseURL: 'https://laymans-vacation-production.up.railway.app/api',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
@@ -28,7 +28,6 @@ api.getCached = async (url, config = {}) => {
     return response;
 };
 
-// Add a request interceptor to attach the JWT token
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
