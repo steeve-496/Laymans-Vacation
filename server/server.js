@@ -78,7 +78,7 @@ app.use('/api/state-explorer', stateExplorerRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 
     // DIAGNOSTIC: Check DB counts on startup
@@ -88,3 +88,8 @@ app.listen(PORT, () => {
     prisma.destination.count().then(c => console.log(`[STARTUP] Destination Count: ${c}`));
     prisma.destination.findMany({ select: { name: true } }).then(d => console.log(`[STARTUP] Dest Names: ${JSON.stringify(d)}`));
 });
+
+// Fix for 502 Bad Gateway (Keep-Alive Timeouts)
+// Ensure Node's timeout is longer than the Load Balancer's (usually 60s)
+server.keepAliveTimeout = 65000; // 65 seconds
+server.headersTimeout = 70000;   // 70 seconds
