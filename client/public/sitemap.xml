@@ -1,52 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Landing Pages -->
   <url>
     <loc>https://laymansvacation.com/</loc>
     <lastmod>2026-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- Main Sections (Anchor Links are same page, but good to have base) -->
   
-  <!-- Dynamic Routes Examples (Should be generated dynamically ideally) -->
+  <!-- Main Anchors & Sections -->
+  <url>
+    <loc>https://laymansvacation.com/#destinations</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/#why-us</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/#who-we-are</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/#contact</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Destination Explorer Pages -->
   <url>
     <loc>https://laymansvacation.com/explore/India</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/Thailand</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/Malaysia</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/Singapore</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/Vietnam</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
    <url>
     <loc>https://laymansvacation.com/explore/Bali</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/Dubai</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://laymansvacation.com/explore/SriLanka</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/explore/Bhutan</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/explore/Nepal</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/explore/Cambodia</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://laymansvacation.com/explore/China</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Package Listings -->
+  <url>
+    <loc>https://laymansvacation.com/packages/India</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+   <url>
+    <loc>https://laymansvacation.com/packages/Thailand</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
