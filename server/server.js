@@ -43,23 +43,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// AUTO-DEBUGGING: Write logs to file
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-const logFile = fs.createWriteStream(path.join(__dirname, 'server_debug.txt'), { flags: 'a' });
-const logStdout = process.stdout;
-
-console.log = function (...args) {
-    const formatted = util.format(...args);
-    logFile.write(formatted + '\n');
-    logStdout.write(formatted + '\n');
-};
-console.error = function (...args) {
-    const formatted = util.format(...args);
-    logFile.write('[ERROR] ' + formatted + '\n');
-    logStdout.write('[ERROR] ' + formatted + '\n');
-};
+// Custom logging removed for production stability
 
 console.log("Loaded DATABASE_URL: " + (process.env.DATABASE_URL ? "Defined (starts with " + process.env.DATABASE_URL.substring(0, 15) + ")" : "UNDEFINED"));
 
@@ -70,22 +54,7 @@ app.use((req, res, next) => {
 
 // CORS Configuration
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        // Allow localhost and local network IPs
-        if (origin.match(/^http:\/\/localhost/) ||
-            origin.match(/^http:\/\/127\.0\.0\.1/) ||
-            origin.match(/^http:\/\/192\.168\.\d{1,3}\.\d{1,3}/) ||
-            origin === "http://ec2-43-205-228-13.ap-south-1.compute.amazonaws.com" ||
-            origin === "http://laymans-vacation-frontend.s3-website.ap-south-1.amazonaws.com") {
-            return callback(null, true);
-        }
-
-        // Block other origins
-        return callback(new Error('Not allowed by CORS'));
-    },
+    origin: true, // Allow all origins for debugging (Hostinger, etc.)
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
