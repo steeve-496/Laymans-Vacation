@@ -7,6 +7,11 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+process.on("unhandledRejection", err => {
+    console.error("Unhandled rejection:", err);
+});
+
 // Force restart
 
 
@@ -113,8 +118,8 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 
     // DIAGNOSTIC: Check DB counts on startup
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
+    const prisma = require('./prismaClient');
+    // const prisma = new PrismaClient(); // Removed to use singleton
     prisma.admin.count().then(c => console.log(`[STARTUP] Admin Count: ${c}`));
     prisma.destination.count().then(c => console.log(`[STARTUP] Destination Count: ${c}`));
     prisma.destination.findMany({ select: { name: true } }).then(d => console.log(`[STARTUP] Dest Names: ${JSON.stringify(d)}`));

@@ -55,9 +55,9 @@ const loginAdmin = async (req, res) => {
         } else {
             res.status(401).json({ message: 'Invalid username or password' });
         }
-    } catch (error) {
-        console.error("Login Error:", error);
-        res.status(500).json({ message: 'Server error' });
+    } catch (err) {
+        console.error("MongoDB connection failed:", err);
+        res.status(500).json({ error: "Database unavailable" });
     }
 };
 

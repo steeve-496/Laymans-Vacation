@@ -15,8 +15,9 @@ const getDestinations = async (req, res) => {
         const totalActive = await prisma.destination.count({ where: { deletedAt: null } });
         console.log(`Public: Found ${destinations.length} visible out of ${totalActive} active destinations.`);
         res.json(destinations);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+    } catch (err) {
+        console.error("MongoDB connection failed:", err);
+        res.status(500).json({ error: "Database unavailable" });
     }
 };
 
