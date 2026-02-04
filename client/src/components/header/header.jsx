@@ -144,8 +144,8 @@ function Header() {
         <div className="header-logo">
           <img
             src={isMobile
-              ? "https://laymans-image.s3.ap-south-1.amazonaws.com/logo-m.png"
-              : "https://laymans-image.s3.ap-south-1.amazonaws.com/Laymans+Logo+Header.png"
+              ? "/assets/logo-m.png"
+              : "/assets/TheLayman'sVacation.png"
             }
             alt="logo"
           />

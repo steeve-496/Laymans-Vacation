@@ -84,7 +84,7 @@ const AdminLogin = () => {
         <div className="admin-login-container admin-scope">
             <div className="admin-login-card">
                 <div style={{ marginBottom: '20px' }}>
-                    <img src="/laymans-logo.png" alt="Layman's Vacation" style={{ width: '80px', height: 'auto' }} />
+                    <img src="/assets/laymans-logo.png" alt="Layman's Vacation" style={{ width: '80px', height: 'auto' }} />
                 </div>
                 <h2>
                     {view === 'login' && 'Admin Login'}

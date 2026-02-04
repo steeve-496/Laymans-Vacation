@@ -68,7 +68,7 @@ const Preloader = ({ isLoading }) => {
             {/* Desktop: Logo (Hidden on Mobile) */}
             {!isMobile && (
                 <div className="preloader-logo-placeholder">
-                    <img src="https://ik.imagekit.io/tsxbvz4jb6/Laymans/logo-m.png" alt="logo" width="180" height="180" />
+                    <img src="/assets/logo-m.png" alt="logo" width="180" height="180" />
                 </div>
             )}
 

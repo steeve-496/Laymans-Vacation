@@ -12,7 +12,7 @@ function Hero() {
   const heroRef = useRef(null);
 
 
-  const bgImageUrl = "https://laymans-image.s3.ap-south-1.amazonaws.com/background4k.webp";
+  const bgImageUrl = "/assets/background.webp";
 
   const handleExploreClick = () => {
     // Testing native scroll to see if GSAP is the cause of the delay

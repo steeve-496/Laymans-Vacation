@@ -23,7 +23,7 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '200px' }
+      { threshold: 0.1, rootMargin: '100px' } // Reduced margin for strict loading
     );
 
     observer.observe(videoRef.current);
@@ -41,12 +41,13 @@ const LazyVideo = ({ src, eager = false, appLoaded, ...props }) => {
         <video
           src={src}
           {...props}
+          preload={eager ? "auto" : "metadata"} // Optimize bandwidth
           onLoadedData={() => setIsLoaded(true)}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: 1,
+            opacity: 1, // Always show, reliance on muted autoplay for playback
           }}
         />
       )}
@@ -63,17 +64,17 @@ export default function Video({ appLoaded }) {
   const mainCardRef = useRef(null);
 
   const videos = [
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/azerbaijan.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/bali.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/bhutan.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/dubai.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/kazaksthan.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/malaysia.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/singapore.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/kerala.mp4", //Kerala
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/srilanka.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/thailand.mp4",
-    "https://laymans-video.s3.ap-south-1.amazonaws.com/veitnam.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Azerbaijan.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Bali.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Bhutan.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/dubai.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Kazaksthan.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/malaysia.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Singapore.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Kerala.mp4", //Kerala
+    "https://ia600603.us.archive.org/11/items/kerala_202602/srilanka.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/Thailand.mp4",
+    "https://ia600603.us.archive.org/11/items/kerala_202602/veitnam.mp4",
   ];
 
   const col1 = videos.filter((_, i) => i % 3 === 0);
