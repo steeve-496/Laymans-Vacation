@@ -46,7 +46,7 @@ import Lenis from '@studio-freight/lenis';
 gsap.registerPlugin(ScrollTrigger);
 
 // Home Page Component
-function HomePage({ appLoaded }) {
+function HomePage({ appLoaded, enableHeroAnimation }) {
   const destinationsRef = useRef(null);
   const location = useLocation();
 
@@ -72,7 +72,7 @@ function HomePage({ appLoaded }) {
   return (
     <>
       <Header />
-      <Hero />
+      <Hero enableAnimation={enableHeroAnimation} />
       <VideoSection appLoaded={appLoaded} />
       <Destinations ref={destinationsRef} />
       <WhyUs />
@@ -108,6 +108,7 @@ function PackagesPage() {
 function App() {
   // Global Preloader State
   const [isLoading, setIsLoading] = useState(true);
+  const [preloaderFinished, setPreloaderFinished] = useState(false);
 
   // --- SMOOTH SCROLL (LENIS) INTEGRATION ---
   useEffect(() => {
@@ -195,11 +196,11 @@ function App() {
   return (
     <div className="app-container">
       {/* Global Preloader - Shows on every refresh */}
-      <Preloader isLoading={isLoading} />
+      <Preloader isLoading={isLoading} onExitComplete={() => setPreloaderFinished(true)} />
 
       <Suspense fallback={<div style={{ height: '100vh', width: '100vw', background: '#000' }}></div>}>
         <Routes>
-          <Route path="/" element={<HomePage appLoaded={!isLoading} />} />
+          <Route path="/" element={<HomePage appLoaded={preloaderFinished} enableHeroAnimation={preloaderFinished} />} />
           <Route path="/explore/:country" element={<StateExplorerLazy />} />
           <Route path="/packages/:country/:location?" element={<PackagesPage />} />
 

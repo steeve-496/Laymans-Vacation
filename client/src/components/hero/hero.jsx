@@ -8,7 +8,7 @@ import "./hero.css";
 gsap.registerPlugin(ScrollTrigger);
 
 
-function Hero() {
+function Hero({ enableAnimation }) {
   const heroRef = useRef(null);
 
 
@@ -23,6 +23,11 @@ function Hero() {
   };
 
   useGSAP(() => {
+    if (!enableAnimation) {
+      gsap.set([".hero-subtitle", ".hero-btn"], { opacity: 0, y: 30 });
+      return;
+    }
+
     const entryTl = gsap.timeline();
     entryTl.fromTo(".hero-subtitle", {
       y: 30,
@@ -32,7 +37,7 @@ function Hero() {
       opacity: 1,
       duration: 1,
       ease: "power3.out",
-      delay: 0.5 // Moved delay here to keep timing
+      delay: 0.1
     })
       .fromTo(".hero-btn", {
         y: 30,
@@ -102,7 +107,7 @@ function Hero() {
         );
       }
     });
-  }, { scope: heroRef });
+  }, { scope: heroRef, dependencies: [enableAnimation] });
 
 
   const handleAnimationComplete = () => {
@@ -130,7 +135,8 @@ function Hero() {
             animateBy="words"
             direction="top"
             onAnimationComplete={handleAnimationComplete}
-            className="text-2xl mb-8"
+            className={`text-2xl mb-8 ${enableAnimation ? 'opacity-100' : 'opacity-0'}`}
+            startAnimation={enableAnimation}
           /></h1>
         <p className="hero-subtitle">
           Every Journey is a Story. Start Your Next Chapter.

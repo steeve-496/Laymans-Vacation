@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './preloader.css';
 
-const Preloader = ({ isLoading }) => {
+const Preloader = ({ isLoading, onExitComplete }) => {
     // Always render initially to allow exit animation to play
     const [shouldRender, setShouldRender] = useState(true);
     const [loadingText, setLoadingText] = useState('Discovering');
@@ -38,10 +38,11 @@ const Preloader = ({ isLoading }) => {
         if (!isLoading) {
             const timer = setTimeout(() => {
                 setShouldRender(false);
+                if (onExitComplete) onExitComplete();
             }, isMobile ? 4500 : 1200); // Extended mobile duration to 4.5s
             return () => clearTimeout(timer);
         }
-    }, [isLoading, isMobile]);
+    }, [isLoading, isMobile, onExitComplete]);
 
     // SCROLL LOCK
     useEffect(() => {
@@ -68,7 +69,7 @@ const Preloader = ({ isLoading }) => {
             {/* Desktop: Logo (Hidden on Mobile) */}
             {!isMobile && (
                 <div className="preloader-logo-placeholder">
-                    <img src="/assets/logo-m.png" alt="logo" width="180" height="180" />
+                    <img src="/assets/laymans-logo.png" alt="logo" width="180" height="180" />
                 </div>
             )}
 

@@ -144,7 +144,7 @@ function Header() {
         <div className="header-logo">
           <img
             src={isMobile
-              ? "/assets/logo-m.png"
+              ? "/assets/laymans-logo.png"
               : "/assets/TheLayman'sVacation.png"
             }
             alt="logo"
@@ -152,10 +152,10 @@ function Header() {
         </div>
 
         <ul className="header-nav-list">
-          <li>Upcoming Departures</li>
-          <li><a href="#wu-section">Why Us</a></li>
-          <li><a href="#who-we-are">About Us</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#destinations" onClick={(e) => { e.preventDefault(); handleNavClick("destinations"); }}>Upcoming Departures</a></li>
+          <li><a href="#why-us" onClick={(e) => { e.preventDefault(); handleNavClick("why-us"); }}>Why Us</a></li>
+          <li><a href="#who-we-are" onClick={(e) => { e.preventDefault(); handleNavClick("who-we-are"); }}>About Us</a></li>
+          <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick("contact"); }}>Contact</a></li>
         </ul >
 
         {/* Hamburger Icon with Animation */}

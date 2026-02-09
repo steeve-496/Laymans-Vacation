@@ -83,7 +83,7 @@ export default function Footer() {
                     {/* CTA Header */}
                     <div className="footer-cta">
                         <h2>Ready for your next <span className="highlight-text-footer" ref={textRef}>{tripWords[currentWordIndex]}</span></h2>
-                        <p>Explore the world with Layman.</p>
+                        <p>Explore the world with Layman's.</p>
                     </div>
 
                     <div className="footer-content">
@@ -118,7 +118,7 @@ export default function Footer() {
 
                 <div className="footer-bottom">
                     <div className="footer-bottom-links">
-                        <a href="#" className="footer-bottom-link">@{new Date().getFullYear()} Layman</a>
+                        <a href="#" className="footer-bottom-link">@{new Date().getFullYear()} Layman's</a>
                         <a href="#" className="footer-bottom-link">Privacy Policy</a>
                     </div>
                     <div className="footer-bottom-links">

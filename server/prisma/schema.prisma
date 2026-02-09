@@ -95,6 +95,7 @@ model Inquiry {
   adults       Int
   children     Int
   travelDate   DateTime
-  packageTitle String
+  packageTitle String?
+  message      String?
   createdAt    DateTime @default(now())
 }

@@ -25,7 +25,8 @@ const BlurText = ({
     animationTo,
     easing = t => t,
     onAnimationComplete,
-    stepDuration = 0.35
+    stepDuration = 0.35,
+    startAnimation = true
 }) => {
     const elements = animateBy === 'words' ? text.split(' ') : text.split('');
     const [inView, setInView] = useState(false);
@@ -90,7 +91,7 @@ const BlurText = ({
                             className="blur-text-char"
                             key={index}
                             initial={fromSnapshot}
-                            animate={inView ? animateKeyframes : fromSnapshot}
+                            animate={inView && startAnimation ? animateKeyframes : fromSnapshot}
                             transition={spanTransition}
                             onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
                         >

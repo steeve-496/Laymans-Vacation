@@ -5,7 +5,7 @@ const sendEmail = require('../services/email.service');
 // @route   POST /api/inquiries
 // @access  Public
 const createInquiry = async (req, res) => {
-    const { name, email, phone, adults, children, travelDate, packageTitle } = req.body;
+    const { name, email, phone, adults, children, travelDate, packageTitle, message } = req.body;
 
     try {
         // 1. Save to Database
@@ -16,21 +16,23 @@ const createInquiry = async (req, res) => {
                 phone,
                 adults: parseInt(adults),
                 children: parseInt(children || 0),
-                travelDate: new Date(travelDate),
-                packageTitle
+                travelDate: travelDate ? new Date(travelDate) : new Date(), // Allow optional date
+                packageTitle: packageTitle || "General Inquiry",
+                message
             }
         });
 
         // 2. Prepare Email Notification
         const emailOptions = {
-            email: process.env.EMAIL_USER, // Send to site owner/admin
-            subject: `New Trip Inquiry: ${packageTitle}`,
+            email: process.env.CONTACT_EMAIL || process.env.EMAIL_USER, // Send to site owner/admin
+            subject: `New Inquiry: ${packageTitle || "General Contact"}`,
             message: `
-                You have a new trip inquiry from Layman's Vacation website.
+                You have a new inquiry from Layman's Vacation website.
 
-                Trip Details:
-                - Package: ${packageTitle}
-                - Travel Date: ${new Date(travelDate).toDateString()}
+                Inquiry Details:
+                - Type: ${packageTitle || "General Contact"}
+                - Message: ${message || "N/A"}
+                - Travel Date: ${travelDate ? new Date(travelDate).toDateString() : "Not specified"}
 
                 Customer Details:
                 - Name: ${name}
@@ -44,8 +46,8 @@ const createInquiry = async (req, res) => {
 
         // 3. Send Email (non-blocking for response)
         try {
+            // await sendEmail(emailOptions);
             await sendEmail(emailOptions);
-            console.log(`Inquiry email sent for: ${email}`);
         } catch (mailError) {
             console.error("Failed to send inquiry email notification:", mailError);
             // We don't fail the request if email fails, as DB record is saved

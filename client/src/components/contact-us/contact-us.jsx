@@ -3,7 +3,7 @@ import './contact-us.css';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import emailjs from '@emailjs/browser';
+import api from '../../utils/api';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,41 +29,41 @@ export default function ContactUs() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // --- EMAILJS CONFIG (Update these with your keys) ---
-        const SERVICE_ID = "service_e7cstof";
-        const TEMPLATE_ID = "template_poz3jxy";
-        const PUBLIC_KEY = "MHh8RrL3_3HXGdNR-";
-
-        if (SERVICE_ID === "YOUR_SERVICE_ID") {
-            console.warn("EmailJS not configured yet. Set your keys in contact-us.jsx.");
-            setStatus('success');
-            setTimeout(() => setStatus('idle'), 5000);
-            return;
-        }
-
         setStatus('sending');
 
-        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
-            .then(() => {
-                setStatus('success');
-                setFormData({
-                    user_name: '',
-                    user_email: '',
-                    user_phone: '',
-                    adults: '2',
-                    children: '0',
-                    journey_date: '',
-                    message: ''
-                });
-                setTimeout(() => setStatus('idle'), 5000);
-            }, (error) => {
-                console.error('EmailJS Error:', error);
-                setStatus('error');
-                setTimeout(() => setStatus('idle'), 5000);
+        try {
+            const payload = {
+                name: formData.user_name,
+                email: formData.user_email,
+                phone: formData.user_phone,
+                adults: formData.adults,
+                children: formData.children,
+                travelDate: formData.journey_date,
+                message: formData.message,
+                packageTitle: "General Inquiry"
+            };
+
+            await api.post('/inquiries', payload);
+
+            setStatus('success');
+            setFormData({
+                user_name: '',
+                user_email: '',
+                user_phone: '',
+                adults: '2',
+                children: '0',
+                journey_date: '',
+                message: ''
             });
+            setTimeout(() => setStatus('idle'), 5000);
+
+        } catch (error) {
+            console.error('Inquiry Submission Error:', error);
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 5000);
+        }
     };
 
     useGSAP(() => {
@@ -140,19 +140,19 @@ export default function ContactUs() {
                             <div className="cu-detail-icon">
                                 <i className="fas fa-map-marker-alt"></i>
                             </div>
-                            <span className="cu-detail-text">Plarivattom, Coimbatore</span>
+                            <span className="cu-detail-text"> L3, no 19/1011-F1, Nediyath N Square, 19,<br /> Thrippunithura, Kochi, Kerala 682301</span>
                         </div>
                         <div className="cu-detail-item">
                             <div className="cu-detail-icon">
                                 <i className="fas fa-phone-alt"></i>
                             </div>
-                            <span className="cu-detail-text">+91 9876543210</span>
+                            <span className="cu-detail-text">+91 73566 00185 <br />+91 73566 00186</span>
                         </div>
                         <div className="cu-detail-item">
                             <div className="cu-detail-icon">
                                 <i className="fas fa-envelope"></i>
                             </div>
-                            <span className="cu-detail-text">explore@laymansvacation.com</span>
+                            <span className="cu-detail-text">sales@laymansvacation.com</span>
                         </div>
                     </div>
                 </div>

@@ -96,7 +96,7 @@ export default function WhyUs() {
                             className="wu-visual-img"
                         />
                         <div className="wu-overlay-text">
-                            <h2>The Layman<br />Difference</h2>
+                            <h2>The Layman's<br />Difference</h2>
                         </div>
                     </div>
                 </div>

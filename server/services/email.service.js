@@ -3,12 +3,14 @@ const { Resend } = require('resend');
 
 const sendEmail = async (options) => {
     // 1. PRIMARY METHOD: RESEND (Recommended for Production)
+    /*
     if (process.env.RESEND_API_KEY) {
         try {
             console.log(`----- [Email Service] Sending via Resend API to: ${options.email} -----`);
+
             const resend = new Resend(process.env.RESEND_API_KEY);
             const data = await resend.emails.send({
-                from: 'Layman <onboarding@resend.dev>', // Default testing domain. User can verify their own later.
+                from: 'Layman\'s <onboarding@resend.dev>', // Default testing domain. User can verify their own later.
                 to: options.email,
                 subject: options.subject,
                 text: options.message,
@@ -26,6 +28,7 @@ const sendEmail = async (options) => {
             // Don't return, let it fall through to Nodemailer as backup
         }
     }
+    */
 
     // 2. SECONDARY METHOD: NODEMAILER (Legacy/SMTP)
     // Sanitize and trim environment variables
@@ -66,13 +69,14 @@ const sendEmail = async (options) => {
     });
 
     const message = {
-        from: `${process.env.FROM_NAME || 'Layman Support'} <${process.env.FROM_EMAIL || process.env.EMAIL_USER}>`,
+        from: `${process.env.FROM_NAME || 'Layman\'s Support'} <${process.env.FROM_EMAIL || process.env.EMAIL_USER}>`,
         to: options.email,
         subject: options.subject,
         text: options.message,
     };
 
     try {
+        console.error(`Attempting to send email via Nodemailer to ${options.email}`);
         const info = await transporter.sendMail(message);
         console.log('Message sent: %s', info.messageId);
     } catch (error) {

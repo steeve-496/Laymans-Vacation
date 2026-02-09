@@ -308,7 +308,7 @@ const forgotPassword = async (req, res) => {
         try {
             await sendEmail({
                 email: admin.email,
-                subject: 'Layman Admin Password Reset',
+                subject: 'Layman\'s Admin Password Reset',
                 message
             });
             res.json({ message: "Email sent" });

@@ -27,7 +27,7 @@ const TESTIMONIALS = [
     name: "Emma Wilson",
     location: "Santorini, Greece",
     rating: 5,
-    review: "I just showed up and enjoyed the sunsets. Layman took care of everything.",
+    review: "I just showed up and enjoyed the sunsets. Layman's took care of everything.",
     image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop",
     pos: { bottom: "10%", right: "42%" }
   },

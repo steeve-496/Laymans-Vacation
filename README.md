@@ -1,10 +1,10 @@
-# Layman Vacation
+# Layman's Vacation
 
-Welcome to Layman Vacation, your go-to resource for simplifying vacation planning! This website aims to make travel accessible and enjoyable for everyone, especially those who find the planning process daunting.
+Welcome to Layman's Vacation, your go-to resource for simplifying vacation planning! This website aims to make travel accessible and enjoyable for everyone, especially those who find the planning process daunting.
 
 ## About
 
-Layman Vacation provides straightforward guides, tips, and tools to help you plan your perfect getaway without the stress. Whether you're looking for budget-friendly options, family-friendly destinations, or adventure travel, we've got you covered with easy-to-understand information.
+Layman's Vacation provides straightforward guides, tips, and tools to help you plan your perfect getaway without the stress. Whether you're looking for budget-friendly options, family-friendly destinations, or adventure travel, we've got you covered with easy-to-understand information.
 
 ## Features
 
@@ -16,11 +16,11 @@ Layman Vacation provides straightforward guides, tips, and tools to help you pla
 
 ## Getting Started
 
-To explore Layman Vacation, simply navigate through the sections of the website. No installation is required!
+To explore Layman's Vacation, simply navigate through the sections of the website. No installation is required!
 
 ## Contributing
 
-We welcome contributions to improve Layman Vacation. If you have travel tips, destination guides, or ideas for new features, please feel free to reach out or submit a pull request (if applicable).
+We welcome contributions to improve Layman's Vacation. If you have travel tips, destination guides, or ideas for new features, please feel free to reach out or submit a pull request (if applicable).
 
 ## Contact
 
