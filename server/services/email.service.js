@@ -3,32 +3,33 @@ const { Resend } = require('resend');
 
 const sendEmail = async (options) => {
     // 1. PRIMARY METHOD: RESEND (Recommended for Production)
-    /*
     if (process.env.RESEND_API_KEY) {
         try {
             console.log(`----- [Email Service] Sending via Resend API to: ${options.email} -----`);
-
             const resend = new Resend(process.env.RESEND_API_KEY);
-            const data = await resend.emails.send({
-                from: 'Layman\'s <onboarding@resend.dev>', // Default testing domain. User can verify their own later.
+
+            const response = await resend.emails.send({
+                from: 'Layman\'s <onboarding@resend.dev>', // Default testing domain
                 to: options.email,
                 subject: options.subject,
                 text: options.message,
             });
 
-            if (data.error) {
-                console.error("Resend API Error:", data.error);
-                throw new Error(data.error.message);
+            // Resend returns { data, error } object
+            const { data, error } = response;
+
+            if (error) {
+                console.error("Resend API Error:", error);
+                throw new Error(error.message);
             }
 
-            console.log('Resend Success ID:', data.id);
+            console.log('Resend Success ID:', data ? data.id : 'Unknown ID');
             return; // Success! Exit early.
         } catch (error) {
             console.error("Resend Failed. Falling back to Nodemailer...", error);
             // Don't return, let it fall through to Nodemailer as backup
         }
     }
-    */
 
     // 2. SECONDARY METHOD: NODEMAILER (Legacy/SMTP)
     // Sanitize and trim environment variables
