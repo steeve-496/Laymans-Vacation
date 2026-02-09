@@ -51,9 +51,12 @@ const sendEmail = async (options) => {
             },
         };
     } else {
-        // Default to Gmail
+        // Default to Gmail with explicit settings
         transporterConfig = {
             service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // Use SSL
             auth: {
                 user: emailUser,
                 pass: emailPass,
