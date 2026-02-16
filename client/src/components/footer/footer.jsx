@@ -93,6 +93,8 @@ export default function Footer() {
                             <h3>Explore</h3>
                             <ul className="footer-links-list">
                                 <li><a href="#destinations" className="footer-link">Destinations</a></li>
+                                <li><a href="/gallery" className="footer-link">Gallery</a></li>
+                                <li><a href="/blog" className="footer-link">Blog</a></li>
                                 <li><a href="#testimonials" className="footer-link">Testimonials</a></li>
                             </ul>
                         </div>

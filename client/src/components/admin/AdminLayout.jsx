@@ -47,6 +47,8 @@ const AdminLayout = () => {
         if (location.pathname.includes('destinations')) return 'Destination Manager';
         if (location.pathname.includes('packages')) return 'Package Manager';
         if (location.pathname.includes('state-explorer')) return 'State Explorer Manager';
+        if (location.pathname.includes('blogs')) return 'Blog Manager';
+        if (location.pathname.includes('gallery')) return 'Gallery Manager';
         if (location.pathname.includes('activity-logs')) return 'Activity Logs';
         if (location.pathname.includes('trash')) return 'Recycle Bin';
         return 'Dashboard Overview';
@@ -74,6 +76,24 @@ const AdminLayout = () => {
                     <Link to="/admin/destinations" className={`admin-nav-item ${location.pathname.includes('destinations') ? 'active' : ''}`}>
                         Destinations
                     </Link>
+                    <Link to="/admin/packages" className={`admin-nav-item ${location.pathname.includes('packages') ? 'active' : ''}`}>
+                        Packages
+                    </Link>
+                    <Link to="/admin/state-explorer" className={`admin-nav-item ${location.pathname.includes('state-explorer') ? 'active' : ''}`}>
+                        State Explorer
+                    </Link>
+
+                    <div className="nav-divider" style={{ margin: '15px 0 5px 15px', fontSize: '0.75rem', color: '#666', textTransform: 'uppercase' }}>Content</div>
+
+                    <Link to="/admin/blogs" className={`admin-nav-item ${location.pathname.includes('blogs') ? 'active' : ''}`}>
+                        Blog / Journal
+                    </Link>
+                    <Link to="/admin/gallery" className={`admin-nav-item ${location.pathname.includes('gallery') ? 'active' : ''}`}>
+                        Gallery Images
+                    </Link>
+
+                    <div className="nav-divider" style={{ margin: '15px 0 5px 15px', fontSize: '0.75rem', color: '#666', textTransform: 'uppercase' }}>System</div>
+
                     {user && user.role === 'superadmin' && (
                         <>
                             <Link to="/admin/activity-logs" className={`admin-nav-item ${location.pathname.includes('activity-logs') ? 'active' : ''}`}>

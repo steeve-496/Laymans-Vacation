@@ -36,6 +36,11 @@ const StateExplorerManager = lazy(() => import("./components/admin/StateExplorer
 const Settings = lazy(() => import("./components/admin/Settings"));
 const TrashBinPage = lazy(() => import("./components/admin/TrashBinPage"));
 const AuditLogPage = lazy(() => import("./components/admin/AuditLogPage"));
+const BlogManager = lazy(() => import("./components/admin/BlogManager"));
+const GalleryManager = lazy(() => import("./components/admin/GalleryManager"));
+const GalleryPage = lazy(() => import("./components/gallery/GalleryPage"));
+const BlogPage = lazy(() => import("./components/blog/BlogPage"));
+const BlogPost = lazy(() => import("./components/blog/BlogPost"));
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -203,6 +208,9 @@ function App() {
           <Route path="/" element={<HomePage appLoaded={preloaderFinished} enableHeroAnimation={preloaderFinished} />} />
           <Route path="/explore/:country" element={<StateExplorerLazy />} />
           <Route path="/packages/:country/:location?" element={<PackagesPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -214,6 +222,8 @@ function App() {
             <Route path="settings" element={<Settings />} />
             <Route path="trash" element={<TrashBinPage />} />
             <Route path="activity-logs" element={<AuditLogPage />} />
+            <Route path="blogs" element={<BlogManager />} />
+            <Route path="gallery" element={<GalleryManager />} />
           </Route>
         </Routes>
       </Suspense>

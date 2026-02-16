@@ -99,3 +99,29 @@ model Inquiry {
   message      String?
   createdAt    DateTime @default(now())
 }
+
+model Blog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  slug      String?  @unique
+  excerpt   String?
+  content   String
+  image     String
+  category  String?
+  author    String?
+  authorImg String?
+  date      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  src       String
+  alt       String?
+  caption   String?
+  className String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

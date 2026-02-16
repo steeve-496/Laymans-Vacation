@@ -68,6 +68,38 @@ const createInquiry = async (req, res) => {
     }
 };
 
-module.exports = {
-    createInquiry
+
+// @desc    Get all inquiries
+// @route   GET /api/inquiries
+// @access  Private (Admin)
+const getInquiries = async (req, res) => {
+    try {
+        const inquiries = await prisma.inquiry.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(inquiries);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };
+
+// @desc    Delete inquiry
+// @route   DELETE /api/inquiries/:id
+// @access  Private (Admin)
+const deleteInquiry = async (req, res) => {
+    try {
+        await prisma.inquiry.delete({
+            where: { id: req.params.id }
+        });
+        res.json({ message: 'Inquiry deleted' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to delete inquiry' });
+    }
+};
+
+module.exports = {
+    createInquiry,
+    getInquiries,
+    deleteInquiry
+};
+

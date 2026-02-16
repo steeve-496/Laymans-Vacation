@@ -6,6 +6,7 @@ const { protect } = require('../middleware/auth.middleware');
 router.post('/login', loginAdmin);
 router.post('/logout', logoutAdmin);
 router.get('/me', protect, getMe);
+router.get('/profile', protect, getMe); // Alias for frontend compatibility
 router.post('/seed', seedAdmin); // Use this to create the FIRST admin
 router.post('/register', protect, createAdmin);
 router.get('/list', protect, getAdmins);

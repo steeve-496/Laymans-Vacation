@@ -17,6 +17,16 @@ function Header() {
   const handleNavClick = (id) => {
     setOpenMenu(false);
 
+    // Page Routes
+    if (id === "gallery") {
+      navigate("/gallery");
+      return;
+    }
+    if (id === "blog") {
+      navigate("/blog");
+      return;
+    }
+
     if (id === "home") {
       if (location.pathname === "/") {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -29,8 +39,6 @@ function Header() {
     if (location.pathname === "/") {
       const element = document.getElementById(id);
       if (element) {
-        // Use Lenis if available globally or native smooth scroll
-        // Since Lenis is on window usually, or we can just scrollIntoView
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     } else {
@@ -154,7 +162,8 @@ function Header() {
         <ul className="header-nav-list">
           <li><a href="#destinations" onClick={(e) => { e.preventDefault(); handleNavClick("destinations"); }}>Upcoming Departures</a></li>
           <li><a href="#why-us" onClick={(e) => { e.preventDefault(); handleNavClick("why-us"); }}>Why Us</a></li>
-          <li><a href="#who-we-are" onClick={(e) => { e.preventDefault(); handleNavClick("who-we-are"); }}>About Us</a></li>
+          <li><a href="/gallery" onClick={(e) => { e.preventDefault(); handleNavClick("gallery"); }}>Gallery</a></li>
+          <li><a href="/blog" onClick={(e) => { e.preventDefault(); handleNavClick("blog"); }}>Blog</a></li>
           <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick("contact"); }}>Contact</a></li>
         </ul >
 
@@ -188,8 +197,16 @@ function Header() {
               <span className="header-link-number">04</span>
               <span>Why Us</span>
             </li>
-            <li className="header-link" onClick={() => handleNavClick("contact")}>
+            <li className="header-link" onClick={() => handleNavClick("gallery")}>
               <span className="header-link-number">05</span>
+              <span>Gallery</span>
+            </li>
+            <li className="header-link" onClick={() => handleNavClick("blog")}>
+              <span className="header-link-number">06</span>
+              <span>Blog</span>
+            </li>
+            <li className="header-link" onClick={() => handleNavClick("contact")}>
+              <span className="header-link-number">07</span>
               <span>Contact</span>
             </li>
           </ul>

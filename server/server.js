@@ -25,23 +25,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
-// Caching Middleware for Public Data
-app.use((req, res, next) => {
-    // Cache GET requests for public content for 1 hour (3600s)
-    /*
-    if (req.method === 'GET' &&
-        (req.url.startsWith('/api/destinations') ||
-            req.url.startsWith('/api/packages') ||
-            req.url.startsWith('/api/state-explorer'))) {
 
-        // Don't cache admin routes
-        if (!req.url.includes('/admin')) {
-            res.set('Cache-Control', 'public, max-age=3600');
-        }
-    }
-    */
-    next();
-});
 
 // Custom logging removed for production stability
 
@@ -81,7 +65,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
-// Routes Placeholder
 app.get('/', (req, res) => {
     res.send('Layman\'s Vacation API is running...');
 });
@@ -92,8 +75,10 @@ const destinationRoutes = require('./routes/destination.routes');
 const packageRoutes = require('./routes/package.routes');
 const contentRoutes = require('./routes/content.routes');
 const stateExplorerRoutes = require('./routes/stateExplorer.routes');
-const auditRoutes = require('./routes/audit.routes'); // Added import for audit routes
+const auditRoutes = require('./routes/audit.routes');
 const inquiryRoutes = require('./routes/inquiry.routes');
+const blogRoutes = require('./routes/blog.routes');
+const galleryRoutes = require('./routes/gallery.routes');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
@@ -103,6 +88,11 @@ app.use('/api/content', contentRoutes);
 app.use('/api/state-explorer', stateExplorerRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/gallery', galleryRoutes);
+
+
+
 
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
