@@ -27,7 +27,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'three': 'three'
-    }
+    },
+    dedupe: ['three'] // Force single instance
   },
   build: {
     rollupOptions: {

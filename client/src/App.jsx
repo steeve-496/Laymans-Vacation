@@ -6,8 +6,7 @@ import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
 import VideoSection from "./components/video/video";
 import Destinations from "./components/destinations/destinations";
-import StateExplorer from "./components/state-explorer/state-explorer";
-// Note: StateExplorer is used in Home? No, it's a route.
+
 // Wait, I need to check if StateExplorer is used inside HomePage?
 // The file says: <Route path="/explore/:country" element={<StateExplorer />} />
 // It is NOT used in HomePage.
@@ -156,8 +155,14 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // Prevent duplicate prefetch in dev logic (though StrictMode will still mount/unmount)
+    if (window.hasPrefetched) return;
+
     // Global Data Prefetch (Cache Warming)
     const prefetchAllData = async () => {
+      if (window.hasPrefetched) return;
+      window.hasPrefetched = true;
+
       try {
         await Promise.all([
           api.getCached('/destinations'),
@@ -175,7 +180,7 @@ function App() {
       // Small buffer to ensure everything is settled
       setTimeout(() => {
         setIsLoading(false);
-        // Start prefetching immediately after loading clears (or slightly before if desired)
+        // Start prefetching immediately after loading clears
         prefetchAllData();
       }, 1000);
     };

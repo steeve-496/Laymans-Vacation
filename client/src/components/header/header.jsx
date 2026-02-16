@@ -72,34 +72,44 @@ function Header() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Hero-Only Header Visibility
+
+
+  // Smart Header Visibility (Hide on Scroll Down, Show on Scroll Up)
   useGSAP(() => {
+    // Kill previous ScrollTrigger if any (handled by useGSAP cleanup usually, but safe to recreate)
+
+    const showAnim = gsap.from(".header-nav", {
+      yPercent: isMobile ? -250 : -100, // On mobile, move up more to cover top offset
+      paused: true,
+      duration: 0.2
+    }).progress(1);
+
     ScrollTrigger.create({
-      trigger: "body",
-      start: "100vh top", // When 100vh of body hits top (scrolled past hero)
-      onEnter: () => {
-        // Scrolled PAST 100vh -> Hide
-        gsap.to(".header-nav", { yPercent: -100, duration: 0.3, ease: "power2.inOut" });
-      },
-      onLeaveBack: () => {
-        // Scrolled BACK into first 100vh -> Show
-        gsap.to(".header-nav", { yPercent: 0, duration: 0.3, ease: "power2.inOut" });
+      start: "top top",
+      end: 99999,
+      onUpdate: (self) => {
+        self.direction === -1 ? showAnim.play() : showAnim.reverse();
       }
     });
-  });
 
-  // GSAP timeline for Kinetic Menu
+    // Toggle 'header-scrolled' class when scrolled down
+    ScrollTrigger.create({
+      start: "top -50",
+      end: 99999,
+      toggleClass: { className: "header-scrolled", targets: ".header-nav" }
+    });
+  }, [isMobile]);
   useGSAP(() => {
     // Set initial state
     gsap.set(".header-kinetic-menu", {
-      clipPath: "circle(0% at calc(100% - 40px) 40px)",
+      clipPath: "circle(0% at calc(100% - 55px) calc(100% - 55px))",
       visibility: "hidden"
     });
 
     sidebarTL.current = gsap.timeline({ paused: true })
       .to(".header-kinetic-menu", {
         visibility: "visible",
-        clipPath: "circle(150% at calc(100% - 40px) 40px)",
+        clipPath: "circle(150% at calc(100% - 55px) calc(100% - 55px))",
         duration: 0.8,
         ease: "power4.inOut",
       })
@@ -168,18 +178,26 @@ function Header() {
         </ul >
 
         {/* Hamburger Icon with Animation */}
-        < div className="header-hamburger-wrapper" onClick={() => setOpenMenu(!openMenu)
-        }>
+        <div className="header-hamburger-wrapper" onClick={() => setOpenMenu(!openMenu)}>
           <div className={`header-hamburger-icon ${openMenu ? "header-open" : ""}`}>
             <span></span>
             <span></span>
           </div>
-        </div >
+        </div>
       </header >
 
       {/* Kinetic Fullscreen Menu */}
-      < div className="header-kinetic-menu" >
+      <div className="header-kinetic-menu" onClick={(e) => {
+        // Close if clicking background (not links/children, handled by propagation or separate handlers)
+        // Actually, links also close it, so practically any click here can close it unless we stop propagation on non-closable items.
+        // User said "parts other than the options", but clicking options also closes it.
+        // So global close is fine, but let's be safe and check target if needed. 
+        // Simpler: Just setOpenMenu(false).
+        setOpenMenu(false);
+      }}>
         <div className="header-menu-content">
+
+
           <ul className="header-links">
             <li className="header-link" onClick={() => handleNavClick("home")}>
               <span className="header-link-number">01</span>

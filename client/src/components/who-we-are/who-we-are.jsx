@@ -37,11 +37,6 @@ export default function WhoWeAre() {
                     { y: 30, opacity: 0 },
                     { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" },
                     "-=0.6"
-                )
-                .fromTo('.wwa-btn',
-                    { scale: 0.9, opacity: 0 },
-                    { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
-                    "-=0.4"
                 );
 
             // --- COLLAGE REVEAL ---
