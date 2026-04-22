@@ -26,6 +26,7 @@ const createInquiry = async (req, res) => {
         const emailOptions = {
             email: process.env.CONTACT_EMAIL || process.env.EMAIL_USER, // Send to site owner/admin
             subject: `New Inquiry: ${packageTitle || "General Contact"}`,
+            context: 'contact',
             message: `
                 You have a new inquiry from Layman's Vacation website.
 

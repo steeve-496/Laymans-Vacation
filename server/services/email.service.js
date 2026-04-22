@@ -3,10 +3,14 @@ const { Resend } = require('resend');
 
 const sendEmail = async (options) => {
     // 1. PRIMARY METHOD: RESEND (Recommended for Production)
-    if (process.env.RESEND_API_KEY) {
+    const apiKey = options.context === 'contact' && process.env.RESEND_CONTACT_API_KEY
+        ? process.env.RESEND_CONTACT_API_KEY
+        : process.env.RESEND_API_KEY;
+
+    if (apiKey) {
         try {
             console.log(`----- [Email Service] Sending via Resend API to: ${options.email} -----`);
-            const resend = new Resend(process.env.RESEND_API_KEY);
+            const resend = new Resend(apiKey);
 
             const response = await resend.emails.send({
                 from: 'Layman\'s <onboarding@resend.dev>', // Default testing domain
