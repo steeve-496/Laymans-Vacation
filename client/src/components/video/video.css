@@ -9,8 +9,7 @@ body {
   background-color: black;
   position: relative;
   z-index: 20;
-  /* Ensure it covers the sticky Hero (z-index 0) */
-  margin-top: 50vh;
+  /* margin-top removed to eliminate gap below relative Hero */
 }
 
 .video-grid {

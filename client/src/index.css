@@ -30,6 +30,20 @@
     --z-max: 9999;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    overflow-x: hidden;
+}
+
 
 
 /* Global smooth scroll handled by Lenis */

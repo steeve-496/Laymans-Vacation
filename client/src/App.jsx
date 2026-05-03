@@ -13,6 +13,8 @@ import Destinations from "./components/destinations/destinations";
 import WhyUs from "./components/why-us/why-us";
 import Testimonials from "./components/testimonials/testimonials";
 import Footer from "./components/footer/footer";
+import ScrollToTop from "./components/ScrollToTop";
+import ErrorBoundary from "./components/ErrorBoundary";
 import ContactUs from "./components/contact-us/contact-us";
 import WhoWeAre from "./components/who-we-are/who-we-are";
 import FAQ from "./components/faq/faq";
@@ -232,6 +234,7 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
+      <ScrollToTop />
     </div>
   );
 }
