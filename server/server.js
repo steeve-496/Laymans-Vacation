@@ -46,12 +46,14 @@ app.use(cors({
         const allowedOrigins = [
             "https://laymansvacation.com",
             "https://www.laymansvacation.com",
-            "https://laymans-vacation-production.up.railway.app"
+            "https://laymans-vacation.vercel.app",
         ];
 
-        // Allow localhost (any port)
+        // Allow localhost, vercel previews, and any railway app domain
         if (origin.match(/^http:\/\/localhost/) ||
             origin.match(/^http:\/\/127\.0\.0\.1/) ||
+            origin.match(/\.vercel\.app$/) ||
+            origin.match(/\.railway\.app$/) ||
             allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
