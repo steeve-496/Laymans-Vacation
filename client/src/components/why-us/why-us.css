@@ -34,7 +34,7 @@
 
 .wu-overlay-text {
     position: absolute;
-    bottom: 60px;
+    top: 60px;
     left: 60px;
     z-index: 2;
     color: #fff;
@@ -129,8 +129,9 @@
     }
 
     .wu-overlay-text {
-        bottom: 30px;
+        top: 30px;
         left: 20px;
+        bottom: auto;
     }
 
     .wu-overlay-text h2 {

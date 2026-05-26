@@ -6,10 +6,6 @@ import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
 import VideoSection from "./components/video/video";
 import Destinations from "./components/destinations/destinations";
-
-// Wait, I need to check if StateExplorer is used inside HomePage?
-// The file says: <Route path="/explore/:country" element={<StateExplorer />} />
-// It is NOT used in HomePage.
 import WhyUs from "./components/why-us/why-us";
 import Testimonials from "./components/testimonials/testimonials";
 import Footer from "./components/footer/footer";
@@ -126,7 +122,7 @@ function App() {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      smoothTouch: true, // Requested by user: Enable smooth touch scroll
+      smoothTouch: true,
       touchMultiplier: 2,
       infinite: false,
     });
